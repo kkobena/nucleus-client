@@ -1,0 +1,204 @@
+<p-confirmDialog #cd [style]="{width: '40vw'}" [baseZIndex]="10000">
+    <p-footer>
+       
+        <button type="button" pButton icon="pi pi-check" label="Oui" (click)="cd.accept()"></button>
+        <button   type="button" class="ui-button-danger" pButton icon="pi pi-times" label="Non" (click)="cd.reject()"></button>
+    </p-footer>
+
+</p-confirmDialog>
+
+
+<p-dialog 
+header="Importer un fichier csv"
+ [(visible)]="fileDialog"
+ [focusOnShow]="false" [responsive]="true"
+  showEffect="fade" [modal]="true" 
+   [style]="{width: '500px'}"
+   >
+  
+    <div class="ui-g form-group">
+        <p-fileUpload chooseLabel="Importer un fichier csv"  name="importcsv" 
+        uploadLabel="Enrégistrer" cancelLabel="Annuler"
+        accept=".txt,.csv,.xls,.xlsx" customUpload="true"  (uploadHandler)="onUpload($event)"  >
+                
+        </p-fileUpload>
+        
+        </div>
+     
+   <p-footer>
+    
+       
+        <button type="button"class="ui-button-danger"  pButton icon="pi pi-times" (click)="cancel()" label="Annuler"></button>
+    
+</p-footer>
+</p-dialog>
+
+
+
+
+<div class="ui-g">
+    <div class="ui-g-12">
+    <div class="card no-margin">
+      <div style="margin-top: 10px;">
+        <p-table styleClass="ui-table-cars"
+                 [value]="entites" [paginator]="true"
+                 [rows]="itemsPerPage" dataKey="id" selectionMode="single"
+                 [(selection)]="selectedEl"
+                 [lazy]="true"
+                 [totalRecords]="totalItems"
+                 [loading]="loading"
+                 (onLazyLoad)="lazyLoading($event)"
+                 [resizableColumns]="true"
+        >
+        <ng-template pTemplate="caption">
+              <div style="text-align: right;"> 
+               <span style="float: left;"> Liste des groupes des tiers-payants</span>
+              <button type="button" pButton icon="fa fa-file-o" iconPos="left" label="Importer un fichier csv" (click)="showFileDialog()" class="ui-button-warning" style="margin-right: 0.5em;"></button> 
+                <button type="button" pButton icon="fa fa-plus" iconPos="left" label="Nouveau" (click)="addNewEntity()" ></button>
+           
+            </div>
+           
+        </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th scope="col" style="width:5%"><span >Code</span> </th>
+                    <th scope="col" style="width:50%"><span >Libellé</span> </th>
+                    <th scope="col" style="width:15%"><span >Téléphone</span> </th>
+                    <th scope="col" style="width:20%"><span >Adresse</span> </th>
+                    <th scope="col" style="width:10%"></th> 
+                </tr>
+                <tr>
+                   
+                    <th scope="col">
+                         <input [style]="{'width':'100%'}" pInputText type="text"
+                         (keyup)="onFilterTable($event)"/>
+                       
+                     </th>
+                     <th scope="col">
+                        <input [style]="{'width':'100%'}" pInputText type="text"
+                        (keyup)="onFilterTable($event)"/>
+                      
+                    </th>
+                    <th scope="col">
+                       
+                      
+                    </th>
+                    <th scope="col">
+                       
+                      
+                    </th>
+
+                    <th scope="col"></th> 
+                 </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-elRow let-columns="columns">
+                <tr [pSelectableRow]="elRow" [pEditableRow]="elRow">
+                    <td>{{ elRow.code }}</td>
+                    <td>{{ elRow.libelle }}</td>
+                    <td>{{ elRow.phone }}</td>
+                    <td>{{ elRow.address }}</td>
+                    <td style="text-align: center;">
+                        <button pTooltip="Editer" pButton type="submit"
+                                class="ui-button-success" icon="fa fa-pencil-square-o" style="margin-right: .5em"
+                                (click)="onEdit(elRow)"
+                        ></button>
+
+                        <button pTooltip="Supprimer"
+                                pButton type="submit"
+                                class="ui-button-danger" icon="fa fa-times-circle-o"
+                                (click)="delete(elRow)"
+                        >
+
+                        </button>
+                    </td> 
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage" let-columns>
+                <tr>
+                    <td [attr.colspan]="5">
+                        Aucune donnée trouvée
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table></div>
+    </div>
+    </div>
+<!-- formulaire de creation et d edition-->
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+<p-dialog 
+header="Créer ou éditer un groupe tiers-payant"
+ [(visible)]="displayDialog"
+ [focusOnShow]="false" [responsive]="true"
+  showEffect="fade" [modal]="true" 
+   [style]="{width: '550px'}"
+   >
+   <p-toast position="top-center" [style]="{marginTop: '30px'}" ></p-toast>
+    <div class="form-group" [hidden]="!editForm.get('id')!.value">
+    
+        <input type="hidden" class="form-control" id="id" name="id" formControlName="id" readonly />
+    </div>
+    <div class="ui-g form-group">
+        
+            <label for="field_code">Code</label>
+            <div class="ui-g-12" style="margin-bottom:10px">
+                <input type="text" pInputText class="form-control" name="code" id="field_code"
+                formControlName="code" style="width: 100%;"/>
+            </div>
+            <div *ngIf="editForm.get('code')!.invalid && (editForm.get('code')!.dirty || editForm.get('code')!.touched)">
+                <small class="form-text text-danger" style="color: red;"
+                       *ngIf="editForm.get('code')?.errors?.required" >
+                  Ce champ est obligatoire.
+                </small>
+               
+            </div>
+        
+        </div>
+        <div class="ui-g form-group">
+        
+            <label for="field_libelle">Libellé</label>
+            <div class="ui-g-12" style="margin-bottom:10px">
+                <textarea  pInputTextarea class="form-control" name="libelle" id="field_libelle"
+                formControlName="libelle" style="width: 100%;">
+            </textarea>
+            </div>
+            <div *ngIf="editForm.get('libelle')!.invalid && (editForm.get('libelle')!.dirty || editForm.get('libelle')!.touched)">
+                <small class="form-text text-danger" style="color: red;"
+                       *ngIf="editForm.get('libelle')?.errors?.required" >
+                  Ce champ est obligatoire.
+                </small>
+               
+            </div>
+        
+        </div>
+  
+        <div class="ui-g form-group">
+            <label for="field_phone">Téléphone</label>
+            <div class="ui-g-12" style="margin-bottom:10px">
+                <p-inputMask   class="form-control" name="phone" id="field_phone"
+                formControlName="phone"  mask="99-99-99-99">
+            </p-inputMask>
+          
+            </div>
+        </div>
+        <div class="ui-g form-group">
+            <label for="field_address">Adresse</label>
+            <div class="ui-g-12" style="margin-bottom:10px">
+               
+            <input type="text" pInputText   class="form-control" name="address" id="field_address"
+                formControlName="address"  mask="99-99-99-99"/>
+            </div>
+        </div>
+
+   <p-footer>
+    
+        <button type="submit" [disabled]="editForm.invalid || isSaving" pButton icon="pi pi-check" (click)="save()" label="Enregistrer"></button>
+        <button type="button"class="ui-button-danger"  pButton icon="pi pi-times" (click)="cancel()" label="Annuler"></button>
+    
+</p-footer>
+</p-dialog>
+</form>
+</div>
+
+
+
+

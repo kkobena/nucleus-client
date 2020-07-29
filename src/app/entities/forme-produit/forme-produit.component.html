@@ -1,0 +1,122 @@
+<p-confirmDialog #cd [style]="{width: '40vw'}" [baseZIndex]="10000"
+>
+    <p-footer>
+       
+        <button type="button" pButton icon="pi pi-check" label="Oui" (click)="cd.accept()"></button>
+        <button   type="button" class="ui-button-danger" pButton icon="pi pi-times" label="Non" (click)="cd.reject()"></button>
+    </p-footer>
+
+</p-confirmDialog>
+
+<div class="ui-g">
+    <div class="ui-g-12">
+    <div class="card no-margin">
+
+        <h3 style="width: 100%;" >Liste des formes de produit
+        <!--     <button type="button" label="Nouveau" pButton icon="fa fa-plus" style="float: right;width: auto;"
+            (click)='addNewEntity()'> </button>  -->
+        
+        </h3>
+        <div class="alert alert-warning" id="no-result" *ngIf="entites?.length === 0">
+            <span >Aucune donnée trouvée</span>
+        </div>
+        <p-table *ngIf="entites && entites.length > 0" styleClass="ui-table-cars"
+                 [value]="entites" [paginator]="true"
+                 [rows]="itemsPerPage" dataKey="id" selectionMode="single"
+                 [(selection)]="selectedEl"
+                 [lazy]="true"
+                 [totalRecords]="totalItems"
+                 [loading]="loading"
+                 (onLazyLoad)="lazyLoading($event)"
+        >
+            <ng-template pTemplate="header">
+                <tr>
+                    <th scope="col"><span >Code</span> </th>
+                    <th scope="col"><span >Libellé</span> </th>
+                 <!--    <th scope="col"></th> -->
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-elRow let-columns="columns">
+                <tr [pSelectableRow]="elRow" [pEditableRow]="elRow">
+                    <td>{{ elRow.code }}</td>
+                    <td>{{ elRow.libelle }}</td>
+                   <!--  <td>
+                        <button label="Editer" pButton type="submit"
+                                class="ui-button-success" icon="fa fa-pencil-square-o" style="margin-right: .5em"
+                                (click)="onEdit(elRow)"
+                        ></button>
+
+                        <button label="Supprimer"
+                                pButton type="submit"
+                                class="ui-button-danger" icon="fa fa-times-circle-o"
+                                (click)="delete(elRow)"
+                        >
+
+                        </button>
+                    </td> -->
+                </tr>
+            </ng-template>
+
+        </p-table>
+    </div>
+    </div>
+<!-- formulaire de creation et d edition-->
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+<p-dialog 
+header="Créer ou éditer une de produit"
+ [(visible)]="displayDialog"
+ [focusOnShow]="false" [responsive]="true"
+  showEffect="fade" [modal]="true" 
+   [style]="{width: '400px'}"
+   >
+  
+    <div class="form-group" [hidden]="!editForm.get('id')!.value">
+    
+        <input type="hidden" class="form-control" id="id" name="id" formControlName="id" readonly />
+    </div>
+    <div class="ui-g form-group">
+        
+            <label for="field_code">Code</label>
+            <div class="ui-g-12" style="margin-bottom:10px">
+                <input type="text" pInputText class="form-control" name="code" id="field_code"
+                formControlName="code" style="width: 100%;"/>
+            </div>
+            <div *ngIf="editForm.get('code')!.invalid && (editForm.get('code')!.dirty || editForm.get('code')!.touched)">
+                <small class="form-text text-danger" style="color: red;"
+                       *ngIf="editForm.get('code')?.errors?.required" >
+                  Ce champ est obligatoire.
+                </small>
+               
+            </div>
+        
+        </div>
+        <div class="ui-g form-group">
+        
+            <label for="field_libelle">Libellé</label>
+            <div class="ui-g-12" style="margin-bottom:10px">
+                <textarea  pInputTextarea class="form-control" name="libelle" id="field_libelle"
+                formControlName="libelle" style="width: 100%;">
+            </textarea>
+            </div>
+            <div *ngIf="editForm.get('libelle')!.invalid && (editForm.get('libelle')!.dirty || editForm.get('libelle')!.touched)">
+                <small class="form-text text-danger" style="color: red;"
+                       *ngIf="editForm.get('libelle')?.errors?.required" >
+                  Ce champ est obligatoire.
+                </small>
+               
+            </div>
+        
+        </div>
+  
+   <p-footer>
+    
+        <button type="submit" [disabled]="editForm.invalid || isSaving" pButton icon="pi pi-check" (click)="save()" label="Enregistrer"></button>
+        <button type="button"class="ui-button-danger"  pButton icon="pi pi-times" (click)="cancel()" label="Annuler"></button>
+    
+</p-footer>
+</p-dialog>
+</form>
+</div>
+
+
+

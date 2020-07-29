@@ -1,0 +1,91 @@
+<p-confirmDialog #cd [style]="{width: '40vw'}" [baseZIndex]="10000">
+    <p-footer>
+       
+        <button type="button" pButton icon="pi pi-check" label="Oui" (click)="cd.accept()"></button>
+        <button   type="button" class="ui-button-danger" pButton icon="pi pi-times" label="Non" (click)="cd.reject()"></button>
+    </p-footer>
+
+</p-confirmDialog>
+
+<p-dialog 
+header="Importer un fichier csv"
+ [(visible)]="fileDialog"
+ [focusOnShow]="false" [responsive]="true"
+  showEffect="fade" [modal]="true" 
+   [style]="{width: '500px'}"
+   >
+  
+    <div class="ui-g form-group">
+        <p-fileUpload chooseLabel="Importer un fichier csv"  name="importcsv" 
+        uploadLabel="Enrégistrer" cancelLabel="Annuler"
+        accept=".txt,.csv,.xls,.xlsx" customUpload="true"  (uploadHandler)="onUpload($event)"  >
+                
+        </p-fileUpload>
+        
+        </div>
+     
+   <p-footer>
+    
+       
+        <button type="button"class="ui-button-danger"  pButton icon="pi pi-times" (click)="cancel()" label="Annuler"></button>
+    
+</p-footer>
+</p-dialog>
+
+<div class="ui-g">
+    <div class="ui-g-12">
+    <div class="card no-margin">
+     <h3>   Gestion des tiers-payants</h3>
+        <p-toolbar>
+            <div class="ui-toolbar-group-left ui-g-7">
+              
+                    <p-autoComplete [(ngModel)]="selectedEl" [suggestions]="entites" (completeMethod)="search($event)" 
+                    field="libelLong" [forceSelection]="true" (onSelect)="onSelect($event)" [style]="{'width':'100%'}"
+                     [inputStyle]="{'width':'100%'}"
+                     minLength=1
+                     >
+    
+                    </p-autoComplete>
+            </div>
+            
+            <div class="ui-toolbar-group-right ui-g-5">
+                <button type="button" pButton icon="fa fa-file-o" iconPos="left" label="Importer un fichier csv" (click)="showFileDialog()" class="ui-button-warning" style="margin-right: 0.2em;"></button> 
+                <button type="button" pButton icon="fa fa-plus" iconPos="left" label="Nouveau" (click)="addNewEntity()" ></button>
+           
+            </div>
+        </p-toolbar>
+<div style="margin-top:0.2em;">
+    <p-tabView>
+        <p-tabPanel header="Information tiers-paynt" leftIcon="fa fa-fw fa-home">
+            <div class="card no-margin">
+                <p-table *ngIf="selectedEl" styleClass="ui-table-cars"
+                
+           >
+              
+             
+                   <tr>
+                     
+                   </tr>
+             
+   
+           </p-table>
+
+
+            </div>
+
+
+
+        </p-tabPanel>
+        <p-tabPanel header="Information clients" leftIcon="fa fa-user-o">
+
+        </p-tabPanel>
+        <p-tabPanel header="Achats" leftIcon="fa fa-bitcoin">
+
+        </p-tabPanel>
+    </p-tabView>
+
+</div>
+        
+    </div>
+</div>
+
