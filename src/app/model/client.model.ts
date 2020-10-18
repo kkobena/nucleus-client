@@ -19,6 +19,9 @@ export interface IClient {
   compagnieId?: number;
   remiseValeur?: string;
   remiseId?: number;
+  plafond?: number;
+  plafondVente?: number;
+  typePlafond?: boolean
 }
 
 export class Client implements IClient {
@@ -37,6 +40,9 @@ export class Client implements IClient {
     public compagnieLibelle?: string,
     public compagnieId?: number,
     public remiseValeur?: string,
-    public remiseId?: number
+    public remiseId?: number,
+    public plafond?: number,
+    public plafondVente?: number,
+    public typePlafond?: boolean
   ) {}
 }

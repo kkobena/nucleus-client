@@ -19,28 +19,28 @@ export class ClientService {
   create(client: IClient): Observable<EntityResponseType> {
     const copy = this.convertDateFromClient(client);
     return this.http
-      .post<IClient>(this.resourceUrl, copy, { observe: 'response' })
-      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+      .post<IClient>(this.resourceUrl, copy, { observe: 'response' });
+     
   }
 
   update(client: IClient): Observable<EntityResponseType> {
     const copy = this.convertDateFromClient(client);
     return this.http
-      .put<IClient>(this.resourceUrl, copy, { observe: 'response' })
-      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+      .put<IClient>(this.resourceUrl, copy, { observe: 'response' });
+      
   }
 
   find(id: number): Observable<EntityResponseType> {
     return this.http
-      .get<IClient>(`${this.resourceUrl}/${id}`, { observe: 'response' })
-      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+      .get<IClient>(`${this.resourceUrl}/${id}`, { observe: 'response' });
+     
   }
 
   query(req?: any): Observable<EntityArrayResponseType> {
     const options = createRequestOption(req);
     return this.http
-      .get<IClient[]>(this.resourceUrl, { params: options, observe: 'response' })
-      .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
+      .get<IClient[]>(this.resourceUrl, { params: options, observe: 'response' });
+    
   }
 
   delete(id: number): Observable<HttpResponse<{}>> {
@@ -75,5 +75,11 @@ export class ClientService {
       });
     }
     return res;
+  }
+  queryTiersPayant(req?: any): Observable<EntityArrayResponseType> {
+    const options = createRequestOption(req);
+    return this.http
+      .get<IClient[]>(this.resourceUrl+'/tierspayant', { params: options, observe: 'response' });
+     
   }
 }

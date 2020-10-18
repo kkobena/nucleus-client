@@ -4,6 +4,7 @@ import { HttpResponse, HttpClient } from '@angular/common/http';
 import { SERVER_API_URL } from 'src/app/app.constants';
 import { Observable } from 'rxjs';
 import { createRequestOption } from 'src/app/shared/util/request-util';
+import { IResponseDto } from 'src/app/shared/util/response-dto';
 type EntityResponseType = HttpResponse<ITierspayant>;
 type EntityArrayResponseType = HttpResponse<ITierspayant[]>;
 @Injectable({
@@ -35,7 +36,7 @@ export class TiersPayantService {
   delete(id: number): Observable<HttpResponse<{}>> {
     return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
-  uploadFile(file: any): Observable<EntityResponseType> {
-    return this.http.post<ITierspayant>(`${this.resourceUrl}/importcsv`, file, { observe: 'response' });
+  uploadFile(file: any): Observable<HttpResponse<IResponseDto>> {
+    return this.http.post<IResponseDto>(`${this.resourceUrl}/importcsv`, file, { observe: 'response' });
   }
 }

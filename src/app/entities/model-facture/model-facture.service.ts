@@ -36,4 +36,8 @@ export class ModelFactureService {
   delete(id: number): Observable<HttpResponse<{}>> {
     return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
+  async feth(req?: any): Promise<IModelFacture[]> {
+    const options = createRequestOption(req);
+    return await this.http.get<IModelFacture[]>(this.resourceUrl, { params: options}).toPromise();
+  }
 }
