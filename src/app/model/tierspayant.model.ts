@@ -5,12 +5,13 @@ import { Status } from './enumerations/status.model';
 
 export interface ITierspayant {
   id?: number;
-  createdAt?: Moment;
-  updatedAt?: Moment;
+  //createdAt?: Moment;
+  //updatedAt?: Moment;
   code?: string;
   libelCourt?: string;
   libelLong?: string;
   plafond?: number;
+  plafondVente?: number;
   typePlafond?: boolean;
   consoJournaliere?: number;
   consoMensuelle?: number;
@@ -18,7 +19,6 @@ export interface ITierspayant {
   codeComptable?: string;
   nbreBordereaux?: number;
   registrecommerce?: string;
-  status?: Status;
   groupetpLibelle?: string;
   groupetpId?: number;
   risqueLibelle?: string;
@@ -28,14 +28,16 @@ export interface ITierspayant {
   phone?:string;
   mobile?:string;
   enable?:boolean,
-  address?:string
+  address?:string,
+  montantMaxFacture?:number,
+  remiseForfetaire?:number
 }
 
 export class Tierspayant implements ITierspayant {
   constructor(
     public id?: number,
-    public createdAt?: Moment,
-    public updatedAt?: Moment,
+   // public createdAt?: Moment,
+   // public updatedAt?: Moment,
     public code?: string,
     public libelCourt?: string,
     public libelLong?: string,
@@ -57,7 +59,8 @@ export class Tierspayant implements ITierspayant {
     public phone?:string,
     public mobile?:string,
     public enable?:boolean,
-    public address?:string
+    public address?:string,
+    public montantMaxFacture?: number
   ) {
     this.typePlafond = this.typePlafond || false;
   }

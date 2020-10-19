@@ -38,4 +38,8 @@ export class GroupeTierspayantService {
   uploadFile(file: any): Observable<EntityResponseType> {
     return this.http.post<IGroupeTierspayant>(`${this.resourceUrl}/importcsv`, file, { observe: 'response' });
   }
+  async queryPromise(req?: any): Promise<IGroupeTierspayant[]> {
+    const options = createRequestOption(req);
+    return await  this.http.get<IGroupeTierspayant[]>(this.resourceUrl, { params: options}).toPromise();
+  }
 }
