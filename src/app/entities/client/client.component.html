@@ -1,1 +1,9 @@
-<p>client works!</p>
+<p-confirmDialog #cd [style]="{width: '40vw'}" [baseZIndex]="10000">
+    <p-footer>
+  
+      <button type="button" pButton icon="pi pi-check" label="Oui" (click)="cd.accept()"></button>
+      <button type="button" class="ui-button-danger" pButton icon="pi pi-times" label="Non"
+        (click)="cd.reject()"></button>
+    </p-footer>
+  
+  </p-confirmDialog>

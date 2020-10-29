@@ -24,9 +24,9 @@ export class AppMenuComponent implements OnInit {
             {
                 label: 'Tiers-payant', icon: 'fa fa-fw fa-paint-brush', routerLink: ['/tierspayant'],
                 items: [
-                    
-                    { label: 'Tiers-payant', icon: 'fa fa-fw fa-bars', routerLink: ['/tierspayant/tierspayant']  },
-                    { label: 'Groupe', icon: 'fa fa-fw fa-bars', routerLink: ['/tierspayant/groupe-tierspayants']  }
+                    { label: 'Groupes', icon: 'fa fa-fw fa-bars', routerLink: ['/tierspayant/groupe-tierspayants']  },
+                    { label: 'Tiers-payants', icon: 'fa fa-fw fa-bars', routerLink: ['/tierspayant/tierspayant']  },
+                    { label: 'Clients', icon: 'fa fa-fw fa-users', routerLink: ['/tierspayant/clients']  }
 
                 ]
             },

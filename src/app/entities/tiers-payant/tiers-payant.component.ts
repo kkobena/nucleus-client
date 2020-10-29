@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Subscription, Observable } from 'rxjs';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -10,10 +10,7 @@ import { ITierspayant, Tierspayant } from 'src/app/model/tierspayant.model';
 import { ClientService } from '../client/client.service';
 import { IClient } from 'src/app/model/client.model';
 import { IResponseDto } from 'src/app/shared/util/response-dto';
-import { IGroupeTierspayant } from 'src/app/model/groupe-tierspayant.model';
-import { GroupeTierspayantService } from '../groupe-tierspayant/groupe-tierspayant.service';
-import { RisqueService } from '../remise/risque.service';
-import { ModelFactureService } from '../model-facture/model-facture.service';
+
 
 @Component({
   selector: 'app-tiers-payant',
@@ -45,8 +42,6 @@ body .ui-dropdown{
   encapsulation: ViewEncapsulation.None
 })
 export class TiersPayantComponent implements OnInit {
-  groupeTierspayants: IGroupeTierspayant[] = [];
-  groupes: SelectItem[];
   entites?: ITierspayant[];
   eventSubscriber?: Subscription;
   totalItems = 0;
@@ -62,11 +57,7 @@ export class TiersPayantComponent implements OnInit {
   items: MenuItem[];
   clients?: IClient[];
   responsedto!: IResponseDto;
-  risques: SelectItem[];
-  modelFactures: SelectItem[];
-  types = [{ label: 'ASSURANCE', value: 'ASSURANCE' }, { label: 'CARNET', value: 'CARNET' }];
-  editForm = this.fb.group({});
-
+ 
   constructor(protected entityService: TiersPayantService,
     protected clientService: ClientService,
     protected activatedRoute: ActivatedRoute,
@@ -74,12 +65,11 @@ export class TiersPayantComponent implements OnInit {
     protected modalService: ConfirmationService
     , private fb: FormBuilder,
     private messageService: MessageService,
-    protected groupetierspayantService: GroupeTierspayantService,
-    protected risqueService: RisqueService,
-    protected modelFactureService: ModelFactureService
+  
+ 
 
   ) {
-    this.initialyseForm();
+
   }
 
   ngOnInit(): void {
@@ -95,55 +85,6 @@ export class TiersPayantComponent implements OnInit {
       this.loadPage();
     });
   }
-  updateForm(entity: ITierspayant): void {
-    this.editForm.patchValue({
-      id: entity.id,
-      libelCourt: entity.libelCourt,
-      libelLong: entity.libelLong,
-      plafond: entity.plafond,
-      typePlafond: entity.typePlafond,
-      typeTp: entity.typeTp,
-      codeComptable: entity.codeComptable,
-      remiseForfetaire: entity.remiseForfetaire,
-      montantMaxFacture: entity.montantMaxFacture,
-      nbreBordereaux: entity.nbreBordereaux,
-      groupetpId: entity.groupetpId,
-      risqueId: entity.risqueId,
-      modelFactureId: entity.modelFactureId,
-      mobile: entity.mobile,
-      address: entity.address,
-    });
-  }
-  private createFromForm(): ITierspayant {
-    return {
-      ...new Tierspayant(),
-      id: this.editForm.get(['id'])!.value,
-      libelCourt: this.editForm.get(['libelCourt'])!.value,
-      libelLong: this.editForm.get(['libelLong'])!.value,
-      address: this.editForm.get(['address'])!.value,
-      modelFactureId: this.editForm.get(['modelFactureId'])!.value,
-      groupetpId: this.editForm.get(['groupetpId'])!.value,
-      risqueId: this.editForm.get(['risqueId'])!.value,
-      nbreBordereaux: this.editForm.get(['nbreBordereaux'])!.value,
-      montantMaxFacture: this.editForm.get(['montantMaxFacture'])!.value,
-      remiseForfetaire: this.editForm.get(['remiseForfetaire'])!.value,
-      codeComptable: this.editForm.get(['codeComptable'])!.value,
-      typeTp: this.editForm.get(['typeTp'])!.value,
-      typePlafond: this.editForm.get(['typePlafond'])!.value,
-      plafond: this.editForm.get(['plafond'])!.value,
-      mobile: this.editForm.get(['mobile'])!.value
-    };
-  }
-  save(): void {
-    this.isSaving = true;
-    const entity = this.createFromForm();
-    console.log(entity);
-    if (entity.id !== undefined && entity.id !== null) {
-      this.subscribeToSaveResponse(this.entityService.update(entity));
-    } else {
-      this.subscribeToSaveResponse(this.entityService.create(entity));
-    }
-  };
 
 
   protected onSuccess(data: ITierspayant[] | null, headers: HttpHeaders, page: number): void {
@@ -234,36 +175,13 @@ export class TiersPayantComponent implements OnInit {
       () => this.onSaveError()
     );
   }
-
-  protected subscribeToSaveResponse(result: Observable<HttpResponse<ITierspayant>>): void {
-    result.subscribe(
-      (res: HttpResponse<ITierspayant>) => this.onSaveTierspayantSuccess(res.body),
-      () => this.onSaveError()
-    );
-  }
-  protected onSaveTierspayantSuccess(response: ITierspayant | null): void {
-    console.log(response);
-    this.selectedEl = response;
-    this.displayDialog = false;
-    this.isSaving = false;
-  }
-
-
   protected onPocesCsvSuccess(responseDto: IResponseDto | null): void {
     this.responsedto = responseDto;
-    this.isSaving = false;
-    this.displayDialog = false;
     this.responseDialog = true;
     this.fileDialog = false;
     this.loadPage(0);
   }
-  protected onSaveSuccess(): void {
-    this.isSaving = false;
-    this.displayDialog = false;
-    this.fileDialog = false;
-    this.loadPage(0);
-
-  }
+ 
   protected onSaveError(): void {
     this.isSaving = false;
     this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'Enregistrement a échoué' });
@@ -274,60 +192,7 @@ export class TiersPayantComponent implements OnInit {
   }
   onEditClient(client: IClient): void {
   }
-  onEdit(): void {
-    this.updateForm(this.selectedEl);
-    this.displayDialog = true;
-  }
-  initialyseForm(): void {
-    this.editForm = this.fb.group({
-      id: [],
-      libelCourt: [null, [Validators.required]],
-      libelLong: [null, [Validators.required]],
-      plafond: [0],
-      typePlafond: [],
-      typeTp: [null, [Validators.required]],
-      codeComptable: [],
-      remiseForfetaire: [0],
-      montantMaxFacture: [0],
-      nbreBordereaux: [0],
-      groupetpId: [],
-      risqueId: [],
-      modelFactureId: [],
-      mobile: [null, [Validators.required]],
-      address: [],
 
-    });
-
-  }
-  addNewEntity(): void {
-    this.groupes = [];
-    this.risques = [];
-    this.modelFactures = [];
-    this.initialyseForm();
-    //this.updateForm(new Tierspayant());
-
-    this.populate();
-    this.displayDialog = true;
-  }
-  async populate() {
-    let response = await this.groupetierspayantService.queryPromise({
-      search: ''
-    });
-    response.forEach(item => {
-      this.groupes.push({ label: item.libelle, value: item.id });
-
-    });
-
-    let risquesResponse = await this.risqueService.query({});
-    risquesResponse.forEach(e => {
-      this.risques.push({ label: e.libelle, value: e.id });
-    });
-
-    let modelFacturesResponse = await this.modelFactureService.feth({});
-    modelFacturesResponse.forEach(e => {
-      this.modelFactures.push({ label: e.libelle, value: e.id });
-    });
-  }
   search(event: any): void {
     console.log(event);
     this.loadPage(0, event.query);
@@ -379,5 +244,11 @@ export class TiersPayantComponent implements OnInit {
         (res: HttpResponse<IClient[]>) => this.onClientSuccess(res.body, res.headers, pageToLoad),
         () => this.onError()
       );
+  }
+  onEdit(): void {
+    this.displayDialog = true;
+  }
+  addNewEntity(): void {
+    this.displayDialog = true;
   }
 }

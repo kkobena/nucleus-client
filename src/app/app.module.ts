@@ -146,6 +146,8 @@ import { TiersPayantComponent } from './entities/tiers-payant/tiers-payant.compo
 import { GroupeTierspayantComponent } from './entities/groupe-tierspayant/groupe-tierspayant.component';
 import { GroupeTierspayantService } from './entities/groupe-tierspayant/groupe-tierspayant.service';
 import { TiersPayantService } from './entities/tiers-payant/tiers-payant.service';
+import { FocusDirective } from './focus.directive';
+import { TiersPayantFormComponent } from './shared/form/tiers-payant-form/tiers-payant-form.component';
 
 
 @NgModule({
@@ -268,7 +270,9 @@ import { TiersPayantService } from './entities/tiers-payant/tiers-payant.service
         ClientComponent,
         AyantDroitComponent,
         TiersPayantComponent,
-        GroupeTierspayantComponent
+        GroupeTierspayantComponent,
+        FocusDirective,
+        TiersPayantFormComponent
     ],
     providers: [
         {provide: LocationStrategy, useClass: HashLocationStrategy},

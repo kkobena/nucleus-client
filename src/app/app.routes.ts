@@ -31,6 +31,7 @@ import { GroupeFournisseurComponent } from './entities/groupe-fournisseur/groupe
 import { FournisseurComponent } from './entities/fournisseur/fournisseur.component';
 import { GroupeTierspayantComponent } from './entities/groupe-tierspayant/groupe-tierspayant.component';
 import { TiersPayantComponent } from './entities/tiers-payant/tiers-payant.component';
+import { ClientComponent } from './entities/client/client.component';
 
 export const routes: Routes = [
     { path: '', component: DashboardDemoComponent },
@@ -64,6 +65,7 @@ export const routes: Routes = [
     { path: 'grossiste/fournisseurs', component: FournisseurComponent }  ,
     { path: 'tierspayant/groupe-tierspayants', component: GroupeTierspayantComponent }  ,
     { path: 'tierspayant/tierspayant', component: TiersPayantComponent }  ,
+    { path: 'tierspayant/clients', component: ClientComponent }  ,
     
 ];
 

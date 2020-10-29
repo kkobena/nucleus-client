@@ -5,7 +5,6 @@ import { SERVER_API_URL } from 'src/app/app.constants';
 import { DATE_FORMAT } from 'src/app/shared/constants/input.constants';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { createRequestOption } from 'src/app/shared/util/request-util';
 type EntityResponseType = HttpResponse<IClient>;
 type EntityArrayResponseType = HttpResponse<IClient[]>;
@@ -17,16 +16,16 @@ export class ClientService {
   constructor(protected http: HttpClient) {}
 
   create(client: IClient): Observable<EntityResponseType> {
-    const copy = this.convertDateFromClient(client);
+  //  const copy = this.convertDateFromClient(client);
     return this.http
-      .post<IClient>(this.resourceUrl, copy, { observe: 'response' });
+      .post<IClient>(this.resourceUrl, client, { observe: 'response' });
      
   }
 
   update(client: IClient): Observable<EntityResponseType> {
-    const copy = this.convertDateFromClient(client);
+  //  const copy = this.convertDateFromClient(client);
     return this.http
-      .put<IClient>(this.resourceUrl, copy, { observe: 'response' });
+      .put<IClient>(this.resourceUrl, client, { observe: 'response' });
       
   }
 
@@ -47,7 +46,7 @@ export class ClientService {
     return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
 
-
+/*
   protected convertDateFromClient(client: IClient): IClient {
     const copy: IClient = Object.assign({}, client, {
       createdAt: client.createdAt && client.createdAt.isValid() ? client.createdAt.format(DATE_FORMAT) : undefined,
@@ -55,18 +54,18 @@ export class ClientService {
       datNaiss: client.datNaiss && client.datNaiss.isValid() ? client.datNaiss.format(DATE_FORMAT) : undefined,
     });
     return copy;
-  }
+  }*/
 
-  protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
+/*  protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
     if (res.body) {
       res.body.createdAt = res.body.createdAt ? moment(res.body.createdAt) : undefined;
       res.body.updatedAt = res.body.updatedAt ? moment(res.body.updatedAt) : undefined;
       res.body.datNaiss = res.body.datNaiss ? moment(res.body.datNaiss) : undefined;
     }
     return res;
-  }
+  }*/
 
-  protected convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
+ /* protected convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
     if (res.body) {
       res.body.forEach((client: IClient) => {
         client.createdAt = client.createdAt ? moment(client.createdAt) : undefined;
@@ -75,7 +74,7 @@ export class ClientService {
       });
     }
     return res;
-  }
+  }*/
   queryTiersPayant(req?: any): Observable<EntityArrayResponseType> {
     const options = createRequestOption(req);
     return this.http

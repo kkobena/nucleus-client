@@ -1,0 +1,151 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+    <p-dialog header="Ajouter un tiers-payant" [(visible)]="displayDialog" [focusOnShow]="false" [responsive]="true"
+      showEffect="fade" [modal]="true" [style]="{width: '60vw'}" [maximizable]="true">
+      <p style="text-align: center;font-weight: 900;font-style: italic;">
+        Les champs marqués par <span style="font-weight: 900;color: red;">*</span> sont obligatoires
+      </p>
+      <div class="ui-g-12 form-group">
+        <div class="form-group" [hidden]="!editForm.get('id')!.value">
+          <input type="hidden" class="form-control" id="id" name="id" formControlName="id" readonly />
+        </div>
+
+        <div class="ui-g-12 ui-md-6">
+          <label for="field_libelle">Nom<span style="font-weight: 900;color: red;">*</span></label>
+          <div style="margin-bottom:5px">
+            <input type="text" pInputText class="form-control" name="libelLong" id="field_libelle"
+              formControlName="libelLong" />
+          </div>
+
+
+        </div>
+        <div class="ui-g-12 ui-md-6">
+
+          <label for="field_libelle_cour">Nom abrégé<span style="font-weight: 900;color: red;">*</span></label>
+          <div style="margin-bottom:5px">
+            <input type="text" pInputText class="form-control" name="libelCourt" id="field_libelle_cour"
+              formControlName="libelCourt">
+          </div>
+
+
+        </div>
+
+        <div class="ui-g-12 ui-md-6">
+
+          <label for="field_mobile">Mobile<span style="font-weight: 900;color: red;">*</span></label>
+          <div style="margin-bottom:5px">
+            <input type="text" pInputText class="form-control" name="mobile" id="field_mobile"
+              formControlName="mobile">
+          </div>
+
+
+        </div>
+
+        <div class="ui-g-12 ui-md-6">
+
+          <label for="field_typeTp">Type tiers-payant <span style="font-weight: 900;color: red;">*</span></label>
+          <div style="margin-bottom:5px">
+
+            <p-dropdown [options]="types" styleClass="form-control" id="field_typeTp" name="typeTp"
+              formControlName="typeTp" styleClass="dropdown-width" [filter]="false"
+              placeholder="Séléctionner un type " itemSize="2">
+            </p-dropdown>
+          </div>
+
+
+        </div>
+        <div class="ui-g-12 ui-md-6">
+
+          <label for="field_codeComptable">Code comptable</label>
+          <div style="margin-bottom:5px">
+            <input type="text" pInputText class="form-control" name="codeComptable" id="field_codeComptable"
+              formControlName="codeComptable">
+          </div>
+
+        </div>
+        <div class="ui-g-12 ui-md-6">
+
+          <label for="field_groupetpId">Groupe tiers-payant</label>
+          <div style="margin-bottom:5px">
+            <p-dropdown [options]="groupes" styleClass="form-control" id="field_groupetpId" name="groupetpId"
+              formControlName="groupetpId" styleClass="dropdown-width" [filter]="true"
+              placeholder="Séléctionner un groupe " [virtualScroll]="true" itemSize="30">
+            </p-dropdown>
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-md-6">
+          <label for="field_risqueId">Risque</label>
+          <div style="margin-bottom:5px">
+            <p-dropdown [options]="risques" styleClass="form-control" id="field_risqueId" name="risqueId"
+              formControlName="risqueId" styleClass="dropdown-width" [filter]="true"
+              placeholder="Séléctionner un risque " [virtualScroll]="true" itemSize="30">
+            </p-dropdown>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-6">
+          <label for="field_modelFactureId">Modèle de facture</label>
+          <div style="margin-bottom:5px">
+            <p-dropdown [options]="modelFactures" styleClass="form-control" id="field_modelFactureId"
+              name="modelFactureId" formControlName="modelFactureId" styleClass="dropdown-width" [filter]="true"
+              placeholder="Séléctionner un modèle de facture " [virtualScroll]="true" itemSize="30">
+            </p-dropdown>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-6">
+
+          <label for="field_addresse">Adresse</label>
+          <div style="margin-bottom:5px">
+            <input type="text" pInputText class="form-control" name="address" id="field_addresse"
+              formControlName="address">
+          </div>
+
+        </div>
+
+        <div class="ui-g-12 ui-md-3">
+          <label for="field_nbreBordereaux">Maximun de bons par facture</label>
+          <div style="margin-bottom:5px">
+            <input type="number" pInputText class="form-control" name="nbreBordereaux" id="field_nbreBordereaux"
+              formControlName="nbreBordereaux">
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-3">
+          <label for="field_montantMaxFacture">Montant maxi sur une facture</label>
+          <div style="margin-bottom:5px">
+            <input type="number" pInputText class="form-control" name="montantMaxFacture" id="field_montantMaxFacture"
+              formControlName="montantMaxFacture">
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-3">
+          <label for="field_remiseForfetaire">Remise forfetaire</label>
+          <div style="margin-bottom:5px">
+            <input type="number" pInputText class="form-control" name="montantMaxFacture" id="field_remiseForfetaire"
+              formControlName="remiseForfetaire">
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-3">
+          <label for="field_plafond">Plafond</label>
+          <div style="margin-bottom:5px">
+            <input type="number" pInputText class="form-control" name="plafond" id="field_plafond"
+              formControlName="plafond">
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-6">
+
+          <div style="margin-top:20px">
+            <p-checkbox [binary]="true" name="typePlafond" label="Le plafond est-il absolu ?" id="field_typePlafond"
+              formControlName="typePlafond"></p-checkbox>
+          </div>
+
+
+        </div>
+      </div>
+      <p-footer>
+
+        <button type="submit" [disabled]="editForm.invalid || isSaving" pButton icon="pi pi-check" (click)="save()"
+          label="Enregistrer"></button>
+        <button type="button" class="ui-button-danger" pButton icon="pi pi-times" (click)="cancel()"
+          label="Annuler"></button>
+
+      </p-footer>
+    </p-dialog>
+  </form>

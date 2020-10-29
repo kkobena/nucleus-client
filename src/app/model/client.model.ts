@@ -5,14 +5,10 @@ import { TypeClient } from './enumerations/type-client.model';
 
 export interface IClient {
   id?: number;
-  createdAt?: Moment;
-  updatedAt?: Moment;
   status?: Status;
-  num?: string;
   firstName?: string;
   lastName?: string;
   sexe?: string;
-  codeInterne?: string;
   datNaiss?: Moment;
   typeClient?: TypeClient;
   compagnieLibelle?: string;
@@ -20,21 +16,59 @@ export interface IClient {
   remiseValeur?: string;
   remiseId?: number;
   plafond?: number;
-  plafondVente?: number;
-  typePlafond?: boolean
+  encours?: number,
+  typePlafond?: boolean;
+  compteClients?: ICompteClient[]
+}
+export interface ICompteClient {
+  id?: number;
+  encours?: number;
+  version?: number;
+  plafondJournalier?: number;
+  plafondMensuel?: number;
+  consommation?: number;
+  consoJournaliere?: number;
+  taux?: number;
+  principal?: boolean;
+  numMaticule?: string;
+  enbale?: boolean;
+  bIsAbsolute?: boolean;
+  categorie?: string;
+  clientId?: number;
+  tierspayantId?: number;
+}
+
+export class CompteClient implements ICompteClient {
+  constructor(
+    public id?: number,
+    public encours?: number,
+    public plafondJournalier?: number,
+    public plafondMensuel?: number,
+    public consommation?: number,
+    public consoJournaliere?: number,
+    public taux?: number,
+    public principal?: boolean,
+    public numMaticule?: string,
+    public enbale?: boolean,
+    public bIsAbsolute?: boolean,
+    public categorie?: string,
+    public clientId?: number,
+    public tierspayantId?: number
+  ) {
+    this.principal = this.principal || false;
+    this.enbale = this.enbale || false;
+    this.bIsAbsolute = this.bIsAbsolute || false;
+    this.encours = this.encours || 0;
+  }
 }
 
 export class Client implements IClient {
   constructor(
     public id?: number,
-    public  createdAt?: Moment,
-    public updatedAt?: Moment,
     public status?: Status,
-    public num?: string,
     public firstName?: string,
     public lastName?: string,
     public sexe?: string,
-    public codeInterne?: string,
     public datNaiss?: Moment,
     public typeClient?: TypeClient,
     public compagnieLibelle?: string,
@@ -42,7 +76,10 @@ export class Client implements IClient {
     public remiseValeur?: string,
     public remiseId?: number,
     public plafond?: number,
-    public plafondVente?: number,
-    public typePlafond?: boolean
-  ) {}
+    public typePlafond?: boolean,
+    public compteClients?: ICompteClient[],
+    public encours?: number
+  ) {
+    this.typePlafond = this.typePlafond || false;
+  }
 }
