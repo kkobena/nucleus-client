@@ -40,4 +40,8 @@ export class RemiseService {
   disabled(id: number): Observable<EntityResponseType> {
     return this.http.delete(`${this.resourceUrl}/disbale/${id}`, { observe: 'response' });
   }
+  async queryPromise(req?: any): Promise<IRemise[]> {
+    const options = createRequestOption(req);
+    return await  this.http.get<IRemise[]>(this.resourceUrl, { params: options}).toPromise();
+  }
 }

@@ -1,6 +1,7 @@
 import { HttpResponse } from '@angular/common/http';
-import { Component, Input, OnChanges, OnInit, SimpleChange } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, Output, SimpleChange, EventEmitter } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SelectItem } from 'primeng';
 import { Observable } from 'rxjs';
 import { GroupeTierspayantService } from 'src/app/entities/groupe-tierspayant/groupe-tierspayant.service';
@@ -15,20 +16,20 @@ import { ITierspayant, Tierspayant } from 'src/app/model/tierspayant.model';
   templateUrl: './tiers-payant-form.component.html',
   styleUrls: ['./tiers-payant-form.component.css']
 })
-export class TiersPayantFormComponent implements OnInit, OnChanges {
+export class TiersPayantFormComponent implements OnInit {
   groupeTierspayants: IGroupeTierspayant[] = [];
   groupes: SelectItem[];
-  entites?: ITierspayant[];
-  responseDialog: boolean;
   risques: SelectItem[];
   modelFactures: SelectItem[];
+  title: string='Ajouter un tiers-payant';
   @Input("tiersPayant")
   tiersPayant: ITierspayant;
-  @Input("displayDialog")
-  displayDialog: Boolean
-  @Input("isSaving")
-  isSaving: Boolean
+  isSaving: boolean = false;
+  /* @Output("passEntity")
+   passEntity = new EventEmitter<ITierspayant>();
+ */
   types = [{ label: 'ASSURANCE', value: 'ASSURANCE' }, { label: 'CARNET', value: 'CARNET' }];
+  modaleService: NgbModal;
   editForm = this.fb.group({
     id: [],
     libelCourt: [null, [Validators.required]],
@@ -51,7 +52,7 @@ export class TiersPayantFormComponent implements OnInit, OnChanges {
 
   constructor(private fb: FormBuilder,
     protected entityService: TiersPayantService,
-    protected tierspayantService: TiersPayantService,
+    public activeModal: NgbActiveModal,
     protected groupetierspayantService: GroupeTierspayantService,
     protected risqueService: RisqueService,
     protected modelFactureService: ModelFactureService,
@@ -60,10 +61,8 @@ export class TiersPayantFormComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
+    this.addNewEntity();
 
-    console.log(this.tiersPayant);
-    // this.updateForm(this.tiersPayant);
-    //addNewEntity
   }
 
 
@@ -121,22 +120,16 @@ export class TiersPayantFormComponent implements OnInit, OnChanges {
     this.updateForm(this.tiersPayant);
 
   }
-  ngOnChanges(changes: { [property: string]: SimpleChange }) {
-    let change = changes["tiersPayant"];
-    console.log(change,changes)
-    if (change.currentValue != this.tiersPayant) {
-    //  this.tiersPayant = changes["tiersPayant"].currentValue || null;
-    }
 
-  }
   addNewEntity(): void {
     this.groupes = [];
     this.risques = [];
     this.modelFactures = [];
     //this.initialyseForm();
 
+   
+    
     this.populate();
-
   }
   async populate() {
     let response = await this.groupetierspayantService.queryPromise({
@@ -156,6 +149,12 @@ export class TiersPayantFormComponent implements OnInit, OnChanges {
     modelFacturesResponse.forEach(e => {
       this.modelFactures.push({ label: e.libelle, value: e.id });
     });
+
+
+    if (this.tiersPayant != undefined && this.tiersPayant != null) {
+      this.title="Modification du tiers-payant "+this.tiersPayant.libelLong;
+      this.updateForm(this.tiersPayant);
+    }
   }
   protected subscribeToSaveResponse(result: Observable<HttpResponse<ITierspayant>>): void {
     result.subscribe(
@@ -165,16 +164,15 @@ export class TiersPayantFormComponent implements OnInit, OnChanges {
   }
   protected onSaveTierspayantSuccess(response: ITierspayant | null): void {
 
-    // this.selectedEl = response;
-    this.displayDialog = false;
-    this.isSaving = false;
+    this.activeModal.close(response);
+
   }
   protected onSaveError(): void {
     this.isSaving = false;
     //    this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'Enregistrement a échoué' });
   }
   cancel(): void {
-    this.displayDialog = false;
-
+    this.activeModal.dismiss();
   }
+
 }

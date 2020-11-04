@@ -10,6 +10,9 @@ import { ITierspayant, Tierspayant } from 'src/app/model/tierspayant.model';
 import { ClientService } from '../client/client.service';
 import { IClient } from 'src/app/model/client.model';
 import { IResponseDto } from 'src/app/shared/util/response-dto';
+import { TiersPayantFormComponent } from 'src/app/shared/form/tiers-payant-form/tiers-payant-form.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ClientFormComponent } from '../client/client-form/client-form.component';
 
 
 @Component({
@@ -31,6 +34,10 @@ body .ui-dropdown{
   font-weight: 400;
   border: none !important; 
   color:blue;
+}
+td{
+font-size:0.8rem;
+
 }
 .nucleus-dataview-list tbody tr{
   
@@ -57,16 +64,17 @@ export class TiersPayantComponent implements OnInit {
   items: MenuItem[];
   clients?: IClient[];
   responsedto!: IResponseDto;
- 
+
   constructor(protected entityService: TiersPayantService,
     protected clientService: ClientService,
     protected activatedRoute: ActivatedRoute,
     protected router: Router,
-    protected modalService: ConfirmationService
-    , private fb: FormBuilder,
+    protected modalService: ConfirmationService,
+    protected ngmodalService: NgbModal,
+    private fb: FormBuilder,
     private messageService: MessageService,
-  
- 
+
+
 
   ) {
 
@@ -142,12 +150,18 @@ export class TiersPayantComponent implements OnInit {
         this.entityService.delete(id).subscribe(() => {
           this.loadPage(0);
 
-        });
+        },
+          (e: HttpResponse<any>) => {
+            console.log(e);
+            this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'Enregistrement a échoué' });
+          }
+
+        );
       }
     });
   }
-  delete(entity: ITierspayant): void {
-    this.confirmDelete(entity.id);
+  delete(): void {
+    this.confirmDelete(this.selectedEl.id);
   }
   confirmDelete(id: number): void {
     this.confirmDialog(id);
@@ -181,7 +195,7 @@ export class TiersPayantComponent implements OnInit {
     this.fileDialog = false;
     this.loadPage(0);
   }
- 
+
   protected onSaveError(): void {
     this.isSaving = false;
     this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'Enregistrement a échoué' });
@@ -190,11 +204,8 @@ export class TiersPayantComponent implements OnInit {
     this.displayDialog = false;
     this.fileDialog = false;
   }
-  onEditClient(client: IClient): void {
-  }
-
+ 
   search(event: any): void {
-    console.log(event);
     this.loadPage(0, event.query);
   }
   onSelect(event: any): void {
@@ -246,9 +257,24 @@ export class TiersPayantComponent implements OnInit {
       );
   }
   onEdit(): void {
-    this.displayDialog = true;
+    const modalRef = this.ngmodalService.open(TiersPayantFormComponent, { size: 'xl', backdrop: 'static', centered: true, keyboard: false });
+    modalRef.componentInstance.tiersPayant = this.selectedEl;
+    modalRef.result.then((result) => {
+      this.selectedEl = result;
+    });
   }
   addNewEntity(): void {
-    this.displayDialog = true;
+    const modalRef = this.ngmodalService.open(TiersPayantFormComponent, { size: 'xl', backdrop: 'static', centered: true, keyboard: false });
+    modalRef.result.then((result) => {
+      this.selectedEl = result;
+    });
   }
+  addNewClient(): void {
+    const modalRef = this.ngmodalService.open(ClientFormComponent, { size: 'xl', backdrop: 'static', centered: true, keyboard: false });
+    modalRef.componentInstance.tierspayant = this.selectedEl;
+    modalRef.result.then((result) => {
+      this.selectedEl = result;
+    });
+  }
+
 }

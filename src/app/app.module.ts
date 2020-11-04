@@ -148,6 +148,9 @@ import { GroupeTierspayantService } from './entities/groupe-tierspayant/groupe-t
 import { TiersPayantService } from './entities/tiers-payant/tiers-payant.service';
 import { FocusDirective } from './focus.directive';
 import { TiersPayantFormComponent } from './shared/form/tiers-payant-form/tiers-payant-form.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ClientFormComponent } from './entities/client/client-form/client-form.component';
+import { CompagnieComponent } from './entities/compagnie/compagnie.component';
 
 
 @NgModule({
@@ -223,7 +226,8 @@ import { TiersPayantFormComponent } from './shared/form/tiers-payant-form/tiers-
         TreeModule,
         TreeTableModule,
         VirtualScrollerModule,
-        NgxSpinnerModule
+        NgxSpinnerModule,
+        NgbModule
 
     ],
     declarations: [
@@ -272,7 +276,9 @@ import { TiersPayantFormComponent } from './shared/form/tiers-payant-form/tiers-
         TiersPayantComponent,
         GroupeTierspayantComponent,
         FocusDirective,
-        TiersPayantFormComponent
+        TiersPayantFormComponent,
+        ClientFormComponent,
+        CompagnieComponent
     ],
     providers: [
         {provide: LocationStrategy, useClass: HashLocationStrategy},
@@ -300,6 +306,8 @@ import { TiersPayantFormComponent } from './shared/form/tiers-payant-form/tiers-
         TiersPayantService
         
     ],
+    exports: [ TiersPayantFormComponent,ClientFormComponent ],
+    entryComponents:[TiersPayantFormComponent,ClientFormComponent],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,4 +1,5 @@
 import { Moment } from 'moment';
+import { CategorieAssurance } from './enumerations/categorie-assurance.model';
 import { Status } from './enumerations/status.model';
 import { TypeClient } from './enumerations/type-client.model';
 
@@ -15,15 +16,15 @@ export interface IClient {
   compagnieId?: number;
   remiseValeur?: string;
   remiseId?: number;
-  plafond?: number;
   encours?: number,
-  typePlafond?: boolean;
+  mobile?: string;
+  mail?: string;
+  numMaticule?: string;
   compteClients?: ICompteClient[]
 }
 export interface ICompteClient {
   id?: number;
   encours?: number;
-  version?: number;
   plafondJournalier?: number;
   plafondMensuel?: number;
   consommation?: number;
@@ -32,7 +33,7 @@ export interface ICompteClient {
   principal?: boolean;
   numMaticule?: string;
   enbale?: boolean;
-  bIsAbsolute?: boolean;
+  absolute?: boolean;
   categorie?: string;
   clientId?: number;
   tierspayantId?: number;
@@ -47,18 +48,21 @@ export class CompteClient implements ICompteClient {
     public consommation?: number,
     public consoJournaliere?: number,
     public taux?: number,
-    public principal?: boolean,
     public numMaticule?: string,
     public enbale?: boolean,
-    public bIsAbsolute?: boolean,
+    public absolute?: boolean,
     public categorie?: string,
     public clientId?: number,
-    public tierspayantId?: number
+    public tierspayantId?: number,
+    public status?: Status,
+
   ) {
-    this.principal = this.principal || false;
-    this.enbale = this.enbale || false;
-    this.bIsAbsolute = this.bIsAbsolute || false;
+    this.enbale = this.enbale || true;
+    this.absolute = this.absolute || false;
     this.encours = this.encours || 0;
+    this.status = this.status || Status.ACTIVE;
+    this.categorie = this.categorie || CategorieAssurance.RO;
+
   }
 }
 
@@ -75,11 +79,14 @@ export class Client implements IClient {
     public compagnieId?: number,
     public remiseValeur?: string,
     public remiseId?: number,
-    public plafond?: number,
-    public typePlafond?: boolean,
     public compteClients?: ICompteClient[],
-    public encours?: number
+    public encours?: number,
+    public mail?: string,
+    public mobile?: string
   ) {
-    this.typePlafond = this.typePlafond || false;
+
+    this.status = this.status || Status.ACTIVE;
+    this.compteClients = this.compteClients || [];
+
   }
 }

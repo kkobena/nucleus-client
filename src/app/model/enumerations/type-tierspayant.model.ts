@@ -1,5 +1,5 @@
-export const enum TypeTierspayant {
-  ASSURANCE = '01',
+export  enum TypeTierspayant {
+  ASSURANCE ,
 
-  CARNET = '02',
+  CARNET ,
 }
