@@ -39,4 +39,8 @@ export class TiersPayantService {
   uploadFile(file: any): Observable<HttpResponse<IResponseDto>> {
     return this.http.post<IResponseDto>(`${this.resourceUrl}/importcsv`, file, { observe: 'response' });
   }
+  async queryPromise(req?: any): Promise<ITierspayant[]> {
+    const options = createRequestOption(req);
+    return await  this.http.get<ITierspayant[]>(this.resourceUrl, { params: options}).toPromise();
+  }
 }

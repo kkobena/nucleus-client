@@ -1,3 +1,5 @@
+<p-toast position="center"></p-toast>
+
 <p-confirmDialog #cd [style]="{width: '40vw'}" [baseZIndex]="10000">
   <p-footer>
 
@@ -20,8 +22,6 @@
   </div>
 
   <p-footer>
-
-
     <button type="button" class="ui-button-danger" pButton icon="pi pi-times" (click)="cancel()"
       label="Annuler"></button>
 
@@ -59,7 +59,7 @@
           <button type="button" pButton icon="fa fa-file-o" iconPos="left" label="Importer un fichier csv"
             (click)="showFileDialog()" class="ui-button-warning" style="margin-right: 0.2em;"></button>
           <button type="button" pButton icon="fa fa-plus" iconPos="left" label="Nouveau tiers-payant"
-            (click)="addNewEntity()"></button>
+            (click)="addNewEntity()" ></button>
 
         </div>
       </p-toolbar>
@@ -139,7 +139,7 @@
                     </td>
                     <td class="secondColumn">
                       <div *ngIf="selectedEl?.plafond<=0;then other_content else content"></div>
-                      <ng-template #content> {{selectedEl?.plafond | number}}
+                      <ng-template #content> {{selectedEl?.plafond |  number}}
                       </ng-template>
                       <ng-template #other_content>Non défini</ng-template>
 
@@ -183,13 +183,17 @@
 
                 </tbody>
                 <tfoot>
-<tr>
-  <th colspan="8">
+                  <tr>
+                    <th colspan="8" style="text-align: center;">
 
-    <button type="button" pButton  class="ui-button-success" icon="fa fa-pencil-square-o" iconPos="left" label="Modifier les information du tiers-payant"
-    (click)="onEdit()"></button>
-  </th>
-</tr>
+                      <button type="button" pButton class="ui-button-success" icon="fa fa-pencil-square-o"
+                        iconPos="left" label="Modifier les information du tiers-payant" (click)="onEdit()"
+                         style="margin-right: 5px;"></button>
+                      <button type="button" pButton class="ui-button-danger" icon="fa fa-times"
+                        iconPos="left" label="Supprimer" (click)="delete()"
+                        ></button>
+                    </th>
+                  </tr>
                 </tfoot>
               </table>
 
@@ -200,9 +204,9 @@
 
           </p-tabPanel>
           <p-tabPanel header="Clients" leftIcon="fa fa-user-o">
-
+<button class="bg-warning" (click)="addNewClient()"> new client</button>
             <!-- debut block infos client-->
-         
+
             <!-- Fin block info client -->
           </p-tabPanel>
           <p-tabPanel header="Achats" leftIcon="fa fa-bitcoin">
@@ -218,12 +222,6 @@
       </div>
 
     </div>
-
-
-    <!-- formulaire de creation de d'un tiers-payant -->
-   <app-tiers-payant-form [isSaving]="isSaving" [tiersPayant]="selectedEl" [displayDialog]="displayDialog"></app-tiers-payant-form>
-
-
 
 
   </div>
