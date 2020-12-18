@@ -1,4 +1,5 @@
 import { Moment } from 'moment';
+import { IAyantDroit } from './ayant-droit.model';
 import { CategorieAssurance } from './enumerations/categorie-assurance.model';
 import { Status } from './enumerations/status.model';
 import { TypeClient } from './enumerations/type-client.model';
@@ -11,7 +12,6 @@ export interface IClient {
   lastName?: string;
   sexe?: string;
   datNaiss?: Moment;
-  typeClient?: TypeClient;
   compagnieLibelle?: string;
   compagnieId?: number;
   remiseValeur?: string;
@@ -20,22 +20,25 @@ export interface IClient {
   mobile?: string;
   mail?: string;
   numMaticule?: string;
-  compteClients?: ICompteClient[]
+  compteClient?: ICompteClient,
+  compteClients?: ICompteClient[],
+  ayantDroits?: IAyantDroit[]
 }
 export interface ICompteClient {
   id?: number;
   encours?: number;
+  libelleTiersPayantF?: string;
   plafondJournalier?: number;
   plafondMensuel?: number;
   consommation?: number;
   consoJournaliere?: number;
   taux?: number;
-  principal?: boolean;
   numMaticule?: string;
   enbale?: boolean;
   absolute?: boolean;
-  categorie?: string;
+  categorie?: CategorieAssurance;
   clientId?: number;
+  typeClient?: TypeClient;
   tierspayantId?: number;
 }
 
@@ -51,16 +54,17 @@ export class CompteClient implements ICompteClient {
     public numMaticule?: string,
     public enbale?: boolean,
     public absolute?: boolean,
-    public categorie?: string,
+    public categorie?: CategorieAssurance,
     public clientId?: number,
     public tierspayantId?: number,
     public status?: Status,
+    public typeClient?: TypeClient,
+    public libelleTiersPayantF?: string
 
   ) {
     this.enbale = this.enbale || true;
     this.absolute = this.absolute || false;
     this.encours = this.encours || 0;
-    this.status = this.status || Status.ACTIVE;
     this.categorie = this.categorie || CategorieAssurance.RO;
 
   }
@@ -74,7 +78,6 @@ export class Client implements IClient {
     public lastName?: string,
     public sexe?: string,
     public datNaiss?: Moment,
-    public typeClient?: TypeClient,
     public compagnieLibelle?: string,
     public compagnieId?: number,
     public remiseValeur?: string,
@@ -82,11 +85,14 @@ export class Client implements IClient {
     public compteClients?: ICompteClient[],
     public encours?: number,
     public mail?: string,
-    public mobile?: string
+    public mobile?: string,
+    public ayantDroits?: IAyantDroit[],
+    public compteClient?: ICompteClient
   ) {
 
     this.status = this.status || Status.ACTIVE;
     this.compteClients = this.compteClients || [];
+    this.ayantDroits = this.ayantDroits || [];
 
   }
 }

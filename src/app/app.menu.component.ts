@@ -1,327 +1,147 @@
 import { Component, OnInit } from '@angular/core';
-import { AppComponent } from './app.component';
+import { AppMainComponent } from './app.main.component';
 
 @Component({
     selector: 'app-menu',
     templateUrl: './app.menu.component.html'
 })
 export class AppMenuComponent implements OnInit {
-
     model: any[];
-
-    constructor(public app: AppComponent) { }
-
+    constructor(public app: AppMainComponent) { }
     ngOnInit() {
         this.model = [
-            { label: 'Dashboard', icon: 'fa fa-fw fa-home', routerLink: ['/']},
+            { label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: ['/'] },
             {
-                label: 'Grossiste', icon: 'fa fa-fw fa-paint-brush', routerLink: ['/grossiste'],
+                label: 'Grossiste', icon: 'pi pi-fw pi-briefcase', routerLink: ['/grossiste'],
                 items: [
-                    { label: 'Groupe grossiste', icon: 'fa fa-fw fa-bars', routerLink: ['/grossiste/groupe-fournisseurs']  },
-                    { label: 'Grossiste', icon: 'fa fa-fw fa-bars', routerLink: ['/grossiste/fournisseurs']  }
+                    { label: 'Groupe grossiste', icon: 'pi pi-fw pi-bars', routerLink: ['/grossiste/groupe-fournisseurs'] },
+                    { label: 'Grossiste', icon: 'pi pi-fw pi-bars', routerLink: ['/grossiste/fournisseurs'] }
                 ]
             },
             {
-                label: 'Tiers-payant', icon: 'fa fa-fw fa-paint-brush', routerLink: ['/tierspayant'],
+                label: 'Tiers-payant', icon: 'pi pi-fw pi-globe', routerLink: ['/tierspayant'],
                 items: [
-                    { label: 'Groupes', icon: 'fa fa-fw fa-bars', routerLink: ['/tierspayant/groupe-tierspayants']  },
-                    { label: 'Tiers-payants', icon: 'fa fa-fw fa-bars', routerLink: ['/tierspayant/tierspayant']  },
-                    { label: 'Clients', icon: 'fa fa-fw fa-users', routerLink: ['/tierspayant/clients']  }
+                    { label: 'Groupes', icon: 'pi pi-fw pi-bars', routerLink: ['/tierspayant/groupe-tierspayants'] },
+                    { label: 'Tiers-payants', icon: 'pi pi-fw pi-bars', routerLink: ['/tierspayant/tierspayant'] },
+                    { label: 'Clients', icon: 'pi pi-fw pi-users', routerLink: ['/tierspayant/clients'] }
 
                 ]
             },
-            
+
             {
-                label: 'Parametres', icon: 'fa fa-fw fa-cube', routerLink: ['/parametres'],
+                label: 'Parametres', icon: 'pi pi-fw pi-star', routerLink: ['/parametres'],
                 items: [
-                    { label: 'Tva', icon: 'fa fa-fw fa-columns', routerLink: ['/parametres/tva']  },
-                    { label: 'Type risques', icon: 'fa fa-fw fa-bars', routerLink: ['/parametres/type-risque']  },
-                    { label: 'Remises', icon: 'fa fa-fw fa-bars', routerLink: ['/parametres/remises']  },
-                    { label: 'Motifs', icon: 'fa fa-fw fa-bars', routerLink: ['/parametres/motif']  },
-                    { label: 'modeles-factures', icon: 'fa fa-fw fa-bars', routerLink: ['/parametres/models-factures']  },
-                    { label: 'Type inventaires', icon: 'fa fa-fw fa-bars', routerLink: ['/parametres/type-inventaires']  },
-                    { label: 'Type étiquettes', icon: 'fa fa-fw fa-bars', routerLink: ['/parametres/type-etiquette']  },
-                    { label: 'Mode réglements', icon: 'fa fa-fw fa-bars', routerLink: ['/parametres/mode-reglements']  },
-                    { label: 'Famille article', icon: 'fa fa-fw fa-bars', routerLink: ['/parametres/famille-produits']  },
-                    { label: 'Catégorie article', icon: 'fa fa-fw fa-bars', routerLink: ['/parametres/categorie-produits']  },
-                    { label: 'Forme article', icon: 'fa fa-fw fa-bars', routerLink: ['/parametres/form-produits']  },
-                    { label: 'Gamme produit', icon: 'fa fa-fw fa-bars', routerLink: ['/parametres/gamme-produits']  },
-                    { label: 'Laboratoires', icon: 'fa fa-fw fa-bars', routerLink: ['/parametres/laboratoires']  },
-                    { label: 'Type mouvement de caisse', icon: 'fa fa-fw fa-bars', routerLink: ['/parametres/type-mvt-caisse']  },
-                    
+                    { label: 'Tva', icon: 'pi pi-fw pi-columns', routerLink: ['/parametres/tva'] },
+                    { label: 'Type risques', icon: 'pi pi-fw pi-bars', routerLink: ['/parametres/type-risque'] },
+                    { label: 'Remises', icon: 'pi pi-fw pi-bars', routerLink: ['/parametres/remises'] },
+                    { label: 'Motifs', icon: 'pi pi-fw pi-bars', routerLink: ['/parametres/motif'] },
+                    { label: 'modeles-factures', icon: 'pi pi-fw pi-bars', routerLink: ['/parametres/models-factures'] },
+                    { label: 'Type inventaires', icon: 'pi pi-fw pi-bars', routerLink: ['/parametres/type-inventaires'] },
+                    { label: 'Type étiquettes', icon: 'pi pi-fw pi-bars', routerLink: ['/parametres/type-etiquette'] },
+                    { label: 'Mode réglements', icon: 'pi pi-fw pi-bars', routerLink: ['/parametres/mode-reglements'] },
+                    { label: 'Famille article', icon: 'pi pi-fw pi-bars', routerLink: ['/parametres/famille-produits'] },
+                    { label: 'Catégorie article', icon: 'pi pi-fw pi-bars', routerLink: ['/parametres/categorie-produits'] },
+                    { label: 'Forme article', icon: 'pi pi-fw pi-bars', routerLink: ['/parametres/form-produits'] },
+                    { label: 'Gamme produit', icon: 'pi pi-fw pi-bars', routerLink: ['/parametres/gamme-produits'] },
+                    { label: 'Laboratoires', icon: 'pi pi-fw pi-bars', routerLink: ['/parametres/laboratoires'] },
+                    { label: 'Type mouvement de caisse', icon: 'pi pi-fw pi-bars', routerLink: ['/parametres/type-mvt-caisse'] },
+
                 ]
             },
             {
-                label: 'Menu Colors', icon: 'fa fa-fw fa-paint-brush',
+                label: 'UI Kit', icon: 'pi pi-fw pi-star', routerLink: ['/uikit'], badge: 15,
                 items: [
-                    { label: 'Light', icon: 'fa fa-fw fa-paint-brush', command: event => this.app.lightMenu = true },
-                    { label: 'Dark', icon: 'fa fa-fw fa-paint-brush', command: event => this.app.lightMenu = false }
+                    { label: 'Form Layout', icon: 'pi pi-fw pi-id-card', routerLink: ['/uikit/formlayout'] },
+                    { label: 'Input', icon: 'pi pi-fw pi-check-square', routerLink: ['/uikit/input'] },
+                    { label: 'Float Label', icon: 'pi pi-fw pi-bookmark', routerLink: ['/uikit/floatlabel'] },
+                    { label: 'Button', icon: 'pi pi-fw pi-mobile', routerLink: ['/uikit/button'], class: 'rotated-icon' },
+                    { label: 'Table', icon: 'pi pi-fw pi-table', routerLink: ['/uikit/table'] },
+                    { label: 'List', icon: 'pi pi-fw pi-list', routerLink: ['/uikit/list'] },
+                    { label: 'Tree', icon: 'pi pi-fw pi-share-alt', routerLink: ['/uikit/tree'] },
+                    { label: 'Panel', icon: 'pi pi-fw pi-tablet', routerLink: ['/uikit/panel'] },
+                    { label: 'Overlay', icon: 'pi pi-fw pi-clone', routerLink: ['/uikit/overlay'] },
+                    { label: 'Media', icon: 'pi pi-fw pi-image', routerLink: ['/uikit/media'] },
+                    { label: 'Menu', icon: 'pi pi-fw pi-bars', routerLink: ['/uikit/menu'] },
+                    { label: 'Message', icon: 'pi pi-fw pi-comment', routerLink: ['/uikit/message'] },
+                    { label: 'File', icon: 'pi pi-fw pi-file', routerLink: ['/uikit/file'] },
+                    { label: 'Chart', icon: 'pi pi-fw pi-chart-bar', routerLink: ['/uikit/charts'] },
+                    { label: 'Misc', icon: 'pi pi-fw pi-circle-off', routerLink: ['/uikit/misc'] }
                 ]
             },
             {
-                label: 'Layouts', icon: 'fa fa-fw fa-cog',
+                label: 'Utilities', icon: 'pi pi-fw pi-compass', routerLink: ['utilities'],
                 items: [
-                    { label: 'Static', icon: 'fa fa-fw fa-bars', command: event => this.app.menuMode = 'static' },
-                    { label: 'Overlay', icon: 'fa fa-fw fa-bars', command: event => this.app.menuMode = 'overlay' },
-                    { label: 'Slim', icon: 'fa fa-fw fa-bars', command: event => this.app.menuMode = 'slim' },
-                    { label: 'Horizontal', icon: 'fa fa-fw fa-bars', command: event => this.app.menuMode = 'horizontal' }
+                    { label: 'Display', icon: 'pi pi-fw pi-desktop', routerLink: ['utilities/display'] },
+                    { label: 'Elevation', icon: 'pi pi-fw pi-external-link', routerLink: ['utilities/elevation'] },
+                    { label: 'FlexBox', icon: 'pi pi-fw pi-directions', routerLink: ['utilities/flexbox'] },
+                    { label: 'Icons', icon: 'pi pi-fw pi-search', routerLink: ['utilities/icons'] },
+                    { label: 'Text', icon: 'pi pi-fw pi-pencil', routerLink: ['utilities/text'] },
+                    { label: 'Widgets', icon: 'pi pi-fw pi-star-o', routerLink: ['utilities/widgets'] },
+                    { label: 'Grid System', icon: 'pi pi-fw pi-th-large', routerLink: ['utilities/grid'] },
+                    { label: 'Spacing', icon: 'pi pi-fw pi-arrow-right', routerLink: ['utilities/spacing'] },
+                    { label: 'Typography', icon: 'pi pi-fw pi-align-center', routerLink: ['utilities/typography'] }
                 ]
             },
             {
-                label: 'Themes', icon: 'fa fa-fw fa-paint-brush', badge: 15,
+                label: 'Pages', icon: 'pi pi-fw pi-briefcase', routerLink: ['/pages'],
+                items: [
+                    { label: 'Crud', icon: 'pi pi-fw pi-pencil', routerLink: ['/pages/crud'] },
+                    { label: 'Calendar', icon: 'pi pi-fw pi-calendar-plus', routerLink: ['/pages/calendar'] },
+                    { label: 'Landing', icon: 'pi pi-fw pi-globe', url: 'assets/pages/landing.html', target: '_blank' },
+                    { label: 'Login', icon: 'pi pi-fw pi-sign-in', routerLink: ['/login'] },
+                    { label: 'Invoice', icon: 'pi pi-fw pi-dollar', routerLink: ['/pages/invoice'] },
+                    { label: 'Help', icon: 'pi pi-fw pi-question-circle', routerLink: ['/pages/help'] },
+                    { label: 'Error', icon: 'pi pi-fw pi-times-circle', routerLink: ['/error'] },
+                    { label: 'Not Found', icon: 'pi pi-fw pi-exclamation-circle', routerLink: ['/notfound'] },
+                    { label: 'Access Denied', icon: 'pi pi-fw pi-lock', routerLink: ['/access'] },
+                    { label: 'Empty', icon: 'pi pi-fw pi-circle-off', routerLink: ['/pages/empty'] }
+                ]
+            },
+            {
+                label: 'Hierarchy', icon: 'pi pi-fw pi-align-left',
                 items: [
                     {
-                        label: 'Pink', icon: 'fa fa-fw fa-paint-brush',
+                        label: 'Submenu 1', icon: 'pi pi-fw pi-align-left',
                         items: [
                             {
-                                label: 'Light', icon: 'fa fa-fw fa-paint-brush',
-                                command: (event) => this.changeTheme('pink', 'light')
+                                label: 'Submenu 1.1', icon: 'pi pi-fw pi-align-left',
+                                items: [
+                                    { label: 'Submenu 1.1.1', icon: 'pi pi-fw pi-align-left' },
+                                    { label: 'Submenu 1.1.2', icon: 'pi pi-fw pi-align-left' },
+                                    { label: 'Submenu 1.1.3', icon: 'pi pi-fw pi-align-left' },
+                                ]
                             },
                             {
-                                label: 'Dark', icon: 'fa fa-fw fa-paint-brush',
-                                command: (event) => this.changeTheme('pink', 'dark')
-                            }
+                                label: 'Submenu 1.2', icon: 'pi pi-fw pi-align-left',
+                                items: [
+                                    { label: 'Submenu 1.2.1', icon: 'pi pi-fw pi-align-left' }
+                                ]
+                            },
                         ]
                     },
                     {
-                        label: 'Indigo', icon: 'fa fa-fw fa-paint-brush',
+                        label: 'Submenu 2', icon: 'pi pi-fw pi-align-left',
                         items: [
                             {
-                                label: 'Light', icon: 'fa fa-fw fa-paint-brush',
-                                command: (event) => this.changeTheme('indigo', 'light')
+                                label: 'Submenu 2.1', icon: 'pi pi-fw pi-align-left',
+                                items: [
+                                    { label: 'Submenu 2.1.1', icon: 'pi pi-fw pi-align-left' },
+                                    { label: 'Submenu 2.1.2', icon: 'pi pi-fw pi-align-left' },
+                                ]
                             },
                             {
-                                label: 'Dark', icon: 'fa fa-fw fa-paint-brush',
-                                command: (event) => this.changeTheme('indigo', 'dark')
-                            }
-                        ]
-                    },
-                    {
-                        label: 'Green', icon: 'fa fa-fw fa-paint-brush',
-                        items: [
-                            {
-                                label: 'Light', icon: 'fa fa-fw fa-paint-brush',
-                                command: (event) => this.changeTheme('green', 'light')
+                                label: 'Submenu 2.2', icon: 'pi pi-fw pi-align-left',
+                                items: [
+                                    { label: 'Submenu 2.2.1', icon: 'pi pi-fw pi-align-left' },
+                                ]
                             },
-                            {
-                                label: 'Dark', icon: 'fa fa-fw fa-paint-brush',
-                                command: (event) => this.changeTheme('green', 'dark')
-                            }
-                        ]
-                    },
-                    {
-                        label: 'Amber', icon: 'fa fa-fw fa-paint-brush',
-                        items: [
-                            {
-                                label: 'Light', icon: 'fa fa-fw fa-paint-brush',
-                                command: (event) => this.changeTheme('amber', 'light')
-                            },
-                            {
-                                label: 'Dark', icon: 'fa fa-fw fa-paint-brush',
-                                command: (event) => this.changeTheme('amber', 'dark')
-                            }
-                        ]
-                    },
-                    {
-                        label: 'Deep Purple', icon: 'fa fa-fw fa-paint-brush',
-                        items: [
-                            {
-                                label: 'Light', icon: 'fa fa-fw fa-paint-brush',
-                                command: (event) => this.changeTheme('deeppurple', 'light')
-                            },
-                            {
-                                label: 'Dark', icon: 'fa fa-fw fa-paint-brush',
-                                command: (event) => this.changeTheme('deeppurple', 'dark')
-                            }
-                        ]
-                    },
-                    {
-                        label: 'Blue', icon: 'fa fa-fw fa-paint-brush',
-                        items: [
-                            {
-                                label: 'Light', icon: 'fa fa-fw fa-paint-brush',
-                                command: (event) => this.changeTheme('blue', 'light')
-                            },
-                            {
-                                label: 'Dark', icon: 'fa fa-fw fa-paint-brush',
-                                command: (event) => this.changeTheme('blue', 'dark')
-                            }
-                        ]
-                    },
-                    {
-                        label: 'Dark Blue Grey', icon: 'fa fa-fw fa-paint-brush',
-                        items: [
-                            {
-                                label: 'Light', icon: 'fa fa-fw fa-paint-brush',
-                                command: (event) => this.changeTheme('darkblue', 'light')
-                            },
-                            {
-                                label: 'Dark', icon: 'fa fa-fw fa-paint-brush',
-                                command: (event) => this.changeTheme('darkblue', 'dark')
-                            }
-                        ]
-                    },
-                    {
-                        label: 'Cyan', icon: 'fa fa-fw fa-paint-brush',
-                        items: [
-                            {
-                                label: 'Light', icon: 'fa fa-fw fa-paint-brush',
-                                command: (event) => this.changeTheme('cyan', 'light')
-                            },
-                            {
-                                label: 'Dark', icon: 'fa fa-fw fa-paint-brush',
-                                command: (event) => this.changeTheme('cyan', 'dark')
-                            }
-                        ]
-                    },
-                    {
-                        label: 'Purple', icon: 'fa fa-fw fa-paint-brush',
-                        items: [
-                            {
-                                label: 'Light', icon: 'fa fa-fw fa-paint-brush',
-                                command: (event) => this.changeTheme('purple', 'light')
-                            },
-                            {
-                                label: 'Dark', icon: 'fa fa-fw fa-paint-brush',
-                                command: (event) => this.changeTheme('purple', 'dark')
-                            }
-                        ]
-                    },
-                    {
-                        label: 'Deep Orange', icon: 'fa fa-fw fa-paint-brush',
-                        items: [
-                            {
-                                label: 'Light', icon: 'fa fa-fw fa-paint-brush',
-                                command: (event) => this.changeTheme('deeporange', 'light')
-                            },
-                            {
-                                label: 'Dark', icon: 'fa fa-fw fa-paint-brush',
-                                command: (event) => this.changeTheme('deeporange', 'dark')
-                            }
-                        ]
-                    },
-                    {
-                        label: 'Lime', icon: 'fa fa-fw fa-paint-brush',
-                        items: [
-                            {
-                                label: 'Light', icon: 'fa fa-fw fa-paint-brush',
-                                command: (event) => this.changeTheme('lime', 'light')
-                            },
-                            {
-                                label: 'Dark', icon: 'fa fa-fw fa-paint-brush',
-                                command: (event) => this.changeTheme('lime', 'dark')
-                            }
-                        ]
-                    },
-                    {
-                        label: 'Yellow', icon: 'fa fa-fw fa-paint-brush',
-                        items: [
-                            {
-                                label: 'Light', icon: 'fa fa-fw fa-paint-brush',
-                                command: (event) => this.changeTheme('yellow', 'light')
-                            },
-                            {
-                                label: 'Dark', icon: 'fa fa-fw fa-paint-brush',
-                                command: (event) => this.changeTheme('yellow', 'dark')
-                            }
-                        ]
-                    },
-                    {
-                        label: 'Blue Grey', icon: 'fa fa-fw fa-paint-brush',
-                        items: [
-                            {
-                                label: 'Light', icon: 'fa fa-fw fa-paint-brush',
-                                command: (event) => this.changeTheme('bluegrey', 'light')
-                            },
-                            {
-                                label: 'Dark', icon: 'fa fa-fw fa-paint-brush',
-                                command: (event) => this.changeTheme('bluegrey', 'dark')
-                            }
-                        ]
-                    },
-                    {
-                        label: 'Mojito', icon: 'fa fa-fw fa-paint-brush',
-                        items: [
-                            {
-                                label: 'Light', icon: 'fa fa-fw fa-paint-brush',
-                                command: (event) => this.changeTheme('mojito', 'light')
-                            },
-                            {
-                                label: 'Dark', icon: 'fa fa-fw fa-paint-brush',
-                                command: (event) => this.changeTheme('mojito', 'dark')
-                            }
-                        ]
-                    },
-                    {
-                        label: 'Grey', icon: 'fa fa-fw fa-paint-brush',
-                        items: [
-                            {
-                                label: 'Light', icon: 'fa fa-fw fa-paint-brush',
-                                command: (event) => this.changeTheme('grey', 'light')
-                            },
-                            {
-                                label: 'Dark', icon: 'fa fa-fw fa-paint-brush',
-                                command: (event) => this.changeTheme('grey', 'dark')
-                            }
                         ]
                     }
                 ]
             },
             {
-                label: 'Components', icon: 'fa fa-fw fa-bars', routerLink: ['/components'],
-                items: [
-                    { label: 'Sample Page', icon: 'fa fa-fw fa-columns', routerLink: ['/components/sample']  },
-                    { label: 'Forms', icon: 'fa fa-fw fa-code', routerLink: ['/components/forms'] },
-                    { label: 'Data', icon: 'fa fa-fw fa-table', routerLink: ['/components/data'] },
-                    { label: 'Panels', icon: 'fa fa-fw fa-list-alt', routerLink: ['/components/panels'] },
-                    { label: 'Overlays', icon: 'fa fa-fw fa-square', routerLink: ['/components/overlays'] },
-                    { label: 'Menus', icon: 'fa fa-fw fa-minus-square-o', routerLink: ['/components/menus'] },
-                    { label: 'Messages', icon: 'fa fa-fw fa-circle-o-notch', routerLink: ['/components/messages'] },
-                    { label: 'Charts', icon: 'fa fa-fw fa-area-chart', routerLink: ['/components/charts'] },
-                    { label: 'File', icon: 'fa fa-fw fa-arrow-circle-o-up', routerLink: ['/components/file'] },
-                    { label: 'Misc', icon: 'fa fa-fw fa-user-secret', routerLink: ['/components/misc'] }
-                ]
+                label: 'Documentation', icon: 'pi pi-fw pi-info-circle', routerLink: ['/documentation']
             }
-         
         ];
-    }
-
-    changeTheme(theme: string, scheme: string) {
-        const layoutLink: HTMLLinkElement = document.getElementById('layout-css') as HTMLLinkElement;
-        const layoutHref = 'assets/layout/css/layout-' + theme + '.css';
-
-        this.replaceLink(layoutLink, layoutHref);
-
-        const themeLink: HTMLLinkElement = document.getElementById('theme-css') as HTMLLinkElement;
-        const themeHref = 'assets/theme/' + theme + '/theme-' + scheme + '.css';
-
-        this.replaceLink(themeLink, themeHref);
-    }
-
-    isIE() {
-        return /(MSIE|Trident\/|Edge\/)/i.test(window.navigator.userAgent);
-    }
-
-    replaceLink(linkElement, href) {
-        if (this.isIE()) {
-            linkElement.setAttribute('href', href);
-        } else {
-            const id = linkElement.getAttribute('id');
-            const cloneLinkElement = linkElement.cloneNode(true);
-
-            cloneLinkElement.setAttribute('href', href);
-            cloneLinkElement.setAttribute('id', id + '-clone');
-
-            linkElement.parentNode.insertBefore(cloneLinkElement, linkElement.nextSibling);
-
-            cloneLinkElement.addEventListener('load', () => {
-                linkElement.remove();
-                cloneLinkElement.setAttribute('id', id);
-            });
-        }
-    }
-
-    onMenuClick(event) {
-        this.app.onMenuClick(event);
     }
 }

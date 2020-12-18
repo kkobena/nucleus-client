@@ -1,10 +1,12 @@
 import { HttpResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormArray, FormBuilder, Validators } from '@angular/forms';
-import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { SelectItem } from 'primeng';
+import { SelectItem } from 'primeng/api';
+import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Observable } from 'rxjs';
-import { IClient, ICompteClient } from 'src/app/model/client.model';
+import { Client, CompteClient, IClient, ICompteClient } from 'src/app/model/client.model';
+import { CategorieAssurance } from 'src/app/model/enumerations/categorie-assurance.model';
+import { Status } from 'src/app/model/enumerations/status.model';
 import { TypeTierspayant } from 'src/app/model/enumerations/type-tierspayant.model';
 import { ITierspayant } from 'src/app/model/tierspayant.model';
 import { CompagnieService } from '../../compagnie/compagnie.service';
@@ -14,7 +16,8 @@ import { TiersPayantService } from '../../tiers-payant/tiers-payant.service';
 @Component({
   selector: 'app-client-form',
   templateUrl: './client-form.component.html',
-  styleUrls: ['./client-form.component.css']
+  styleUrls: ['./client-form.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class ClientFormComponent implements OnInit {
   isSaving: boolean = false;
@@ -27,14 +30,12 @@ export class ClientFormComponent implements OnInit {
     { label: 'RC3', value: 'RC3' }
   ];
   types = [
-    { label: 'STANDARD', value: 'STANDARD' },
     { label: 'CARNET', value: 'CARNET' },
     { label: 'ASSURANCE', value: 'ASSURANCE' }
   ];
   tierspayants: SelectItem[];
   compagnies: SelectItem[];
   remises: SelectItem[];
-  modaleService: NgbModal;
   entity: IClient;
   editForm = this.fb.group({
     id: [],
@@ -42,26 +43,30 @@ export class ClientFormComponent implements OnInit {
     lastName: [null, [Validators.required]],
     datNaiss: [],
     sexe: [],
-    typeClient: ['STANDARD', [Validators.required]],
-    compagnieId: [],
+    typeClient: ['ASSURANCE', [Validators.required]],
+    tierspayantId: [],
+    taux: [],
     remiseId: [],
     mail: [],
     mobile: [],
-    compteClients: this.fb.array([])
-
-
-
+    compagnieId: [],
+    numMaticule: [],
+    plafondMensuel: [0],
+    plafondJournalier: [0],
+    absolute: [],
+    compteClients: this.fb.array([]),
+    ayantDroits: this.fb.array([])
   });
   constructor(private fb: FormBuilder,
     protected tierspayantService: TiersPayantService,
     protected remiseService: RemiseService,
     protected compagniesService: CompagnieService,
-    public activeModal: NgbActiveModal,
+    public ref: DynamicDialogRef, public config: DynamicDialogConfig
   ) { }
 
   ngOnInit(): void {
-    this.addNewEntity();
-    console.log(this.tierspayant);
+    this.entity = this.config.data.entity,
+      this.addNewEntity();
   }
 
 
@@ -71,25 +76,7 @@ export class ClientFormComponent implements OnInit {
     this.compagnies = [];
     this.populateAssurrance();
   }
-  async populate() {
 
-    let compagniesResponse = await this.compagniesService.queryPromise({ search: '' });
-    compagniesResponse.forEach(e => {
-      this.compagnies.push({ label: e.libelle, value: e.id });
-    });
-
-    let remisesResponse = await this.remiseService.queryPromise({});
-    remisesResponse.forEach(e => {
-      this.remises.push({ label: e.valeur, value: e.id });
-    });
-
-
-    if (this.entity != undefined && this.entity != null) {
-      this.title = "Modification du client " + this.entity.firstName + " " + this.entity.lastName;
-      this.updateForm(this.entity);
-    }
-
-  }
   async populateAssurrance() {
     let compagniesResponse = await this.compagniesService.queryPromise({ search: '' });
     compagniesResponse.forEach(e => {
@@ -112,9 +99,9 @@ export class ClientFormComponent implements OnInit {
       this.title = "Modification du client " + this.entity.firstName + " " + this.entity.lastName;
       this.updateForm(this.entity);
     }
-    else if (this.tierspayant != undefined) {
-      this.addCompteClient();
-    }
+
+    this.addCompteClient();
+
   }
   protected subscribeToSaveResponse(result: Observable<HttpResponse<IClient>>): void {
     result.subscribe(
@@ -124,7 +111,7 @@ export class ClientFormComponent implements OnInit {
   }
   protected onSaveTierspayantSuccess(response: IClient | null): void {
 
-    this.activeModal.close(response);
+    this.ref.close(response);
 
   }
   protected onSaveError(): void {
@@ -132,7 +119,7 @@ export class ClientFormComponent implements OnInit {
     //    this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'Enregistrement a échoué' });
   }
   cancel(): void {
-    this.activeModal.dismiss();
+    this.ref.destroy();
   }
   updateForm(entity: IClient): void {
     this.editForm.patchValue({
@@ -142,17 +129,25 @@ export class ClientFormComponent implements OnInit {
       sexe: entity.sexe,
       mail: entity.mail,
       datNaiss: entity.datNaiss,
-      typeClient: entity.typeClient,
       compagnieId: entity.compagnieId,
       remiseId: entity.remiseId,
       mobile: entity.mobile,
-      compteClients: [entity.compteClients]
+      plafondMensuel: entity.compteClient.plafondMensuel,
+      plafondJournalier: entity.compteClient.plafondJournalier,
+      tierspayantId: entity.compteClient.tierspayantId,
+      taux: entity.compteClient.taux,
+      absolute: entity.compteClient.absolute,
+      compteClients: [entity.compteClients],
+      ayantDroits: [entity.ayantDroits]
 
     });
   }
   save(): void {
     this.isSaving = true;
-    /* const entity = this.createFromForm();
+    const entity = this.createFromForm();
+    console.warn(entity);
+
+    /*
      console.log(entity);
      if (entity.id !== undefined && entity.id !== null) {
        this.subscribeToSaveResponse(this.entityService.update(entity));
@@ -160,33 +155,61 @@ export class ClientFormComponent implements OnInit {
        this.subscribeToSaveResponse(this.entityService.create(entity));
      }*/
   };
+  private createFromForm(): IClient {
+    return {
+      ...new Client(),
+      id: this.editForm.get(['id'])!.value,
+      firstName: this.editForm.get(['firstName'])!.value,
+      lastName: this.editForm.get(['lastName'])!.value,
+      sexe: this.editForm.get(['sexe'])!.value,
+      datNaiss: this.editForm.get(['datNaiss'])!.value,
+      compagnieId: this.editForm.get(['compagnieId'])!.value,
+      remiseId: this.editForm.get(['remiseId'])!.value,
+      mobile: this.editForm.get(['mobile'])!.value,
+      mail: this.editForm.get(['mail'])!.value,
+      compteClient: {
+        numMaticule: this.editForm.get(['numMaticule'])!.value,
+        plafondMensuel: this.editForm.get(['plafondMensuel'])!.value,
+        plafondJournalier: this.editForm.get(['plafondJournalier'])!.value,
+        absolute: this.editForm.get(['absolute'])!.value,
+        taux: this.editForm.get(['taux'])!.value,
+        enbale: true,
+        typeClient: this.editForm.get(['typeClient'])!.value,
+        tierspayantId: this.editForm.get(['tierspayantId'])!.value,
+        encours: 0,
+        categorie: CategorieAssurance.RO
+      },
+      compteClients: this.editForm.get(['compteClients'])!.value,
+      ayantDroits: this.editForm.get(['ayantDroits'])!.value
+    };
+  }
+
+
+
   addCompteClient(typeTierspayant?: string): void {
     let taux = null;
     let tiersPayantId = null;
     let disabled = false;
-    if (typeTierspayant!=null && typeTierspayant == this.types[1].value) {
-      console.warn(typeTierspayant,this.types[1].value)
+    if (typeTierspayant != null && typeTierspayant == this.types[0].value) {
       disabled = true;
       taux = 100;
-
     }
     if (this.tierspayant != undefined) {
       tiersPayantId = this.tierspayant.id;
       this.editForm.get('typeClient').setValue(this.tierspayant.typeTp);
       this.editForm.get('typeClient').disable();
       const carnet = this.tierspayant.typeTp.toString();
-      const a=TypeTierspayant[TypeTierspayant.CARNET].toString();
+      const a = TypeTierspayant[TypeTierspayant.CARNET].toString();
       if (carnet == a) {
         disabled = true;
         taux = 100;
       }
     }
 
-
     const compteclient = this.editForm.get('compteClients') as FormArray;
+    const ayantDroits = this.editForm.get('ayantDroits') as FormArray;
     compteclient.push(this.fb.group({
-      taux: [{ value: taux, disabled: disabled }, [Validators.required, Validators.min(1), Validators.max(100)]],
-      //  categorie: [],
+      taux: [null, [Validators.required, Validators.min(1), Validators.max(100)]],
       tierspayantId: [{ value: tiersPayantId, disabled: tiersPayantId ? true : false }, [Validators.required]],
       numMaticule: [],
       plafondMensuel: [],
@@ -194,16 +217,23 @@ export class ClientFormComponent implements OnInit {
       absolute: []
 
     }));
+
+    ayantDroits.push(this.fb.group({
+      num: [],
+      firstName: [null, [Validators.required]],
+      lastName: [null, [Validators.required]],
+      sexe: [],
+      datNaiss: [],
+      mobile: []
+    }));
+
   }
   onTypeClientValueChange(value: string) {
     const compteclient = this.editForm.get('compteClients') as FormArray;
     while (compteclient.length) {
       compteclient.removeAt(0);
     }
-    if (value != this.types[0].value) {
-      this.addCompteClient(value);
-    }
-
+    this.addCompteClient(value);
   }
   validateSize(arr: FormArray) {
     return arr.length > 3 ? {

@@ -6,6 +6,7 @@ import { DATE_FORMAT } from 'src/app/shared/constants/input.constants';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
 import { createRequestOption } from 'src/app/shared/util/request-util';
+import { IResponseDto } from 'src/app/shared/util/response-dto';
 type EntityResponseType = HttpResponse<IClient>;
 type EntityArrayResponseType = HttpResponse<IClient[]>;
 @Injectable({
@@ -80,5 +81,11 @@ export class ClientService {
     return this.http
       .get<IClient[]>(this.resourceUrl+'/tierspayant', { params: options, observe: 'response' });
      
+  }
+  uploadJsonFile(file: any): Observable<HttpResponse<IResponseDto>> {
+    return this.http.post<IResponseDto>(`${this.resourceUrl}/import-json`, file, { observe: 'response' });
+  }
+  uploadFile(file: any): Observable<HttpResponse<IResponseDto>> {
+    return this.http.post<IResponseDto>(`${this.resourceUrl}/importcsv`, file, { observe: 'response' });
   }
 }

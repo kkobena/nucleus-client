@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { CarService } from '../service/carservice';
 import { EventService } from '../service/eventservice';
-import { Car } from '../domain/car';
-import { SelectItem } from 'primeng/primeng';
-import { MenuItem } from 'primeng/primeng';
-import { BreadcrumbService } from '../../breadcrumb.service';
+import { SelectItem, MenuItem } from 'primeng/api';
+import {Product} from '../domain/product';
+import {ProductService} from '../service/productservice';
+import { BreadcrumbService } from '../../app.breadcrumb.service';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
@@ -16,9 +15,7 @@ export class DashboardDemoComponent implements OnInit {
 
     cities: SelectItem[];
 
-    cars: Car[];
-
-    cols: any[];
+    products: Product[];
 
     chartData: any;
 
@@ -26,28 +23,18 @@ export class DashboardDemoComponent implements OnInit {
 
     selectedCity: any;
 
-    selectedCar: Car;
-
     items: MenuItem[];
 
     fullcalendarOptions: any;
 
-    constructor(private carService: CarService, private eventService: EventService, private breadcrumbService: BreadcrumbService) {
+    constructor(private productService: ProductService, private eventService: EventService, private breadcrumbService: BreadcrumbService) {
         this.breadcrumbService.setItems([
             { label: 'Dashboard', routerLink: [''] }
         ]);
     }
 
     ngOnInit() {
-        this.carService.getCarsMedium().then(cars => this.cars = cars);
-
-        this.cols = [
-            { field: 'vin', header: 'Vin' },
-            { field: 'year', header: 'Year' },
-            { field: 'brand', header: 'Brand' },
-            { field: 'color', header: 'Color' }
-        ];
-
+        this.productService.getProducts().then(data => this.products = data);
         this.eventService.getEvents().then(events => { this.events = events; });
 
         this.cities = [];
@@ -77,16 +64,16 @@ export class DashboardDemoComponent implements OnInit {
         };
 
         this.items = [
-            { label: 'Save', icon: 'fa fa-fw fa-check' },
-            { label: 'Update', icon: 'fa fa-fw fa-refresh' },
-            { label: 'Delete', icon: 'fa fa-fw fa-trash' }
+            { label: 'Save', icon: 'pi pi-fw pi-check' },
+            { label: 'Update', icon: 'pi pi-fw pi-refresh' },
+            { label: 'Delete', icon: 'pi pi-fw pi-trash' }
         ];
 
         this.fullcalendarOptions = {
             plugins: [ dayGridPlugin, timeGridPlugin, interactionPlugin ],
-            defaultDate: '2016-01-12',
+            defaultDate: '2017-02-12',
             header: {
-                right: 'prev,next, today',
+                right: 'prev,next,today',
                 left: 'title'
             }
         };

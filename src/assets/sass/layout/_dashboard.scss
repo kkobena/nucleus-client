@@ -2,8 +2,9 @@
     .layout-dashboard {
         padding: 8px;
 
-        .ui-panel {
+        .p-panel {
             @include shadow(0 1px 3px rgba(0, 0, 0, 0.12));
+            border-radius: 4px;
         }
 
         .overview-box {
@@ -22,6 +23,10 @@
                     width: auto;
                     height: 50px;
                 }
+            }
+
+            .p-grid {
+                margin: 0;
             }
 
             .overview-title {
@@ -74,7 +79,7 @@
                 span {
                     color: #585858;
                     width: auto;
-                    line-height: 26px;
+                    line-height: 22px;
                 }
 
                 &.user {
@@ -85,6 +90,7 @@
                 &.checkin {
                     height: 38px;
                     padding: 8px 12px;
+                    line-height: 1.5;
                 }
             }
 
@@ -106,7 +112,7 @@
         }
 
         .contacts {
-            .ui-panel-content {
+            .p-panel-content {
                 padding: 14px;
                 min-height: 236px;
 
@@ -156,7 +162,6 @@
                                 color: #888888;
                                 display: inline-block;
                                 font-weight: 400;
-                                margin-left: 6px;
                             }
 
                             i {
@@ -170,7 +175,7 @@
         }
 
         .tasks {
-            .ui-panel-content {
+            .p-panel-content {
                 padding: 14px;
                 min-height: 236px;
 
@@ -183,7 +188,7 @@
                         padding-bottom: 14px;
                         color: #323232;
 
-                        .ui-chkbox {
+                        .p-checkbox {
                             margin-right: 10px;
                             vertical-align: middle;
                         }
@@ -212,28 +217,28 @@
         }
 
         .resolution-center {
-            .ui-panel-content {
+            .p-panel-content {
                 padding: 14px;
                 min-height: 236px;
 
-                .ui-inputtext {
+                .p-inputtext {
                     width: 100%;
                 }
 
-                .ui-dropdown {
+                .p-dropdown {
                     width: 100%;
                 }
 
-                .ui-button {
+                .p-button {
                     width: 100%;
                 }
             }
         }
 
         .statistics {
-            width: 100%;                
+            width: 100%;
 
-            .ui-panel-content {
+            .p-panel-content {
                 padding: 0;
                 min-height: 383px;
 
@@ -243,7 +248,7 @@
 
                     i {
                         color: #ABABAB;
-                        font-size: 18px;
+                        font-size: 14px;
                         margin-right: 4px;
                     }
 
@@ -291,7 +296,7 @@
                     i {
                         color: #ABABAB;
                         display: inline-block;
-                        font-size: 18px;
+                        font-size: 14px;
                         margin-right: 4px;
                     }
 
@@ -325,7 +330,7 @@
         }
 
         .global-sales {
-            .ui-panel-content {
+            .p-panel-content {
                 padding: 12px 0;
                 padding-left: 5px;
 
@@ -369,7 +374,7 @@
                                 }
 
                                 i {
-                                    font-size: 20px;
+                                    font-size: 16px;
 
                                     &.up {
                                         color: #44BE2D;
@@ -392,11 +397,11 @@
 
         .profile {
             margin-bottom: 16px;
-            .ui-panel-titlebar {
+            .p-panel-header {
                 display: none;
             }
 
-            .ui-panel-content {
+            .p-panel-content {
                 padding: 0;
 
                 .bg-image {
@@ -460,9 +465,9 @@
         }
 
         .inbox {
-            margin-bottom: 16px; 
-                
-            .ui-panel-content {
+            margin-bottom: 16px;
+
+            .p-panel-content {
                 padding: 0;
 
                 ul {
@@ -546,7 +551,7 @@
         }
 
         .timeline {
-            .ui-panel-content {
+            .p-panel-content {
                 padding: 0;
                 font-size: 13px;
 
@@ -587,7 +592,7 @@
                             display: inline-block;
                             vertical-align: middle;
                             position: absolute;
-                            top: 36px;
+                            top: 28px;
                             font-size: 20px;
 
                             &.device {
@@ -613,7 +618,7 @@
                         .timeline-subject {
                             display: inline-block;
                             vertical-align: middle;
-                            margin-left: 22px;
+                            margin-left: 28px;
 
                             .timeline-header {
                                 display: block;
@@ -632,7 +637,7 @@
         .projects {
             margin-bottom: 16px;
 
-            .ui-panel-content {
+            .p-panel-content {
                 padding: 0;
 
                 ul {
@@ -707,11 +712,11 @@
         }
 
         .inventory {
-            .ui-panel-titlebar {
+            .p-panel-titlebar {
                 border-bottom: 0 none;
             }
 
-            .ui-panel-content {
+            .p-panel-content {
                 padding: 0;
                 border: 0 none;
             }
@@ -723,7 +728,7 @@
     .layout-content {
         .layout-dashboard {
             .inbox {
-                .ui-panel-content {
+                .p-panel-content {
                     ul {
                         li {
                             .image-container {
@@ -765,7 +770,7 @@
             }
 
             .projects {
-                .ui-panel-content {
+                .p-panel-content {
                     ul {
                         li {
                             text-align: center;

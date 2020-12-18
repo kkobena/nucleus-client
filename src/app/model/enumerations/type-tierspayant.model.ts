@@ -1,5 +1,4 @@
-export  enum TypeTierspayant {
-  ASSURANCE ,
-
-  CARNET ,
+export enum TypeTierspayant {
+  ASSURANCE,
+  CARNET,
 }

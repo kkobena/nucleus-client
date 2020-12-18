@@ -1,163 +1,240 @@
 <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
-    <div class="modal-header">
-        <h4 class="modal-title"> {{title}}[ Les champs marqués par <span style="font-weight: 900;color: red;">*</span>
-            sont obligatoires ] </h4>
+    <div class="p-col-12">
 
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" (click)="cancel()">&times;</button>
-    </div>
+        <div [hidden]="!editForm.get('id')!.value">
+            <input type="hidden" class="form-control" id="id" name="id" formControlName="id" readonly />
+        </div>
+        <p-fieldset [toggleable]="true">
+            <p-header>Informations générales</p-header>
+            <div class="p-fluid p-formgrid p-grid">
+                <div class="p-field p-col">
+                    <label for="field_firstName" class="col-sm-1 col-form-label">Nom<span
+                            style="font-weight: 900;color: red;">*</span></label>
 
-    <div class="modal-body">
-
-        <div class="ui-g-12 form-group">
-            <div  [hidden]="!editForm.get('id')!.value">
-                <input type="hidden" class="form-control" id="id" name="id" formControlName="id" readonly />
-            </div>
-            <div class="row ui-g-12">
-          
-                <label for="field_firstName" class="col-sm-1 col-form-label">Nom<span style="font-weight: 900;color: red;">*</span></label>
-                <div class="col-sm-3">
                     <input type="text" pInputText class="form-control" name="firstName" id="field_firstName"
                         formControlName="firstName" />
                 </div>
+                <div class="p-field p-col">
+                    <label for="field_lastName" class="col-sm-1 col-form-label">Prénom(s)<span
+                            style="font-weight: 900;color: red;">*</span></label>
 
-                <label for="field_lastName" class="col-sm-1 col-form-label">Prénom(s)<span style="font-weight: 900;color: red;">*</span></label>
-                <div class="col-sm-3">
                     <input type="text" pInputText class="form-control" name="lastName" id="field_lastName"
                         formControlName="lastName">
                 </div>
-           
-            
-                <label for="typeClient" class="col-auto col-form-label">Type client<span style="font-weight: 900;color: red;">*</span></label>
-                <div class="col-sm-2">
-                    <p-dropdown [options]="types" styleClass="form-control" id="typeClient" name="typeClient"  (onChange)="onTypeClientValueChange($event.value)"
-                        formControlName="typeClient" styleClass="dropdown-width" [filter]="false"
-                        placeholder="Séléctionner un type " itemSize="3">
+                <div class="p-field p-col">
+                    <label for="typeClient" class="col-auto col-form-label">Type compte<span
+                            style="font-weight: 900;color: red;">*</span></label>
+
+                    <p-dropdown [options]="types" styleClass="form-control" id="typeClient" name="typeClient"
+                        (onChange)="onTypeClientValueChange($event.value)" formControlName="typeClient"
+                        styleClass="dropdown-width" [filter]="false" placeholder="Séléctionner un type " itemSize="3">
                     </p-dropdown>
                 </div>
-           
-            </div>
-            <div *ngIf="editForm.controls.typeClient.value!=types[0].value" >
-                <div formArrayName="compteClients"
-                    *ngFor="let compteclient of editForm.get('compteClients')['controls']; let i = index">
-                    <ng-container [formGroupName]="i">
-                        <div class="row ui-g-12">
-             
-                            <label class="col-auto col-form-label">Tiers-payant<span
-                                    style="font-weight: 900;color: red;">*</span></label>
-                            <div class="col-sm-4">
-                                <p-dropdown [options]="tierspayants" styleClass="form-control" 
-                                    formControlName="tierspayantId" styleClass="dropdown-width"
-                                    [filter]="true" placeholder="Séléctionner un tiers-payant " [virtualScroll]="true"
-                                    itemSize="30">
-                                </p-dropdown>
-                            </div>
-                            <label class="col-auto col-form-label">Taux<span style="font-weight: 900;color: red;">*</span></label>
-                            <div class="col-sm-2">
-                                <input type="number" pInputText class="form-control" 
-                                    formControlName="taux">
-                            </div>
-                            <label class="col-sm-1 col-form-label">Matricule</label>
-                            <div class="col-sm-2">
-                                <input type="text" pInputText class="form-control"
-                                    formControlName="numMaticule">
-                            </div>
-                        </div>
-                    
-                        <div class="row ui-g-12">
-                            
-                            <label class="col-auto col-form-label">Plafond</label>
-                            <div class="col-sm-3">
-                                <input type="number" pInputText class="form-control"
-                                    formControlName="plafondMensuel">
-                            </div>
-                            <div class="col-sm-3">
-                              <p-checkbox [binary]="true" label="Le plafond est-il absolu ?" 
-                                formControlName="absolute"></p-checkbox>
-                            </div>
-                            <label class="col-md-2 col-form-label">Plafond vente</label>
-                            <div class="col-md-3">
-                                <input type="number" pInputText class="form-control"
-                                    formControlName="plafondJournalier">
-                            </div>
-                          </div>
-                    </ng-container>
+                <div class="p-field p-col">
+                    <label class="col-auto col-form-label">Tiers-payant<span
+                            style="font-weight: 900;color: red;">*</span></label>
+
+                    <p-dropdown [options]="tierspayants" styleClass="form-control" name="tierspayantId"
+                        formControlName="tierspayantId" styleClass="dropdown-width" [filter]="true"
+                        placeholder="Séléctionner un tiers-payant " [virtualScroll]="true" itemSize="30">
+                    </p-dropdown>
                 </div>
+                <div class="p-field p-col-1">
+                    <label class="col-auto col-form-label">Taux<span
+                            style="font-weight: 900;color: red;">*</span></label>
 
+                    <p-inputNumber class="form-control" name="taux" formControlName="taux">
+                    </p-inputNumber>
+                </div>
             </div>
+            <div class="p-fluid p-formgrid p-grid">
+                <div class="p-field p-col">
+                    <label class="col-sm-1 col-form-label">Matricule</label>
 
+                    <input type="text" pInputText class="form-control" name="numMaticule" formControlName="numMaticule">
+                </div>
+                <div class="p-field p-col">
+                    <label for="field_datNaiss" class="col-auto col-form-label">Date de naissance</label>
 
-
-
-
-            <div class="row ui-g-12">
-
-                <label for="field_datNaiss" class="col-auto col-form-label">Date de naissance</label>
-                <div class="col-auto">
                     <p-inputMask mask="99/99/9999" name="datNaiss" id="field_datNaiss" formControlName="datNaiss"
                         placeholder="01/11/2020" slotChar="dd/mm/yyyy"></p-inputMask>
                 </div>
+                <div class="p-field p-col">
+                    <label class="col-auto col-form-label" for="field_mobile">Mobile</label>
 
-
-           
-
-                <label class="col-auto col-form-label" for="field_mobile">Mobile</label>
-                <div class="col-auto">
-                    <input type="text" pInputText class="form-control" name="mobile" id="field_mobile"
+                    <input type="text" pInputText pKeyFilter="int" class="form-control" name="mobile" id="field_mobile"
                         formControlName="mobile">
                 </div>
+                <div class="p-field p-col">
+                    <label class="col-auto col-form-label">Plafond</label>
+
+                    <p-inputNumber class="form-control" formControlName="plafondMensuel" name="plafondMensuel">
+                    </p-inputNumber>
+                </div>
+                <div class="p-field p-col">
+                    <p-checkbox [binary]="true" label="Le plafond est-il absolu ?" formControlName="absolute"
+                        name="absolute" styleClass="nucleuschecbox" labelStyleClass="nucleuschecbox">
+                    </p-checkbox>
+                </div>
+                <div class="p-field p-col">
+                    <label class="col-md-2 col-form-label">Plafond vente</label>
+
+                    <p-inputNumber name="plafondJournalier" class="form-control" formControlName="plafondJournalier">
+                    </p-inputNumber>
+                </div>
+
+            </div>
+            <div class="p-fluid p-formgrid p-grid">
 
 
-            
+                <div class="p-field p-col">
+                    <label class="col-auto col-form-label" for="field_mail">E-mail</label>
 
-
-
-                <label class="col-auto col-form-label" for="field_mail">E-mail</label>
-                <div class="col-auto">
                     <input type="text" pInputText class="form-control" name="mail" id="field_mail"
                         formControlName="mail">
                 </div>
 
-            </div>
-            <div class="row ui-g-12">
+                <div class="p-field p-col">
+                    <label class="col-sm-2 col-form-label" for="field_remiseId">Remise</label>
 
-                <label class="col-sm-2 col-form-label" for="field_compagnieId">Entreprises</label>
-                <div class="col-sm-4">
+                    <p-dropdown [options]="remises" styleClass="form-control" id="field_remiseId" name="remiseId"
+                        formControlName="remiseId" styleClass="dropdown-width" [filter]="true"
+                        placeholder="Séléctionner une remise " [virtualScroll]="true" itemSize="30">
+                    </p-dropdown>
+                </div>
+                <div class="p-field p-col">
+                    <label class="col-sm-2 col-form-label" for="field_compagnieId">Entreprises</label>
+
                     <p-dropdown [options]="compagnies" styleClass="form-control" id="field_compagnieId"
                         name="compagnieId" formControlName="compagnieId" styleClass="dropdown-width" [filter]="true"
                         placeholder="Séléctionner une entreprise " [virtualScroll]="true" itemSize="30">
                     </p-dropdown>
                 </div>
-            
-
-                <label class="col-sm-2 col-form-label" for="field_remiseId">Remise</label>
-                <div class="col-sm-4">
-                    <p-dropdown [options]="remises" styleClass="form-control" id="field_remiseId" name="remiseId"
-                        formControlName="remiseId" styleClass="dropdown-width" [filter]="true"
-                        placeholder="Séléctionner une entreprise " [virtualScroll]="true" itemSize="30">
-                    </p-dropdown>
+                <div class="p-field p-col p-field-radiobutton">
+                    <label for="field_sexe" class="col-form-label p-mr-4">Sexe</label>
+                    <p-radioButton class="form-control" name="sexe" id="field_sexe" inputId="field_sexe" value="F"
+                        formControlName="sexe"></p-radioButton>
+                    <label for="field_sexe" class="p-mr-4">Féminin</label>
+                    <p-radioButton class="form-control" name="sexe" id="field_sexe_m" inputId="field_sexe_m" value="M"
+                        formControlName="sexe"></p-radioButton>
+                    <label for="field_sexe_m">Masculin</label>
                 </div>
             </div>
 
-            <div class="row ui-g-12">
-                <label for="field_sexe" class="col-md-2 col-form-label">Sexe</label>
-                <div class="col-md-5">
-                    <p-radioButton class="form-control" name="sexe" inputId="field_sexe" value="F" label="Féminin"
-                        formControlName="sexe"></p-radioButton>
-                </div>
+        </p-fieldset>
+        <div class="p-mb-2"></div>
+        <div class="p-grid" *ngIf="editForm.controls.typeClient.value!=types[0].value">
+            <div class="p-col">
+                <p-fieldset [toggleable]="true">
+                    <p-header>Assurances complémentaires
+                    </p-header>
+                    <div style="text-align: right;margin-top: -35px;"><button pButton type="button" icon="pi pi-plus"
+                            class="p-button-rounded p-button-success"></button></div>
+                    <div formArrayName="compteClients"
+                        *ngFor="let compteclient of editForm.get('compteClients')['controls']; let i = index">
+                        <ng-container [formGroupName]="i">
+                            <div class="card" style="padding:3px;">
 
-                <div class="col-md-5">
-                    <p-radioButton class="form-control" name="sexe" inputId="field_sexe_m" value="M" label="Masculin"
-                        formControlName="sexe"></p-radioButton>
+                                <div class="p-fluid p-formgrid p-grid">
+                                    <div class="p-field p-col">
+                                        <label class="col-auto col-form-label">Tiers-payant<span
+                                                style="font-weight: 900;color: red;">*</span></label>
+                                        <p-dropdown [options]="tierspayants" styleClass="form-control"
+                                            formControlName="tierspayantId" styleClass="dropdown-width" [filter]="true"
+                                            placeholder="Séléctionner un tiers-payant " [virtualScroll]="true"
+                                            itemSize="30">
+                                        </p-dropdown>
+                                    </div>
+                                    <div class="p-field p-col-2">
+                                        <label class="col-auto col-form-label">Taux<span
+                                                style="font-weight: 900;color: red;">*</span></label>
 
-                </div>
+                                        <p-inputNumber class="form-control" formControlName="taux"></p-inputNumber>
+                                    </div>
+                                    <div class="p-field p-col">
+                                        <label class="col-sm-1 col-form-label">Matricule</label>
+
+                                        <input type="text" pInputText class="form-control"
+                                            formControlName="numMaticule">
+
+                                    </div>
+                                    <div class="p-field p-col-1">
+                                        <button pButton type="button" icon="pi pi-times"
+                                            class="p-button-rounded p-button-danger  p-mt-4"></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </div>
+
+                </p-fieldset>
+
             </div>
+            <div class="p-col" *ngIf="!entity">
+                <p-fieldset [toggleable]="true">
+                    <p-header>Ayant droit
+                    </p-header>
+                    <div style="text-align: right;margin-top: -35px;"><button pButton type="button" icon="pi pi-plus"
+                            class="p-button-rounded p-button-success"></button></div>
+                    <div formArrayName="ayantDroits"
+                        *ngFor="let compteclient of editForm.get('ayantDroits')['controls']; let i = index">
+                        <ng-container [formGroupName]="i">
+                            <div class="card" style="padding:3px;">
 
+                                <div class="p-fluid p-formgrid p-grid">
+                                    <div class="p-field p-col">
+                                        <label class="col-auto col-form-label">Nom<span
+                                                style="font-weight: 900;color: red;">*</span></label>
+                                        <input type="text" pInputText class="form-control"
+                                            formControlName="firstName" />
+
+                                    </div>
+                                    <div class="p-field p-col">
+                                        <label class="col-auto col-form-label">Prénom<span
+                                                style="font-weight: 900;color: red;">*</span></label>
+
+                                        <input type="text" pInputText class="form-control"
+                                            formControlName="firstName" />
+                                    </div>
+
+                                    <div class="p-field p-col-1">
+                                        <button pButton type="button" icon="pi pi-times"
+                                            class="p-button-rounded p-button-danger  p-mt-4"></button>
+                                    </div>
+                                </div>
+                                <div class="p-fluid p-formgrid p-grid">
+                                    <div class="p-field p-col">
+                                        <label class="col-sm-1 col-form-label">Matricule</label>
+                                        <input type="text" pInputText class="form-control" formControlName="num">
+                                    </div>
+                                    <div class="p-field p-col">
+                                        <label class="col-auto col-form-label">Téléphone</label>
+                                        <input type="text" pInputText class="form-control" formControlName="mobile" />
+
+                                    </div>
+                                    <div class="p-field p-col">
+                                        <label class="col-auto col-form-label">Date de naissance</label>
+                                        <p-inputMask mask="99/99/9999" name="datNaiss" id="field_datNaiss"
+                                            formControlName="datNaiss" placeholder="01/11/2020" slotChar="dd/mm/yyyy">
+                                        </p-inputMask>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </ng-container>
+                    </div>
+
+                </p-fieldset>
+
+
+
+            </div>
         </div>
     </div>
     <div class="modal-footer">
 
-        <button type="submit" [disabled]="editForm.invalid || isSaving" pButton icon="pi pi-check" (click)="save()"
-            label="Enregistrer"></button>
+        <button type="submit" pButton icon="pi pi-check" (click)="save()" label="Enregistrer"></button>
         <button type="button" class="ui-button-danger" pButton icon="pi pi-times" (click)="cancel()"
             label="Annuler"></button>
 

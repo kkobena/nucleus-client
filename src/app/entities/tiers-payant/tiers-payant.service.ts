@@ -36,11 +36,15 @@ export class TiersPayantService {
   delete(id: number): Observable<HttpResponse<{}>> {
     return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
-  uploadFile(file: any): Observable<HttpResponse<IResponseDto>> {
-    return this.http.post<IResponseDto>(`${this.resourceUrl}/importcsv`, file, { observe: 'response' });
-  }
+ 
   async queryPromise(req?: any): Promise<ITierspayant[]> {
     const options = createRequestOption(req);
     return await  this.http.get<ITierspayant[]>(this.resourceUrl, { params: options}).toPromise();
+  }
+  uploadJsonFile(file: any): Observable<HttpResponse<IResponseDto>> {
+    return this.http.post<IResponseDto>(`${this.resourceUrl}/import-json`, file, { observe: 'response' });
+  }
+  uploadFile(file: any): Observable<HttpResponse<IResponseDto>> {
+    return this.http.post<IResponseDto>(`${this.resourceUrl}/importcsv`, file, { observe: 'response' });
   }
 }

@@ -119,6 +119,7 @@
                     i {
                         color: $darkMenuItemIconColor;
                         vertical-align: middle;
+                        font-size: 16px;
                         margin-right: 16px;
                     }
 
@@ -131,6 +132,12 @@
                         left: auto;
                         margin-right: 0;
                         @include transition(transform $transitionDuration);
+                    }
+
+                    &.rotated-icon {
+                        .layout-menuitem-icon {
+                            transform: rotate(90deg);
+                        }
                     }
 
                     &:hover {
@@ -504,7 +511,7 @@
                                 margin-right: 0;
 
                                 &:first-child {
-                                    font-size: 14px;
+                                    font-size: 16px;
                                     width: auto;
                                 }
 

@@ -1,155 +1,139 @@
 <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
-  <div class="modal-header">
-    <h4 class="modal-title" >{{title}} [   Les champs marqués par <span style="font-weight: 900;color: red;">*</span> sont obligatoires ] </h4>
+  <div class="p-col-12">
+    <div class="form-group" [hidden]="!editForm.get('id')!.value">
+      <input type="hidden" class="form-control" id="id" name="id" formControlName="id" readonly />
+    </div>
 
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
-            (click)="cancel()">&times;</button>
-</div>
+    <div class="p-fluid p-formgrid p-grid">
+      <div class="p-field p-col">
+        <label for="field_libelle">Nom<span style="font-weight: 900;color: red;">*</span></label>
 
-<div class="modal-body">
-     
-      <div class="ui-g-12 form-group">
-        <div class="form-group" [hidden]="!editForm.get('id')!.value">
-          <input type="hidden" class="form-control" id="id" name="id" formControlName="id" readonly />
-        </div>
-
-        <div class="ui-g-12 ui-md-6">
-          <label for="field_libelle">Nom<span style="font-weight: 900;color: red;">*</span></label>
-          <div >
-            <input type="text" pInputText class="form-control" name="libelLong" id="field_libelle"
-              formControlName="libelLong" />
-          </div>
-
-
-        </div>
-        <div class="ui-g-12 ui-md-6">
-
-          <label for="field_libelle_cour">Nom abrégé<span style="font-weight: 900;color: red;">*</span></label>
-          <div >
-            <input type="text" pInputText class="form-control" name="libelCourt" id="field_libelle_cour"
-              formControlName="libelCourt">
-          </div>
-
-
-        </div>
-
-        <div class="ui-g-12 ui-md-4">
-
-          <label for="field_mobile">Mobile<span style="font-weight: 900;color: red;">*</span></label>
-          <div >
-            <input type="text" pInputText class="form-control" name="mobile" id="field_mobile"
-              formControlName="mobile">
-          </div>
-
-
-        </div>
-
-        <div class="ui-g-12 ui-md-4">
-
-          <label for="field_typeTp">Type tiers-payant <span style="font-weight: 900;color: red;">*</span></label>
-          <div>
-
-            <p-dropdown [options]="types" styleClass="form-control" id="field_typeTp" name="typeTp"
-              formControlName="typeTp" styleClass="dropdown-width" [filter]="false"
-              placeholder="Séléctionner un type " itemSize="2">
-            </p-dropdown>
-          </div>
-
-
-        </div>
-        <div class="ui-g-12 ui-md-4">
-
-          <label for="field_codeComptable">Code comptable</label>
-          <div >
-            <input type="text" pInputText class="form-control" name="codeComptable" id="field_codeComptable"
-              formControlName="codeComptable">
-          </div>
-
-        </div>
-        <div class="ui-g-12 ui-md-6">
-
-          <label for="field_groupetpId">Groupe tiers-payant</label>
-          <div>
-            <p-dropdown [options]="groupes" styleClass="form-control" id="field_groupetpId" name="groupetpId"
-              formControlName="groupetpId" styleClass="dropdown-width" [filter]="true"
-              placeholder="Séléctionner un groupe " [virtualScroll]="true" itemSize="30">
-            </p-dropdown>
-          </div>
-        </div>
-
-        <div class="ui-g-12 ui-md-6">
-          <label for="field_risqueId">Risque</label>
-          <div>
-            <p-dropdown [options]="risques" styleClass="form-control" id="field_risqueId" name="risqueId"
-              formControlName="risqueId" styleClass="dropdown-width" [filter]="true"
-              placeholder="Séléctionner un risque " [virtualScroll]="true" itemSize="30">
-            </p-dropdown>
-          </div>
-        </div>
-        <div class="ui-g-12 ui-md-6">
-          <label for="field_modelFactureId">Modèle de facture</label>
-          <div>
-            <p-dropdown [options]="modelFactures" styleClass="form-control" id="field_modelFactureId"
-              name="modelFactureId" formControlName="modelFactureId" styleClass="dropdown-width" [filter]="true"
-              placeholder="Séléctionner un modèle de facture " [virtualScroll]="true" itemSize="30">
-            </p-dropdown>
-          </div>
-        </div>
-        <div class="ui-g-12 ui-md-6">
-
-          <label for="field_addresse">Adresse</label>
-          <div>
-            <input type="text" pInputText class="form-control" name="address" id="field_addresse"
-              formControlName="address">
-          </div>
-
-        </div>
-
-        <div class="ui-g-12 ui-md-3">
-          <label for="field_nbreBordereaux">Maximun de bons par facture</label>
-          <div>
-            <input type="number" pInputText class="form-control" name="nbreBordereaux" id="field_nbreBordereaux"
-              formControlName="nbreBordereaux">
-          </div>
-        </div>
-        <div class="ui-g-12 ui-md-3">
-          <label for="field_montantMaxFacture">Montant maxi sur une facture</label>
-          <div>
-            <input type="number" pInputText class="form-control" name="montantMaxFacture" id="field_montantMaxFacture"
-              formControlName="montantMaxFacture">
-          </div>
-        </div>
-        <div class="ui-g-12 ui-md-3">
-          <label for="field_remiseForfetaire">Remise forfetaire</label>
-          <div>
-            <input type="number" pInputText class="form-control" name="montantMaxFacture" id="field_remiseForfetaire"
-              formControlName="remiseForfetaire">
-          </div>
-        </div>
-        <div class="ui-g-12 ui-md-3">
-          <label for="field_plafond">Plafond</label>
-          <div>
-            <input type="number" pInputText class="form-control" name="plafond" id="field_plafond"
-              formControlName="plafond">
-          </div>
-        </div>
-        <div class="ui-g-12 ui-md-6">
-
-          <div>
-            <p-checkbox [binary]="true" name="typePlafond" label="Le plafond est-il absolu ?" id="field_typePlafond"
-              formControlName="typePlafond"></p-checkbox>
-          </div>
-
-
-        </div>
-      </div></div>
-      <div class="modal-footer">
-
-        <button type="submit" [disabled]="editForm.invalid || isSaving" pButton icon="pi pi-check" (click)="save()"
-          label="Enregistrer"></button>
-        <button type="button" class="ui-button-danger" pButton icon="pi pi-times" (click)="cancel()"
-          label="Annuler"></button>
+        <input type="text" pInputText class="form-control" name="libelLong" id="field_libelle"
+          formControlName="libelLong" />
 
       </div>
-   
-  </form>
+      <div class="p-field p-col">
+
+        <label for="field_libelle_cour">Nom abrégé<span style="font-weight: 900;color: red;">*</span></label>
+
+        <input type="text" pInputText class="form-control" name="libelCourt" id="field_libelle_cour"
+          formControlName="libelCourt">
+
+      </div>
+    </div>
+
+    <div class="p-fluid p-formgrid p-grid">
+      <div class="p-field p-col">
+
+        <label for="field_mobile">Mobile<span style="font-weight: 900;color: red;">*</span></label>
+
+        <input type="text" pInputText pKeyFilter="int" class="form-control" name="mobile" id="field_mobile"
+          formControlName="mobile">
+
+      </div>
+
+      <div class="p-field p-col">
+        <label for="field_typeTp">Type tiers-payant <span style="font-weight: 900;color: red;">*</span></label>
+        <p-dropdown [options]="types" styleClass="form-control" id="field_typeTp" name="typeTp" formControlName="typeTp"
+          styleClass="dropdown-width" [filter]="false" placeholder="Séléctionner un type " itemSize="2">
+        </p-dropdown>
+
+      </div>
+    </div>
+
+    <div class="p-fluid p-formgrid p-grid">
+      <div class="p-field p-col">
+        <label for="field_codeComptable">Code comptable</label>
+
+        <input type="text" pInputText class="form-control" name="codeComptable" id="field_codeComptable"
+          formControlName="codeComptable">
+      </div>
+      <div class="p-field p-col">
+        <label for="field_groupetpId">Groupe tiers-payant</label>
+
+        <p-dropdown [options]="groupes" styleClass="form-control" id="field_groupetpId" name="groupetpId"
+          formControlName="groupetpId" styleClass="dropdown-width" [filter]="true" placeholder="Séléctionner un groupe "
+          [virtualScroll]="true" itemSize="30">
+        </p-dropdown>
+
+      </div>
+    </div>
+    <div class="p-fluid p-formgrid p-grid">
+      <div class="p-field p-col">
+        <label for="field_risqueId">Risque</label>
+
+        <p-dropdown [options]="risques" styleClass="form-control" id="field_risqueId" name="risqueId"
+          formControlName="risqueId" styleClass="dropdown-width" [filter]="true" placeholder="Séléctionner un risque "
+          [virtualScroll]="true" itemSize="30">
+        </p-dropdown>
+
+      </div>
+      <div class="p-field p-col">
+        <label for="field_modelFactureId">Modèle de facture</label>
+
+        <p-dropdown [options]="modelFactures" styleClass="form-control" id="field_modelFactureId" name="modelFactureId"
+          formControlName="modelFactureId" styleClass="dropdown-width" [filter]="true"
+          placeholder="Séléctionner un modèle de facture " [virtualScroll]="true" itemSize="30">
+        </p-dropdown>
+
+      </div>
+    </div>
+    <div class="p-fluid p-formgrid p-grid">
+      <div class="p-field p-col">
+        <label for="field_addresse">Adresse</label>
+
+        <input type="text" pInputText class="form-control" name="address" id="field_addresse" formControlName="address">
+
+      </div>
+      <div class="p-field p-col">
+        <label for="field_nbreBordereaux">Maximun de bons par facture</label>
+
+        <p-inputNumber class="form-control" name="nbreBordereaux" id="field_nbreBordereaux"
+          formControlName="nbreBordereaux"></p-inputNumber>
+
+      </div>
+    </div>
+    <div class="p-fluid p-formgrid p-grid">
+      <div class="p-field p-col">
+        <label for="field_montantMaxFacture">Montant maxi sur une facture</label>
+
+        <p-inputNumber class="form-control" name="montantMaxFacture" id="field_montantMaxFacture"
+          formControlName="montantMaxFacture"></p-inputNumber>
+
+      </div>
+      <div class="p-field p-col">
+        <label for="field_remiseForfetaire">Remise forfetaire</label>
+
+        <p-inputNumber class="form-control" name="montantMaxFacture" id="field_remiseForfetaire"
+          formControlName="remiseForfetaire"></p-inputNumber>
+
+      </div>
+    </div>
+    <div class="p-fluid p-formgrid p-grid">
+      <div class="p-field p-col">
+        <label for="field_plafond">Plafond</label>
+
+        <p-inputNumber class="form-control" name="plafond" id="field_plafond" formControlName="plafond"></p-inputNumber>
+
+      </div>
+
+      <div class="p-field p-col">
+
+        <p-checkbox [binary]="true" name="typePlafond" styleClass="nucleuschecbox" label="Le plafond est-il absolu ?"
+          id="field_typePlafond" labelStyleClass="nucleuschecbox" formControlName="typePlafond"></p-checkbox>
+
+      </div>
+    </div>
+
+  </div>
+
+
+  <div style="float: right;">
+
+    <button pButton pRipple type="submit" [disabled]="editForm.invalid || isSaving" icon="pi pi-check"
+      class="p-button-success p-mr-2 p-button-raised" (click)="save()" label="Enregistrer"></button>
+    <button type="button" class="p-button-danger p-mr-2 p-button-raised" pButton pRipple icon="pi pi-times"
+      (click)="cancel()" label="Annuler"></button>
+  </div>
+
+</form>
