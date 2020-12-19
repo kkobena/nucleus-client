@@ -1,5 +1,5 @@
-export const enum TypeClient {
-  STANDARD = 'STANDARD',
-  ASSURANCE = 'ASSURANCE',
-  CARNET = 'CARNET',
+export enum TypeClient {
+  STANDARD,
+  ASSURANCE,
+  CARNET,
 }

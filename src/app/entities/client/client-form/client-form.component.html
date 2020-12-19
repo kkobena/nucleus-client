@@ -128,12 +128,13 @@
                 <p-fieldset [toggleable]="true">
                     <p-header>Assurances complémentaires
                     </p-header>
-                    <div style="text-align: right;margin-top: -35px;"><button pButton type="button" icon="pi pi-plus"
-                            class="p-button-rounded p-button-success"></button></div>
+                    <div *ngIf="validSize" style="text-align: right;margin-top: -35px;"><button pButton type="button"
+                            icon="pi pi-plus" class="p-button-rounded p-button-success"
+                            (click)="addCompteClient()"></button></div>
                     <div formArrayName="compteClients"
                         *ngFor="let compteclient of editForm.get('compteClients')['controls']; let i = index">
                         <ng-container [formGroupName]="i">
-                            <div class="card" style="padding:3px;">
+                            <div class="card p-mb-1" style="padding:3px;">
 
                                 <div class="p-fluid p-formgrid p-grid">
                                     <div class="p-field p-col">
@@ -159,7 +160,7 @@
 
                                     </div>
                                     <div class="p-field p-col-1">
-                                        <button pButton type="button" icon="pi pi-times"
+                                        <button (click)="removeComptClient(i)" pButton type="button" icon="pi pi-times"
                                             class="p-button-rounded p-button-danger  p-mt-4"></button>
                                     </div>
                                 </div>
@@ -174,8 +175,9 @@
                 <p-fieldset [toggleable]="true">
                     <p-header>Ayant droit
                     </p-header>
-                    <div style="text-align: right;margin-top: -35px;"><button pButton type="button" icon="pi pi-plus"
-                            class="p-button-rounded p-button-success"></button></div>
+                    <div *ngIf="ayantDroitSize" style="text-align: right;margin-top: -35px;"><button pButton
+                            type="button" icon="pi pi-plus" class="p-button-rounded p-button-success"
+                            (click)="addAyantDroit()"></button></div>
                     <div formArrayName="ayantDroits"
                         *ngFor="let compteclient of editForm.get('ayantDroits')['controls']; let i = index">
                         <ng-container [formGroupName]="i">

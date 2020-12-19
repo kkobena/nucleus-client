@@ -275,7 +275,7 @@ export class ClientComponent implements OnInit {
       data: { entity: this.selectedEl },
       width: '95%',
       height: 'auto',
-      header: 'Modification'
+      header: "Modification du client " + this.selectedEl.firstName + " " + this.selectedEl.lastName
     });
     this.ref.onClose.subscribe((entity: IClient) => {
       if (entity) {

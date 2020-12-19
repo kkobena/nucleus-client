@@ -6,7 +6,7 @@ import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Observable } from 'rxjs';
 import { Client, CompteClient, IClient, ICompteClient } from 'src/app/model/client.model';
 import { CategorieAssurance } from 'src/app/model/enumerations/categorie-assurance.model';
-import { Status } from 'src/app/model/enumerations/status.model';
+import { TypeClient } from 'src/app/model/enumerations/type-client.model';
 import { TypeTierspayant } from 'src/app/model/enumerations/type-tierspayant.model';
 import { ITierspayant } from 'src/app/model/tierspayant.model';
 import { CompagnieService } from '../../compagnie/compagnie.service';
@@ -33,6 +33,8 @@ export class ClientFormComponent implements OnInit {
     { label: 'CARNET', value: 'CARNET' },
     { label: 'ASSURANCE', value: 'ASSURANCE' }
   ];
+  validSize: boolean = true;
+  ayantDroitSize: boolean = true;
   tierspayants: SelectItem[];
   compagnies: SelectItem[];
   remises: SelectItem[];
@@ -96,11 +98,14 @@ export class ClientFormComponent implements OnInit {
 
     });
     if (this.entity != undefined && this.entity != null) {
-      this.title = "Modification du client " + this.entity.firstName + " " + this.entity.lastName;
+      /*  const carnet = this.entity.compteClient.typeClient.toString();
+        const a = TypeClient[TypeClient.CARNET].toString();*/
+
       this.updateForm(this.entity);
+
     }
 
-    this.addCompteClient();
+    //   this.addCompteClient();
 
   }
   protected subscribeToSaveResponse(result: Observable<HttpResponse<IClient>>): void {
@@ -141,6 +146,7 @@ export class ClientFormComponent implements OnInit {
       ayantDroits: [entity.ayantDroits]
 
     });
+    this.validateSize();
   }
   save(): void {
     this.isSaving = true;
@@ -184,40 +190,8 @@ export class ClientFormComponent implements OnInit {
     };
   }
 
-
-
-  addCompteClient(typeTierspayant?: string): void {
-    let taux = null;
-    let tiersPayantId = null;
-    let disabled = false;
-    if (typeTierspayant != null && typeTierspayant == this.types[0].value) {
-      disabled = true;
-      taux = 100;
-    }
-    if (this.tierspayant != undefined) {
-      tiersPayantId = this.tierspayant.id;
-      this.editForm.get('typeClient').setValue(this.tierspayant.typeTp);
-      this.editForm.get('typeClient').disable();
-      const carnet = this.tierspayant.typeTp.toString();
-      const a = TypeTierspayant[TypeTierspayant.CARNET].toString();
-      if (carnet == a) {
-        disabled = true;
-        taux = 100;
-      }
-    }
-
-    const compteclient = this.editForm.get('compteClients') as FormArray;
+  addAyantDroit(): void {
     const ayantDroits = this.editForm.get('ayantDroits') as FormArray;
-    compteclient.push(this.fb.group({
-      taux: [null, [Validators.required, Validators.min(1), Validators.max(100)]],
-      tierspayantId: [{ value: tiersPayantId, disabled: tiersPayantId ? true : false }, [Validators.required]],
-      numMaticule: [],
-      plafondMensuel: [],
-      plafondJournalier: [],
-      absolute: []
-
-    }));
-
     ayantDroits.push(this.fb.group({
       num: [],
       firstName: [null, [Validators.required]],
@@ -226,18 +200,39 @@ export class ClientFormComponent implements OnInit {
       datNaiss: [],
       mobile: []
     }));
+    this.valideAyantDroitSize();
+  }
 
+  addCompteClient(): void {
+    const compteclient = this.editForm.get('compteClients') as FormArray;
+    compteclient.push(this.fb.group({
+      taux: [null, [Validators.required, Validators.min(1), Validators.max(100)]],
+      tierspayantId: [null, [Validators.required]],
+      numMaticule: []
+    }));
+    this.validateSize();
   }
   onTypeClientValueChange(value: string) {
     const compteclient = this.editForm.get('compteClients') as FormArray;
     while (compteclient.length) {
       compteclient.removeAt(0);
     }
-    this.addCompteClient(value);
+    //  this.addCompteClient(value);
   }
-  validateSize(arr: FormArray) {
-    return arr.length > 3 ? {
-      invalidSize: true
-    } : null;
+  validateSize(): void {
+    const compteclient = this.editForm.get('compteClients') as FormArray;
+    this.validSize = compteclient.length < 3;
+  }
+  removeComptClient(index: number): void {
+    const compteclient = this.editForm.get('compteClients') as FormArray;
+
+    compteclient.removeAt(index);
+
+    this.validateSize();
+  }
+
+  valideAyantDroitSize(): void {
+    const compteclient = this.editForm.get('ayantDroits') as FormArray;
+    this.ayantDroitSize = compteclient.length < 1;
   }
 }
