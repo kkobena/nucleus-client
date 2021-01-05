@@ -14,7 +14,7 @@ export class TiersPayantService {
 
   public resourceUrl = SERVER_API_URL + 'api/tierspayants';
 
-  constructor(protected http: HttpClient) {}
+  constructor(protected http: HttpClient) { }
 
   create(entity: ITierspayant): Observable<EntityResponseType> {
     return this.http.post<ITierspayant>(this.resourceUrl, entity, { observe: 'response' });
@@ -36,15 +36,29 @@ export class TiersPayantService {
   delete(id: number): Observable<HttpResponse<{}>> {
     return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
- 
+
   async queryPromise(req?: any): Promise<ITierspayant[]> {
     const options = createRequestOption(req);
-    return await  this.http.get<ITierspayant[]>(this.resourceUrl, { params: options}).toPromise();
+    return await this.http.get<ITierspayant[]>(this.resourceUrl, { params: options }).toPromise();
   }
   uploadJsonFile(file: any): Observable<HttpResponse<IResponseDto>> {
     return this.http.post<IResponseDto>(`${this.resourceUrl}/import-json`, file, { observe: 'response' });
   }
   uploadFile(file: any): Observable<HttpResponse<IResponseDto>> {
     return this.http.post<IResponseDto>(`${this.resourceUrl}/importcsv`, file, { observe: 'response' });
+  }
+
+  async queryByTypeTiersPayantPromise(req?: any): Promise<ITierspayant[]> {
+    const options = createRequestOption(req);
+    return await this.http.get<ITierspayant[]>(this.resourceUrl + "/types", { params: options }).toPromise();
+  }
+
+  queryByTypeTiersPayant(req?: any): Observable<EntityArrayResponseType> {
+    const options = createRequestOption(req);
+    return this.http.get<ITierspayant[]>(this.resourceUrl + "/types", { params: options, observe: 'response' });
+  }
+
+  async findPromise(id: number): Promise<ITierspayant> {
+    return await this.http.get<ITierspayant>(`${this.resourceUrl}/${id}`).toPromise();
   }
 }

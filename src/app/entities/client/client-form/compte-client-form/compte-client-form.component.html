@@ -1,0 +1,79 @@
+<p-toast position="center"></p-toast>
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+    <div class="p-col-12">
+        <div class="form-group" [hidden]="!editForm.get('id')!.value">
+            <input type="hidden" class="form-control" id="id" name="id" formControlName="id" readonly />
+        </div>
+
+        <div class="p-fluid p-formgrid p-grid">
+            <div class="p-field p-col">
+                <label class="col-auto col-form-label">Tiers-payant<span
+                        style="font-weight: 900;color: red;">*</span></label>
+                <p-autoComplete formControlName="tierspayantId" name="tierspayantId" [suggestions]="tierspayantsSearch"
+                    (completeMethod)="searchTiersPayant($event)" field="libelLong" [forceSelection]="true" minLength=1
+                    [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}" class="p-autocomplete"
+                    placeholder="Taper pour rechercher">
+
+                </p-autoComplete>
+            </div>
+            <div class="p-field p-col">
+                <label class="col-auto col-form-label">Taux<span style="font-weight: 900;color: red;">*</span></label>
+
+                <p-inputNumber class="form-control" formControlName="taux" name="taux" autocomplete="off">
+                </p-inputNumber>
+            </div>
+            <div class="p-field p-col" style="display: none;">
+                <label for="typeClient" class="col-auto col-form-label">Type compte<span
+                        style="font-weight: 900;color: red;">*</span></label>
+
+                <p-dropdown [options]="types" styleClass="form-control" id="typeClient" name="typeClient"
+                    (onChange)="onTypeClientValueChange($event.value)" formControlName="typeClient"
+                    styleClass="dropdown-width" [filter]="false" placeholder="Séléctionner un type " itemSize="3">
+                </p-dropdown>
+            </div>
+        </div>
+        <div class="p-fluid p-formgrid p-grid">
+            <div class="p-field p-col">
+                <label class="col-sm-1 col-form-label">Matricule</label>
+
+                <input type="text" autocomplete="off" pInputText class="form-control" formControlName="numMaticule"
+                    name="numMaticule">
+
+            </div>
+            <div class="p-field p-col">
+                <label class="col-md-2 col-form-label">Plafond vente</label>
+
+                <p-inputNumber autocomplete="off" name="plafondJournalier" class="form-control"
+                    formControlName="plafondJournalier">
+                </p-inputNumber>
+            </div>
+        </div>
+
+        <div class="p-fluid p-formgrid p-grid">
+            <div class="p-field p-col">
+                <label class="col-auto col-form-label">Plafond</label>
+
+                <p-inputNumber autocomplete="off" class="form-control" formControlName="plafondMensuel"
+                    name="plafondMensuel">
+                </p-inputNumber>
+            </div>
+            <div class="p-field p-col">
+                <p-checkbox [binary]="true" label="Le plafond est-il absolu ?" formControlName="absolute"
+                    name="absolute" styleClass="nucleuschecbox" labelStyleClass="nucleuschecbox">
+                </p-checkbox>
+            </div>
+        </div>
+
+
+
+    </div>
+
+
+    <div style="float: right;">
+        <button pButton pRipple type="submit" [disabled]="editForm.invalid || isSaving" icon="pi pi-check"
+            class="p-button-success p-mr-2 p-button-raised" (click)="save()" label="Enregistrer"></button>
+        <button type="button" class="p-button-danger p-mr-2 p-button-raised" pButton pRipple icon="pi pi-times"
+            (click)="cancel()" label="Annuler"></button>
+    </div>
+
+</form>

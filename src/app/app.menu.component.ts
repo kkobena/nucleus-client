@@ -12,6 +12,13 @@ export class AppMenuComponent implements OnInit {
         this.model = [
             { label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: ['/'] },
             {
+                label: 'Gestion stock', icon: 'pi pi-fw pi-desktop', routerLink: ['/stock'],
+                items: [
+                    { label: 'Fiche article', icon: 'pi pi-fw pi-tablet', routerLink: ['/stock/produit-detail'] },
+
+                ]
+            },
+            {
                 label: 'Grossiste', icon: 'pi pi-fw pi-briefcase', routerLink: ['/grossiste'],
                 items: [
                     { label: 'Groupe grossiste', icon: 'pi pi-fw pi-bars', routerLink: ['/grossiste/groupe-fournisseurs'] },

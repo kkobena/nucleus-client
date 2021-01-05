@@ -1,5 +1,5 @@
 import { HttpResponse } from '@angular/common/http';
-import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { SelectItem } from 'primeng/api';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
@@ -54,12 +54,12 @@ export class TiersPayantFormComponent implements OnInit {
   });
 
 
-  constructor(private fb: FormBuilder,
+  constructor(
     protected entityService: TiersPayantService,
     protected groupetierspayantService: GroupeTierspayantService,
     protected risqueService: RisqueService,
     protected modelFactureService: ModelFactureService,
-    public ref: DynamicDialogRef, public config: DynamicDialogConfig
+    public ref: DynamicDialogRef, public config: DynamicDialogConfig, private fb: FormBuilder
   ) {
 
   }
@@ -114,7 +114,6 @@ export class TiersPayantFormComponent implements OnInit {
   save(): void {
     this.isSaving = true;
     const entity = this.createFromForm();
-    console.log(entity);
     if (entity.id !== undefined && entity.id !== null) {
       this.subscribeToSaveResponse(this.entityService.update(entity));
     } else {

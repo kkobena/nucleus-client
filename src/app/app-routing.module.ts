@@ -55,6 +55,7 @@ import { GroupeFournisseurComponent } from './entities/groupe-fournisseur/groupe
 import { GammeProduitComponent } from './entities/gamme-produit/gamme-produit.component';
 import { LaboratoireProduitComponent } from './entities/laboratoire-produit/laboratoire-produit.component';
 import { FormeProduitComponent } from './entities/forme-produit/forme-produit.component';
+import { DetailComponent } from './entities/detail/detail.component';
 
 @NgModule({
     imports: [
@@ -112,6 +113,7 @@ import { FormeProduitComponent } from './entities/forme-produit/forme-produit.co
                     { path: 'tierspayant/groupe-tierspayants', component: GroupeTierspayantComponent },
                     { path: 'tierspayant/tierspayant', component: TiersPayantComponent },
                     { path: 'tierspayant/clients', component: ClientComponent },
+                    { path: 'stock/produit-detail', component: DetailComponent },
                 ]
             },
             { path: 'error', component: AppErrorComponent },

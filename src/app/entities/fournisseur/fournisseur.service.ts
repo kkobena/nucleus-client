@@ -13,7 +13,7 @@ export class FournisseurService {
 
   public resourceUrl = SERVER_API_URL + 'api/fournisseurs';
 
-  constructor(protected http: HttpClient) {}
+  constructor(protected http: HttpClient) { }
 
   create(fournisseur: IFournisseur): Observable<EntityResponseType> {
     return this.http.post<IFournisseur>(this.resourceUrl, fournisseur, { observe: 'response' });
@@ -34,5 +34,12 @@ export class FournisseurService {
 
   delete(id: number): Observable<HttpResponse<{}>> {
     return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
+  }
+  async queryPromise(req?: any): Promise<IFournisseur[]> {
+    const options = createRequestOption(req);
+    return await this.http.get<IFournisseur[]>(this.resourceUrl, { params: options }).toPromise();
+  }
+  async findPromise(id: number): Promise<IFournisseur> {
+    return await this.http.get<IFournisseur>(`${this.resourceUrl}/${id}`).toPromise();
   }
 }

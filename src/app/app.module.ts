@@ -186,6 +186,21 @@ import { TiersPayantFormComponent } from './shared/form/tiers-payant-form/tiers-
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ClientFormComponent } from './entities/client/client-form/client-form.component';
 import { CompagnieComponent } from './entities/compagnie/compagnie.component';
+import { AyantDroitService } from './entities/ayant-droit/ayant-droit.service';
+import { CompteClientService } from './entities/client/compte-client.service';
+import { CompteClientFormComponent } from './entities/client/client-form/compte-client-form/compte-client-form.component';
+import { AyantDroitFormComponent } from './entities/ayant-droit/ayant-droit-form/ayant-droit-form.component';
+import { ProductComponent } from './entities/product/product.component';
+import { DetailComponent } from './entities/detail/detail.component';
+import { DetailService } from './entities/detail/detail.service';
+import { ProduitService } from './entities/product/produit.service';
+import { StockProduitFormComponent } from './entities/detail/stock-produit-form/stock-produit-form.component';
+import { FournisseurProduitFormComponent } from './entities/detail/fournisseur-produit-form/fournisseur-produit-form.component';
+import { RayonComponent } from './entities/rayon/rayon.component';
+import { MagasinService } from './entities/magasin/magasin.service';
+import { StockProduitService } from './entities/detail/stock-produit-form/stock-produit.service';
+import { RayonService } from './entities/rayon/rayon.service';
+import { FournisseurProduitService } from './entities/detail/fournisseur-produit-form/fournisseur-produit.service';
 
 @NgModule({
     imports: [
@@ -340,7 +355,14 @@ import { CompagnieComponent } from './entities/compagnie/compagnie.component';
         FocusDirective,
         TiersPayantFormComponent,
         ClientFormComponent,
-        CompagnieComponent
+        CompagnieComponent,
+        CompteClientFormComponent,
+        AyantDroitFormComponent,
+        ProductComponent,
+        DetailComponent,
+        StockProduitFormComponent,
+        FournisseurProduitFormComponent,
+        RayonComponent
     ],
     providers: [
         { provide: LocationStrategy, useClass: HashLocationStrategy },
@@ -362,10 +384,25 @@ import { CompagnieComponent } from './entities/compagnie/compagnie.component';
         GroupeFournisseurService,
         FournisseurService,
         GroupeTierspayantService,
-        TiersPayantService
+        TiersPayantService,
+        AyantDroitService,
+        CompteClientService,
+        DetailService,
+        ProduitService,
+        MagasinService,
+        StockProduitService,
+        RayonService,
+        FournisseurProduitService
     ],
-    exports: [TiersPayantFormComponent, ClientFormComponent],
-    entryComponents: [TiersPayantFormComponent, ClientFormComponent],
+
+    entryComponents: [
+        TiersPayantFormComponent,
+        ClientFormComponent,
+        CompteClientFormComponent,
+        AyantDroitFormComponent,
+        StockProduitFormComponent,
+        FournisseurProduitFormComponent
+    ],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

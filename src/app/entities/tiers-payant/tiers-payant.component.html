@@ -44,8 +44,8 @@
         <div class="p-toolbar-group-left p-md-7">
 
           <p-autoComplete [(ngModel)]="selectedEl" [suggestions]="entites" (completeMethod)="search($event)"
-            field="libelLong" [forceSelection]="true" (onSelect)="onSelect($event)" minLength=1
-            [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}" class="p-autocomplete">
+            placeholder="Taper pour rechercher" field="libelLong" [forceSelection]="true" (onSelect)="onSelect($event)"
+            minLength=1 [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}" class="p-autocomplete">
 
           </p-autoComplete>
         </div>

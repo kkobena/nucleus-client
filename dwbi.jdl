@@ -1,0 +1,160 @@
+
+
+entity TimeDimension {
+    timeKey Integer required,
+	fullTime LocalTime required,
+    format String required,
+    
+}
+entity DateDimension {
+dateKey Integer required,
+fullDate LocalDate required,
+dayOfWeek Integer required,
+dayNumInMonth Integer required,
+dayNumOverall Integer required,
+dayName String required,
+dayAbbrev String required,
+weekdayFlag Boolean required,
+weekNumInYear Integer required,
+weekNumOverall Integer required, 
+weekBeginDate LocalDate required, 
+weekBeginDateKey Integer required, 
+month  Integer required, 
+monthNumOverall Integer required, 
+monthName  String required,
+monthAbbrev String required,
+quarter Integer required, 
+year Integer required, 
+yearmo Integer required, 
+fiscalMonth Integer required, 
+fiscalQuarter Integer required, 
+fiscalYear Integer required, 
+lastDayInMonthFlag Boolean required,
+sameDayYearAgoDate  LocalDate required
+
+}
+
+// an ignored comment
+/** not an ignored comment */
+entity Produit {
+	libelle String required,
+	codeEan String required,
+	cip String required,
+    produitKey String required,
+
+}
+
+entity Store {
+	libelle String required,
+    storeKey String required,
+}
+
+
+entity OrderLine {
+	orderLineKey String required,
+    orderQty  Integer required,
+    montantNet  Double required,
+    montantTTC  Double required,
+    montantRemise  Double required,
+    transactionNumber String required,
+    montantTva  Double required
+}
+entity Order {
+	orderKey String required,
+	montantNet  Double required,
+    montantTTC  Double required,
+    montantRemise  Double required,
+    montantTva  Double required
+}
+/**
+ * The Employee entity.
+ */
+entity Employee {
+	firstName String required,
+	lastName String required,
+	email String required,
+	phoneNumber String
+}
+entity Customer {
+	firstName String required,
+	lastName String required,
+	email String required,
+	phoneNumber String
+}
+entity Fournisseur {
+	name String required,
+	address String,
+	email String,
+	phoneNumber String
+}
+entity Payment{
+libelle String required,
+code String required,
+group PaymentGroup required,
+}
+
+entity SalesLine{
+produitKey String required,
+salesQuantity Integer required,
+regularUnitPrice Double required,
+discountUnitPrice Double required,
+netUnitPrice Double required,
+discountAmount  Double required,
+salesAmount  Double required,
+grossAmount Double required,
+netAmount Double required,
+taxAmount Double required,
+costAmount Double required,
+ transactionNumber String required,
+}
+entity Sales{
+salesKey String required,
+discountAmount  Double required,
+salesAmount  Double required,
+grossAmount Double required,
+netAmount Double required,
+taxAmount Double required,
+costAmount Double required,
+typeSale TypeSales required,
+methodPayment Payment required,
+}
+
+enum TypeSales {
+    VO, VNO,DEPOT
+}
+
+
+enum PaymentGroup {
+    CASH, CREDIT
+}
+
+
+// defining multiple OneToMany relationships with comments
+relationship OneToMany {
+Order to OrderLine,
+Employee to Order,
+DateDimension to Order,
+DateDimension to OrderLine,
+Customer to Sales,
+Store to Order,
+Fournisseur  to Order,
+Employee to Sales{cashier},
+Employee to Sales{vendeur},
+Customer to Sales,
+}
+
+
+
+
+// Set pagination options
+paginate JobHistory, Employee with infinite-scroll
+paginate Job with pagination
+
+// Use Data Transfer Objects (DTO)
+// dto * with mapstruct
+
+// Set service options to all except few
+service all with serviceImpl except Employee, Job
+
+// Set an angular suffix
+// angularSuffix * with mySuffix

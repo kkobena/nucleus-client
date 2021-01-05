@@ -4,16 +4,23 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmationService, LazyLoadEvent, MenuItem, MessageService } from 'primeng/api';
 import { Observable, Subscription } from 'rxjs';
 import { IAyantDroit } from 'src/app/model/ayant-droit.model';
-import { IClient } from 'src/app/model/client.model';
+import { IClient, ICompteClient } from 'src/app/model/client.model';
 import { ITEMS_PER_PAGE } from 'src/app/shared/constants/pagination.constants';
 import { IResponseDto } from 'src/app/shared/util/response-dto';
 import { ClientFormComponent } from './client-form/client-form.component';
 import { ClientService } from './client.service';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { AyantDroitService } from '../ayant-droit/ayant-droit.service';
+import { CompteClientService } from './compte-client.service';
+import { CompteClientFormComponent } from './client-form/compte-client-form/compte-client-form.component';
+import { AyantDroitFormComponent } from '../ayant-droit/ayant-droit-form/ayant-droit-form.component';
 @Component({
   selector: 'app-client',
   templateUrl: './client.component.html',
   styles: [` 
+  .p-toolbar {
+     padding: 0 !important;
+}
    .p-autocomplete{ width: 100%; }
    .invoice{
  padding:0;
@@ -57,7 +64,6 @@ body .ui-dropdown{
     text-align: center;
 }
 
-
    `],
   providers: [MessageService, DialogService],
   encapsulation: ViewEncapsulation.None
@@ -69,10 +75,10 @@ export class ClientComponent implements OnInit {
   totalItems = 0;
   itemsPerPage = ITEMS_PER_PAGE;
   page: number = 0;
-  selectedEl: IClient;
-  selectedAyantDroit: IAyantDroit;
   loading: boolean;
   isSaving = false;
+  selectedEl: IClient;
+  selectedAyantDroit: IAyantDroit;
   displayDialog: boolean;
   fileDialog: boolean;
   responseDialog: boolean;
@@ -80,13 +86,15 @@ export class ClientComponent implements OnInit {
   responsedto!: IResponseDto;
   splitbuttons: MenuItem[];
   ref: DynamicDialogRef;
-  constructor(protected entityService: ClientService,
-    protected clientService: ClientService,
+  constructor(
+    protected entityService: ClientService,
     protected activatedRoute: ActivatedRoute,
     protected router: Router,
     protected modalService: ConfirmationService,
     private dialogService: DialogService,
     private messageService: MessageService,
+    protected ayantDroitService: AyantDroitService,
+    protected compteClientService: CompteClientService
   ) {
 
   }
@@ -105,9 +113,6 @@ export class ClientComponent implements OnInit {
       },
     ];
 
-    /* this.activatedRoute.data.subscribe(data => {
-       this.loadPage();
-     });*/
   }
   protected onSuccess(data: IClient[] | null, headers: HttpHeaders, page: number): void {
     this.totalItems = Number(headers.get('X-Total-Count'));
@@ -162,11 +167,12 @@ export class ClientComponent implements OnInit {
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         this.entityService.delete(id).subscribe(() => {
-          this.loadPage(0);
+          console.log('delete client ');
+          this.selectedEl = null;
 
         },
           (e: HttpResponse<any>) => {
-            console.log(e);
+
             this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'Enregistrement a échoué' });
           }
 
@@ -177,16 +183,68 @@ export class ClientComponent implements OnInit {
   delete(): void {
     this.confirmDelete(this.selectedEl.id);
   }
+
+  editAyantDroit(ayntDroit: IAyantDroit): void {
+    this.ref = this.dialogService.open(AyantDroitFormComponent, {
+      data: { client: this.selectedEl, ayantDroit: ayntDroit },
+      width: '50%',
+      header: "Modification de l'ayant droit [ " + ayntDroit.firstName + " " + ayntDroit.lastName + " ]"
+    });
+    this.ref.onClose.subscribe((entity: IAyantDroit) => {
+      if (entity) {
+        this.entityService.findPromise(this.selectedEl.id).then(client => { this.selectedEl = client; });
+        this.messageService.add({ severity: 'info', summary: 'Enregistrement', detail: 'Ayant droit   modifié avec success' });
+      }
+    });
+  }
+
+  deleteAyantDroit(ayntDroit: IAyantDroit): void {
+    this.modalService.confirm({
+      message: 'Voulez-vous supprimer cet enregistrement ?',
+      header: 'Confirmation',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+
+        this.ayantDroitService.delete(ayntDroit.id).subscribe(() => {
+          this.entityService.findPromise(this.selectedEl.id).then(client => { this.selectedEl = client; });
+        },
+          (e: HttpResponse<any>) => {
+
+            this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'Enregistrement a échoué' });
+          }
+
+        );
+      }
+    });
+
+  }
+
+
+  deleteCompteClient(compteClient: ICompteClient): void {
+    this.modalService.confirm({
+      message: 'Voulez-vous supprimer cet enregistrement ?',
+      header: 'Confirmation',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+
+        this.compteClientService.delete(compteClient.id).subscribe(() => {
+          this.entityService.findPromise(this.selectedEl.id).then(client => { this.selectedEl = client; });
+        },
+          (e: HttpResponse<any>) => {
+
+            this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'Enregistrement a échoué' });
+          }
+
+        );
+      }
+    });
+  }
+
+
   confirmDelete(id: number): void {
     this.confirmDialog(id);
   }
-  onFilterTable(event: any): void {
-    if (event.key === "Enter") {
-      this.loadPageClient(0, event.target.value);
 
-    }
-
-  }
   showFileDialog(): void {
     this.fileDialog = true;
   }
@@ -224,12 +282,11 @@ export class ClientComponent implements OnInit {
   }
   onSelect(event: any): void {
     this.selectedEl = event;
-    this.loadPageClient();
   }
   loadClient(event: LazyLoadEvent): void {
     this.page = event.first / event.rows;
     this.loading = true;
-    this.clientService
+    this.entityService
       .queryTiersPayant({
         page: this.page,
         size: event.rows,
@@ -251,25 +308,10 @@ export class ClientComponent implements OnInit {
 
       },
     });
-    // this.clients = data || [];
+
     this.loading = false;
   }
-  loadPageClient(page?: number, search?: String): void {
-    const pageToLoad: number = page || this.page;
-    const query: String = search || '';
-    this.loading = true;
-    this.clientService
-      .queryTiersPayant({
-        page: pageToLoad,
-        size: this.itemsPerPage,
-        search: query,
-        tierspayantId: this.selectedEl.id
-      })
-      .subscribe(
-        (res: HttpResponse<IClient[]>) => this.onClientSuccess(res.body, res.headers, pageToLoad),
-        () => this.onError()
-      );
-  }
+
   onEdit(): void {
     this.ref = this.dialogService.open(ClientFormComponent, {
       data: { entity: this.selectedEl },
@@ -301,9 +343,44 @@ export class ClientComponent implements OnInit {
       }
     });
   }
-  addNewAyant(): void {
-
+  addAyantDroit(): void {
+    this.ref = this.dialogService.open(AyantDroitFormComponent, {
+      data: { client: this.selectedEl, ayantDroit: null },
+      width: '50%',
+      header: 'Ajouter un nouvel ayant droit'
+    });
+    this.ref.onClose.subscribe((entity: IAyantDroit) => {
+      if (entity) {
+        this.entityService.findPromise(this.selectedEl.id).then(client => { this.selectedEl = client; });
+        this.messageService.add({ severity: 'info', summary: 'Enregistrement', detail: 'Ayant droit   ajouté avec success' });
+      }
+    });
   }
-
+  editCompteClient(compteClient: ICompteClient): void {
+    this.ref = this.dialogService.open(CompteClientFormComponent, {
+      data: { client: this.selectedEl, compteClient: compteClient },
+      width: '50%',
+      header: 'Modification du compte'
+    });
+    this.ref.onClose.subscribe((entity: ICompteClient) => {
+      if (entity) {
+        this.entityService.findPromise(this.selectedEl.id).then(client => { this.selectedEl = client; });
+        this.messageService.add({ severity: 'info', summary: 'Enregistrement', detail: 'compte ajouté avec success' });
+      }
+    });
+  }
+  addCompteClient(): void {
+    this.ref = this.dialogService.open(CompteClientFormComponent, {
+      data: { client: this.selectedEl, compteClient: null },
+      width: '50%',
+      header: 'Ajouter un nouveau compte'
+    });
+    this.ref.onClose.subscribe((entity: ICompteClient) => {
+      if (entity) {
+        this.entityService.findPromise(this.selectedEl.id).then(client => { this.selectedEl = client; });
+        this.messageService.add({ severity: 'info', summary: 'Enregistrement', detail: 'compte ajouté avec success' });
+      }
+    });
+  }
 
 }

@@ -1,0 +1,64 @@
+<p-toast position="center"></p-toast>
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+    <div class="p-col-12">
+        <div class="form-group" [hidden]="!editForm.get('id')!.value">
+            <input type="hidden" class="form-control" id="id" name="id" formControlName="id" readonly />
+        </div>
+
+        <div class="p-fluid p-formgrid p-grid">
+            <div class="p-field p-col">
+                <label class="col-auto col-form-label">Fournisseurs<span
+                        style="font-weight: 900;color: red;">*</span></label>
+                <p-autoComplete formControlName="fournisseurId" name="fournisseurId" [suggestions]="fournisseurs"
+                    (completeMethod)="searchFournisseurs($event)" field="libelle" [forceSelection]="true" minLength=1
+                    [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}" class="p-autocomplete"
+                    placeholder="Taper pour rechercher">
+
+                </p-autoComplete>
+            </div>
+
+        </div>
+        <div class="p-fluid p-formgrid p-grid">
+            <div class="p-field p-col">
+                <label class="col-auto col-form-label">Code cip<span
+                        style="font-weight: 900;color: red;">*</span></label>
+                <input type="text" pInputText pKeyFilter="int" class="form-control" formControlName="codeCip"
+                    name="codeCip" autocomplete="off" />
+
+            </div>
+            <div class="p-field p-col">
+                <label class="col-auto col-form-label">Prix achat<span
+                        style="font-weight: 900;color: red;">*</span></label>
+                <p-inputNumber class="form-control" formControlName="prixAchat" name="prixAchat" autocomplete="off">
+                </p-inputNumber>
+            </div>
+        </div>
+
+        <div class="p-fluid p-formgrid p-grid">
+            <div class="p-field p-col">
+                <label class="col-auto col-form-label">Prix unitaire<span
+                        style="font-weight: 900;color: red;">*</span></label>
+                <p-inputNumber class="form-control" formControlName="codeCip" name="codeCip" autocomplete="off">
+                </p-inputNumber>
+            </div>
+            <div class="p-field p-col" style="padding-top: 20px;">
+                <label class="col-auto col-form-label" style="margin-top:-5px;">Fournisseur principal<span
+                        style="font-weight: 900;color: red;margin-right:20px;">*</span></label>
+                <p-inputSwitch formControlName="principal" name="principal"></p-inputSwitch>
+
+            </div>
+        </div>
+
+
+
+    </div>
+
+
+    <div style="float: right;">
+        <button pButton pRipple type="submit" [disabled]="editForm.invalid || isSaving" icon="pi pi-check"
+            class="p-button-success p-mr-2 p-button-raised" (click)="save()" label="Enregistrer"></button>
+        <button type="button" class="p-button-danger p-mr-2 p-button-raised" pButton pRipple icon="pi pi-times"
+            (click)="cancel()" label="Annuler"></button>
+    </div>
+
+</form>
