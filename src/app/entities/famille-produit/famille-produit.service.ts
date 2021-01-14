@@ -13,7 +13,7 @@ export class FamilleProduitService {
 
   public resourceUrl = SERVER_API_URL + 'api/famille-produits';
 
-  constructor(protected http: HttpClient) {}
+  constructor(protected http: HttpClient) { }
 
   create(familleProduit: IFamilleProduit): Observable<EntityResponseType> {
     return this.http.post<IFamilleProduit>(this.resourceUrl, familleProduit, { observe: 'response' });
@@ -34,5 +34,9 @@ export class FamilleProduitService {
 
   delete(id: number): Observable<HttpResponse<{}>> {
     return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
+  }
+  async queryPromise(req?: any): Promise<IFamilleProduit[]> {
+    const options = createRequestOption(req);
+    return await this.http.get<IFamilleProduit[]>(this.resourceUrl, { params: options }).toPromise();
   }
 }

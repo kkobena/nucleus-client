@@ -10,7 +10,7 @@ export interface Search {
   query: string;
 }
 
-export interface SearchWithPagination extends Search, Pagination {}
+export interface SearchWithPagination extends Search, Pagination { }
 
 export const createRequestOption = (req?: any): HttpParams => {
   let options: HttpParams = new HttpParams();
@@ -18,7 +18,10 @@ export const createRequestOption = (req?: any): HttpParams => {
   if (req) {
     Object.keys(req).forEach(key => {
       if (key !== 'sort') {
-        options = options.set(key, req[key]);
+        if (req[key] != null && req[key] != undefined) {
+          options = options.set(key, req[key]);
+        }
+
       }
     });
 

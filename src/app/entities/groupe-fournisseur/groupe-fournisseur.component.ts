@@ -1,21 +1,26 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { IGroupeFournisseur, GroupeFournisseur } from 'src/app/model/groupe-fournisseur.model';
 import { ITEMS_PER_PAGE } from 'src/app/shared/constants/pagination.constants';
 import { Validators, FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ConfirmationService, LazyLoadEvent } from 'primeng/api';
+import { ConfirmationService, LazyLoadEvent, MessageService } from 'primeng/api';
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { GroupeFournisseurService } from './groupe-fournisseur.service';
+import { IResponseDto } from 'src/app/shared/util/response-dto';
+
 
 @Component({
   selector: 'app-groupe-fournisseur',
   templateUrl: './groupe-fournisseur.component.html',
-  styleUrls: ['./groupe-fournisseur.component.css']
+  styleUrls: ['./groupe-fournisseur.component.css'],
+  encapsulation: ViewEncapsulation.None,
+  providers: [MessageService],
 })
 export class GroupeFournisseurComponent implements OnInit {
-
-
+  fileDialog: boolean;
+  responseDialog: boolean;
+  responsedto!: IResponseDto;
   entites?: IGroupeFournisseur[];
   totalItems = 0;
   itemsPerPage = ITEMS_PER_PAGE;
@@ -32,12 +37,13 @@ export class GroupeFournisseurComponent implements OnInit {
     numFaxe: [],
     email: [],
     tel: [],
-    odre: [null, [Validators.required]]
+    odre: []
   });
 
   constructor(protected entityService: GroupeFournisseurService,
     protected activatedRoute: ActivatedRoute,
     protected router: Router,
+    private messageService: MessageService,
     protected modalService: ConfirmationService
     , private fb: FormBuilder
   ) { }
@@ -49,6 +55,25 @@ export class GroupeFournisseurComponent implements OnInit {
       this.loadPage();
     });
   }
+  onUpload(event) {
+    const formData: FormData = new FormData();
+    const file = event.files[0];
+    formData.append('importcsv', file, file.name);
+    this.uploadFileResponse(this.entityService.uploadFile(formData));
+  }
+  protected uploadFileResponse(result: Observable<HttpResponse<IResponseDto>>): void {
+    result.subscribe(
+      (res: HttpResponse<IResponseDto>) => this.onPocesCsvSuccess(res.body),
+      () => this.onSaveError()
+    );
+  }
+  protected onPocesCsvSuccess(responseDto: IResponseDto | null): void {
+    this.responsedto = responseDto;
+    this.responseDialog = true;
+    this.fileDialog = false;
+    this.loadPage(0);
+  }
+
   protected onSuccess(data: IGroupeFournisseur[] | null, headers: HttpHeaders, page: number): void {
     this.totalItems = Number(headers.get('X-Total-Count'));
     this.page = page;
@@ -66,13 +91,15 @@ export class GroupeFournisseurComponent implements OnInit {
     this.loading = false;
   }
 
-  loadPage(page?: number): void {
+  loadPage(page?: number, search?: String): void {
     const pageToLoad: number = page || this.page;
+    const query: String = search || '';
     this.loading = true;
     this.entityService
       .query({
         page: pageToLoad,
-        size: this.itemsPerPage
+        size: this.itemsPerPage,
+        search: query,
       })
       .subscribe(
         (res: HttpResponse<IGroupeFournisseur[]>) => this.onSuccess(res.body, res.headers, pageToLoad),
@@ -86,7 +113,8 @@ export class GroupeFournisseurComponent implements OnInit {
     this.entityService
       .query({
         page: this.page,
-        size: event.rows
+        size: event.rows,
+        search: ''
       })
       .subscribe(
         (res: HttpResponse<IGroupeFournisseur[]>) => this.onSuccess(res.body, res.headers, this.page),
@@ -126,6 +154,7 @@ export class GroupeFournisseurComponent implements OnInit {
   }
   protected onSaveError(): void {
     this.isSaving = false;
+    this.messageService.add({ severity: 'info', summary: 'Enregistrement', detail: 'Opération effectuée avec succès' });
   }
   protected subscribeToSaveResponse(result: Observable<HttpResponse<IGroupeFournisseur>>): void {
     result.subscribe(
@@ -158,6 +187,7 @@ export class GroupeFournisseurComponent implements OnInit {
   }
   cancel(): void {
     this.displayDialog = false;
+    this.fileDialog = false;
   }
   addNewEntity(): void {
     this.updateForm(new GroupeFournisseur());
@@ -173,5 +203,10 @@ export class GroupeFournisseurComponent implements OnInit {
   confirmDelete(id: number): void {
     this.confirmDialog(id);
   }
-
+  search(event: any): void {
+    this.loadPage(0, event.target.value);
+  }
+  showFileDialog(): void {
+    this.fileDialog = true;
+  }
 }

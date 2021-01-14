@@ -15,10 +15,5 @@ export class ProduitService {
   public resourceUrl = SERVER_API_URL + 'api/produits';
   constructor(protected http: HttpClient) { }
 
-  uploadJsonFile(file: any): Observable<HttpResponse<IResponseDto>> {
-    return this.http.post<IResponseDto>(`${this.resourceUrl}/import-json`, file, { observe: 'response' });
-  }
-  uploadFile(file: any): Observable<HttpResponse<IResponseDto>> {
-    return this.http.post<IResponseDto>(`${this.resourceUrl}/importcsv`, file, { observe: 'response' });
-  }
+
 }

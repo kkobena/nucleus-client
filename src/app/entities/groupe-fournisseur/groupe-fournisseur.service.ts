@@ -4,6 +4,7 @@ import { HttpResponse, HttpClient } from '@angular/common/http';
 import { SERVER_API_URL } from 'src/app/app.constants';
 import { Observable } from 'rxjs';
 import { createRequestOption } from 'src/app/shared/util/request-util';
+import { IResponseDto } from 'src/app/shared/util/response-dto';
 type EntityResponseType = HttpResponse<IGroupeFournisseur>;
 type EntityArrayResponseType = HttpResponse<IGroupeFournisseur[]>;
 @Injectable({
@@ -13,7 +14,7 @@ export class GroupeFournisseurService {
 
   public resourceUrl = SERVER_API_URL + 'api/groupe-fournisseurs';
 
-  constructor(protected http: HttpClient) {}
+  constructor(protected http: HttpClient) { }
 
   create(groupeFournisseur: IGroupeFournisseur): Observable<EntityResponseType> {
     return this.http.post<IGroupeFournisseur>(this.resourceUrl, groupeFournisseur, { observe: 'response' });
@@ -35,6 +36,8 @@ export class GroupeFournisseurService {
   delete(id: number): Observable<HttpResponse<{}>> {
     return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
+  uploadFile(file: any): Observable<HttpResponse<IResponseDto>> {
+    return this.http.post<IResponseDto>(`${this.resourceUrl}/importcsv`, file, { observe: 'response' });
+  }
 
- 
 }

@@ -56,6 +56,9 @@ import { GammeProduitComponent } from './entities/gamme-produit/gamme-produit.co
 import { LaboratoireProduitComponent } from './entities/laboratoire-produit/laboratoire-produit.component';
 import { FormeProduitComponent } from './entities/forme-produit/forme-produit.component';
 import { DetailComponent } from './entities/detail/detail.component';
+import { ProductComponent } from './entities/product/product.component';
+import { MagasinComponent } from './entities/magasin/magasin.component';
+import { RayonComponent } from './entities/rayon/rayon.component';
 
 @NgModule({
     imports: [
@@ -114,6 +117,10 @@ import { DetailComponent } from './entities/detail/detail.component';
                     { path: 'tierspayant/tierspayant', component: TiersPayantComponent },
                     { path: 'tierspayant/clients', component: ClientComponent },
                     { path: 'stock/produit-detail', component: DetailComponent },
+                    { path: 'stock/produits', component: ProductComponent },
+                    { path: 'parametres/magasin', component: MagasinComponent },
+                    { path: 'parametres/rayon', component: RayonComponent },
+
                 ]
             },
             { path: 'error', component: AppErrorComponent },

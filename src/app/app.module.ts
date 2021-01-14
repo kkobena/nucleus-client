@@ -200,7 +200,11 @@ import { RayonComponent } from './entities/rayon/rayon.component';
 import { MagasinService } from './entities/magasin/magasin.service';
 import { StockProduitService } from './entities/detail/stock-produit-form/stock-produit.service';
 import { RayonService } from './entities/rayon/rayon.service';
+import { ParametreService } from './entities/parametre.service';
 import { FournisseurProduitService } from './entities/detail/fournisseur-produit-form/fournisseur-produit.service';
+import { ProduitFormComponent } from './entities/product/produit-form/produit-form.component';
+import { DetailProduitFormComponent } from './entities/product/detail-produit-form/detail-produit-form.component';
+import { ParametreComponent } from './entities/parametre/parametre.component';
 
 @NgModule({
     imports: [
@@ -362,7 +366,10 @@ import { FournisseurProduitService } from './entities/detail/fournisseur-produit
         DetailComponent,
         StockProduitFormComponent,
         FournisseurProduitFormComponent,
-        RayonComponent
+        RayonComponent,
+        ProduitFormComponent,
+        DetailProduitFormComponent,
+        ParametreComponent
     ],
     providers: [
         { provide: LocationStrategy, useClass: HashLocationStrategy },
@@ -392,7 +399,8 @@ import { FournisseurProduitService } from './entities/detail/fournisseur-produit
         MagasinService,
         StockProduitService,
         RayonService,
-        FournisseurProduitService
+        FournisseurProduitService,
+        ParametreService
     ],
 
     entryComponents: [
@@ -401,7 +409,8 @@ import { FournisseurProduitService } from './entities/detail/fournisseur-produit
         CompteClientFormComponent,
         AyantDroitFormComponent,
         StockProduitFormComponent,
-        FournisseurProduitFormComponent
+        FournisseurProduitFormComponent,
+        ProduitFormComponent
     ],
     bootstrap: [AppComponent]
 })

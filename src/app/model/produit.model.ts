@@ -8,25 +8,26 @@ export interface IProduit {
   status?: Status;
   createdAt?: Moment;
   updatedAt?: Moment;
+  perimeAt?: Moment;
   lastDateOfSale?: Moment;
   lastOrderDate?: Moment;
   lastInventoryDate?: Moment;
   qtyAppro?: number;
   qtySeuilMini?: number;
-  etiquetable?: boolean;
   dateperemption?: boolean;
   chiffre?: boolean;
   codeCip?: string;
   codeEan?: string;
   qtyDetails?: number;
   deconditionnable?: boolean;
-  remisable?: boolean;
   prixPaf?: number;
   prixUni?: number;
   prixMnp?: number;
   produits?: IProduit[];
   stockProduits?: IStockProduit[];
   fournisseurProduits?: IFournisseurProduit[];
+  fournisseurProduit?: IFournisseurProduit,
+  stockProduit?: IStockProduit,
   parentLibelle?: string;
   parentId?: number;
   laboratoireLibelle?: string;
@@ -41,7 +42,10 @@ export interface IProduit {
   gammeId?: number;
   tvaTaux?: string;
   tvaId?: number;
-  totalQuantity?: number
+  remiseId?: number,
+  tauxRemise?: number;
+  totalQuantity?: number,
+  qtyStatus?: string
 }
 
 export class Produit implements IProduit {
@@ -51,26 +55,27 @@ export class Produit implements IProduit {
     public status?: Status,
     public createdAt?: Moment,
     public updatedAt?: Moment,
+    public perimeAt?: Moment,
     public lastDateOfSale?: Moment,
     public lastOrderDate?: Moment,
     public lastInventoryDate?: Moment,
     public totalQuantity?: number,
     public qtyAppro?: number,
     public qtySeuilMini?: number,
-    public etiquetable?: boolean,
     public dateperemption?: boolean,
     public chiffre?: boolean,
     public codeCip?: string,
     public codeEan?: string,
     public qtyDetails?: number,
     public deconditionnable?: boolean,
-    public remisable?: boolean,
     public prixPaf?: number,
     public prixUni?: number,
     public prixMnp?: number,
     public produits?: IProduit[],
     public stockProduits?: IStockProduit[],
+    public stockProduit?: IStockProduit,
     public fournisseurProduits?: IFournisseurProduit[],
+    public fournisseurProduit?: IFournisseurProduit,
     public parentLibelle?: string,
     public parentId?: number,
     public laboratoireLibelle?: string,
@@ -84,12 +89,13 @@ export class Produit implements IProduit {
     public gammeLibelle?: string,
     public gammeId?: number,
     public tvaTaux?: string,
-    public tvaId?: number
+    public tvaId?: number,
+    public remiseId?: number,
+    public tauxRemise?: number
   ) {
-    this.etiquetable = this.etiquetable || false;
     this.dateperemption = this.dateperemption || false;
-    this.chiffre = this.chiffre || false;
+    this.chiffre = this.chiffre || true;
     this.deconditionnable = this.deconditionnable || false;
-    this.remisable = this.remisable || false;
+    this.status = this.status || Status.ACTIVE;
   }
 }

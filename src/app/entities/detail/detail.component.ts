@@ -44,6 +44,7 @@ export class DetailComponent implements OnInit {
   onSelect(event: any): void {
     this.selectedEl = event;
 
+
   }
   loadPage(page?: number, search?: String): void {
     const pageToLoad: number = page || this.page;

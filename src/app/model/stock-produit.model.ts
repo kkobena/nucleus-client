@@ -1,3 +1,4 @@
+import { TypeMagasin } from "./enumerations/type-magasin.model";
 
 
 export interface IStockProduit {
@@ -12,6 +13,7 @@ export interface IStockProduit {
   magasinId?: number;
   produitLibelle?: string;
   produitId?: number;
+  typeStock?: TypeMagasin
 }
 
 export class StockProduit implements IStockProduit {
@@ -26,6 +28,7 @@ export class StockProduit implements IStockProduit {
     public rayonId?: number,
     public produitLibelle?: string,
     public magasinId?: number,
-    public produitId?: number
+    public produitId?: number,
+    public typeStock?: TypeMagasin
   ) { }
 }

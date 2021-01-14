@@ -58,16 +58,11 @@
                         <!-- <td>{{ elRow.numFaxe }}</td> -->
                         <td>{{ elRow.groupeFournisseurLibelle }}</td>
                         <td style="text-align: center;">
-
-
                             <button pButton pRipple icon="pi pi-pencil" type="submit" pTooltip="Supprimer"
                                 pTooltip="Editer" class="p-button-rounded p-button-success p-mr-2"
                                 (click)="onEdit(elRow)"></button>
                             <button pButton pRipple icon="pi pi-trash" type="submit"
                                 class="p-button-rounded p-button-warning" (click)="delete(elRow)"></button>
-
-
-
                         </td>
                     </tr>
                 </ng-template>
@@ -93,7 +88,7 @@
                     <label for="field_code">Code</label>
                     <div class="ui-g-12" style="margin-bottom:10px">
                         <input type='text' pInputText class="form-control" name="code" id="field_code"
-                            formControlName="code" style="width: 100%;" />
+                            formControlName="code" style="width: 100%;" autocomplete="off" />
 
                     </div>
                     <div
@@ -126,23 +121,23 @@
                     <label for="field_mobile">Mobile</label>
                     <div class="ui-g-12" style="margin-bottom:10px">
 
-                        <input style="width: 100%;" type="text" id="field_mobile" name="mobile" formControlName="phone"
-                            styleClass="form-control" pInputText pKeyFilter="int">
+                        <input autocomplete="off" style="width: 100%;" type="text" id="field_mobile" name="mobile"
+                            formControlName="phone" styleClass="form-control" pInputText pKeyFilter="int">
                     </div>
                 </div>
                 <div class="ui-g form-group">
                     <label for="field_tel">Téléphone</label>
                     <div class="ui-g-12" style="margin-bottom:10px">
 
-                        <input style="width: 100%;" type="text" name="phone" id="field_tel" formControlName="phone"
-                            styleClass="form-control" pInputText pKeyFilter="int">
+                        <input autocomplete="off" style="width: 100%;" type="text" name="phone" id="field_tel"
+                            formControlName="phone" styleClass="form-control" pInputText pKeyFilter="int">
                     </div>
                 </div>
 
                 <div class="ui-g form-group">
                     <label for="field_addresspostale">Adresse postale</label>
                     <div class="ui-g-12" style="margin-bottom:10px">
-                        <input style="width: 100%;" type='text' pInputText styleClass="form-control"
+                        <input autocomplete="off" style="width: 100%;" type='text' pInputText styleClass="form-control"
                             name="addresspostale" id="field_addresspostale" formControlName="addresspostale" />
 
                     </div>

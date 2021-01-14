@@ -12,7 +12,7 @@ type EntityArrayResponseType = HttpResponse<IGammeProduit[]>;
 export class GammeProduitService {
   public resourceUrl = SERVER_API_URL + 'api/gamme-produits';
 
-  constructor(protected http: HttpClient) {}
+  constructor(protected http: HttpClient) { }
 
   create(gammeProduit: IGammeProduit): Observable<EntityResponseType> {
     return this.http.post<IGammeProduit>(this.resourceUrl, gammeProduit, { observe: 'response' });
@@ -33,5 +33,9 @@ export class GammeProduitService {
 
   delete(id: number): Observable<HttpResponse<{}>> {
     return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
+  }
+  async queryPromise(req?: any): Promise<IGammeProduit[]> {
+    const options = createRequestOption(req);
+    return await this.http.get<IGammeProduit[]>(this.resourceUrl, { params: options }).toPromise();
   }
 }

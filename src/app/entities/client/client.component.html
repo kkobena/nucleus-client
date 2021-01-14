@@ -36,13 +36,13 @@
     <div class="card no-margin">
       <h4> Gestion des clients</h4>
       <p-toolbar>
-        <div class="p-toolbar-group-left p-md-7">
+        <div class="p-toolbar-group-left p-md-6">
           <p-autoComplete [(ngModel)]="selectedEl" [suggestions]="entites" (completeMethod)="search($event)"
             placeholder="Taper pour rechercher" field="fullName" [forceSelection]="true" (onSelect)="onSelect($event)"
             minLength=1 [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}" class="p-autocomplete">
           </p-autoComplete>
         </div>
-        <div class="p-toolbar-group-right p-md-5">
+        <div class="p-toolbar-group-right">
           <p-splitButton label="Importer" icon="pi pi-upload" [model]="splitbuttons"
             styleClass="p-button-raised p-button-help p-mr-2 p-mb-2"></p-splitButton>
           <button pButton pRipple type="button" icon="pi pi-check" iconPos="left" label="Nouveau client"

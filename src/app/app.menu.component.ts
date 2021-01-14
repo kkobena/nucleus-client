@@ -15,13 +15,14 @@ export class AppMenuComponent implements OnInit {
                 label: 'Gestion stock', icon: 'pi pi-fw pi-desktop', routerLink: ['/stock'],
                 items: [
                     { label: 'Fiche article', icon: 'pi pi-fw pi-tablet', routerLink: ['/stock/produit-detail'] },
+                    { label: 'Produits', icon: 'pi pi-fw pi-list', routerLink: ['/stock/produits'] },
 
                 ]
             },
             {
                 label: 'Grossiste', icon: 'pi pi-fw pi-briefcase', routerLink: ['/grossiste'],
                 items: [
-                    { label: 'Groupe grossiste', icon: 'pi pi-fw pi-bars', routerLink: ['/grossiste/groupe-fournisseurs'] },
+                    { label: 'Groupe', icon: 'pi pi-fw pi-bars', routerLink: ['/grossiste/groupe-fournisseurs'] },
                     { label: 'Grossiste', icon: 'pi pi-fw pi-bars', routerLink: ['/grossiste/fournisseurs'] }
                 ]
             },
@@ -38,20 +39,22 @@ export class AppMenuComponent implements OnInit {
             {
                 label: 'Parametres', icon: 'pi pi-fw pi-star', routerLink: ['/parametres'],
                 items: [
-                    { label: 'Tva', icon: 'pi pi-fw pi-columns', routerLink: ['/parametres/tva'] },
+                    { label: 'Magasins', icon: 'pi pi-fw pi-sitemap', routerLink: ['/parametres/magasin'] },
+                    { label: 'Rayons', icon: 'pi pi-fw pi-calendar-plus', routerLink: ['/parametres/rayon'] },
+                    { label: 'Tva', icon: 'pi pi-fw pi-ban', routerLink: ['/parametres/tva'] },
                     { label: 'Type risques', icon: 'pi pi-fw pi-bars', routerLink: ['/parametres/type-risque'] },
                     { label: 'Remises', icon: 'pi pi-fw pi-bars', routerLink: ['/parametres/remises'] },
                     { label: 'Motifs', icon: 'pi pi-fw pi-bars', routerLink: ['/parametres/motif'] },
-                    { label: 'modeles-factures', icon: 'pi pi-fw pi-bars', routerLink: ['/parametres/models-factures'] },
+                    { label: 'Modèle facture', icon: 'pi pi-fw pi-bars', routerLink: ['/parametres/models-factures'] },
                     { label: 'Type inventaires', icon: 'pi pi-fw pi-bars', routerLink: ['/parametres/type-inventaires'] },
                     { label: 'Type étiquettes', icon: 'pi pi-fw pi-bars', routerLink: ['/parametres/type-etiquette'] },
                     { label: 'Mode réglements', icon: 'pi pi-fw pi-bars', routerLink: ['/parametres/mode-reglements'] },
-                    { label: 'Famille article', icon: 'pi pi-fw pi-bars', routerLink: ['/parametres/famille-produits'] },
-                    { label: 'Catégorie article', icon: 'pi pi-fw pi-bars', routerLink: ['/parametres/categorie-produits'] },
-                    { label: 'Forme article', icon: 'pi pi-fw pi-bars', routerLink: ['/parametres/form-produits'] },
-                    { label: 'Gamme produit', icon: 'pi pi-fw pi-bars', routerLink: ['/parametres/gamme-produits'] },
+                    { label: 'Familles ', icon: 'pi pi-fw pi-bars', routerLink: ['/parametres/famille-produits'] },
+                    { label: 'Catégories', icon: 'pi pi-fw pi-bars', routerLink: ['/parametres/categorie-produits'] },
+                    { label: 'Formes', icon: 'pi pi-fw pi-bars', routerLink: ['/parametres/form-produits'] },
+                    { label: 'Gammes', icon: 'pi pi-fw pi-bars', routerLink: ['/parametres/gamme-produits'] },
                     { label: 'Laboratoires', icon: 'pi pi-fw pi-bars', routerLink: ['/parametres/laboratoires'] },
-                    { label: 'Type mouvement de caisse', icon: 'pi pi-fw pi-bars', routerLink: ['/parametres/type-mvt-caisse'] },
+                    { label: 'Type mouvement', icon: 'pi pi-fw pi-bars', routerLink: ['/parametres/type-mvt-caisse'] },
 
                 ]
             },
@@ -104,48 +107,7 @@ export class AppMenuComponent implements OnInit {
                     { label: 'Empty', icon: 'pi pi-fw pi-circle-off', routerLink: ['/pages/empty'] }
                 ]
             },
-            {
-                label: 'Hierarchy', icon: 'pi pi-fw pi-align-left',
-                items: [
-                    {
-                        label: 'Submenu 1', icon: 'pi pi-fw pi-align-left',
-                        items: [
-                            {
-                                label: 'Submenu 1.1', icon: 'pi pi-fw pi-align-left',
-                                items: [
-                                    { label: 'Submenu 1.1.1', icon: 'pi pi-fw pi-align-left' },
-                                    { label: 'Submenu 1.1.2', icon: 'pi pi-fw pi-align-left' },
-                                    { label: 'Submenu 1.1.3', icon: 'pi pi-fw pi-align-left' },
-                                ]
-                            },
-                            {
-                                label: 'Submenu 1.2', icon: 'pi pi-fw pi-align-left',
-                                items: [
-                                    { label: 'Submenu 1.2.1', icon: 'pi pi-fw pi-align-left' }
-                                ]
-                            },
-                        ]
-                    },
-                    {
-                        label: 'Submenu 2', icon: 'pi pi-fw pi-align-left',
-                        items: [
-                            {
-                                label: 'Submenu 2.1', icon: 'pi pi-fw pi-align-left',
-                                items: [
-                                    { label: 'Submenu 2.1.1', icon: 'pi pi-fw pi-align-left' },
-                                    { label: 'Submenu 2.1.2', icon: 'pi pi-fw pi-align-left' },
-                                ]
-                            },
-                            {
-                                label: 'Submenu 2.2', icon: 'pi pi-fw pi-align-left',
-                                items: [
-                                    { label: 'Submenu 2.2.1', icon: 'pi pi-fw pi-align-left' },
-                                ]
-                            },
-                        ]
-                    }
-                ]
-            },
+
             {
                 label: 'Documentation', icon: 'pi pi-fw pi-info-circle', routerLink: ['/documentation']
             }

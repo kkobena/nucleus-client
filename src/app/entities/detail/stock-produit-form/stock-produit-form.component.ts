@@ -54,7 +54,6 @@ export class StockProduitFormComponent implements OnInit {
       this.magasins.push({ label: e.nomLong, value: e.id });
     });
     if (this.stockProduit != undefined && this.stockProduit != null) {
-      //   this.selectedMagasin = this.stockProduit.magasinId;
       let rayon = null;
       if (this.stockProduit.rayonId != null) {
         rayon = await this.raysonService.findPromise(
@@ -64,6 +63,7 @@ export class StockProduitFormComponent implements OnInit {
       this.updateForm(this.stockProduit, rayon);
     }
   }
+
   save(): void {
     this.isSaving = true;
     const entity = this.createFromForm();

@@ -13,7 +13,7 @@ export class LaboratoireProduitService {
 
   public resourceUrl = SERVER_API_URL + 'api/laboratoires';
 
-  constructor(protected http: HttpClient) {}
+  constructor(protected http: HttpClient) { }
 
   create(laboratoire: ILaboratoire): Observable<EntityResponseType> {
     return this.http.post<ILaboratoire>(this.resourceUrl, laboratoire, { observe: 'response' });
@@ -34,5 +34,9 @@ export class LaboratoireProduitService {
 
   delete(id: number): Observable<HttpResponse<{}>> {
     return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
+  }
+  async queryPromise(req?: any): Promise<ILaboratoire[]> {
+    const options = createRequestOption(req);
+    return await this.http.get<ILaboratoire[]>(this.resourceUrl, { params: options }).toPromise();
   }
 }

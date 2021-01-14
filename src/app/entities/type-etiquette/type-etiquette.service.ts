@@ -13,7 +13,7 @@ export class TypeEtiquetteService {
 
   public resourceUrl = SERVER_API_URL + 'api/type-etiquettes';
 
-  constructor(protected http: HttpClient) {}
+  constructor(protected http: HttpClient) { }
 
   create(typeEtiquette: ITypeEtiquette): Observable<EntityResponseType> {
     return this.http.post<ITypeEtiquette>(this.resourceUrl, typeEtiquette, { observe: 'response' });
@@ -34,5 +34,9 @@ export class TypeEtiquetteService {
 
   delete(id: number): Observable<HttpResponse<{}>> {
     return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
+  }
+  async queryPromise(req?: any): Promise<ITypeEtiquette[]> {
+    const options = createRequestOption(req);
+    return await this.http.get<ITypeEtiquette[]>(this.resourceUrl, { params: options }).toPromise();
   }
 }

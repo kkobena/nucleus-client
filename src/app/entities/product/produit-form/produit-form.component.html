@@ -1,0 +1,181 @@
+<p-toast position="center"></p-toast>
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+    <div class="p-col-12">
+
+        <div [hidden]="!editForm.get('id')!.value">
+            <input type="hidden" class="form-control" id="id" name="id" formControlName="id" />
+            <input type="hidden" class="form-control" id="fournisseurProduitId" name="fournisseurProduitId"
+                formControlName="fournisseurProduitId" />
+            <input type="hidden" class="form-control" id="stockProduitId" name="stockProduitId"
+                formControlName="stockProduitId" />
+        </div>
+        <p-fieldset [toggleable]="true">
+            <p-header>Informations générales</p-header>
+            <div class="p-fluid p-formgrid p-grid">
+                <div class="p-field p-col">
+                    <label for="libelle" class="col-auto col-form-label">Description<span
+                            style="font-weight: 900;color: red;">*</span></label>
+
+                    <input type="text" pInputText class="form-control" name="libelle" id="libelle"
+                        formControlName="libelle" autocomplete="off" />
+                </div>
+                <div class="p-field p-col">
+                    <label for="codeCip" class="col-auto col-form-label">Code cip<span
+                            style="font-weight: 900;color: red;">*</span></label>
+                    <input type="text" pInputText pKeyFilter="int" class="form-control" formControlName="codeCip"
+                        name="codeCip" autocomplete="off" />
+                </div>
+                <div class="p-field p-col">
+                    <label class="col-auto col-form-label" for="prixPaf">Prix Achat<span
+                            style="font-weight: 900;color: red;">*</span></label>
+                    <p-inputNumber class="form-control" id="prixPaf" name="prixPaf" formControlName="prixPaf"
+                        autocomplete="off">
+                    </p-inputNumber>
+                </div>
+
+            </div>
+            <div class="p-fluid p-formgrid p-grid">
+                <div class="p-field p-col">
+                    <label class="col-auto col-form-label" for="prixUni">Prix Unitaire<span
+                            style="font-weight: 900;color: red;">*</span></label>
+                    <p-inputNumber class="form-control" id="prixUni" name="prixUni" formControlName="prixUni"
+                        autocomplete="off">
+                    </p-inputNumber>
+                </div>
+                <div class="p-field p-col">
+                    <label for="fournisseurId" class="col-auto col-form-label">Fournisseurs<span
+                            style="font-weight: 900;color: red;">*</span></label>
+                    <p-dropdown [options]="fournisseurs" styleClass="form-control" id="fournisseurId"
+                        name="fournisseurId" formControlName="fournisseurId" styleClass="dropdown-width" [filter]="true"
+                        placeholder="Séléctionner un fournisseur ">
+                    </p-dropdown>
+                </div>
+                <div class="p-field p-col">
+                    <label for="rayonId" class="col-auto col-form-label">Rayons<span
+                            style="font-weight: 900;color: red;">*</span></label>
+                    <p-dropdown [options]="rayons" styleClass="form-control" id="rayonId" name="rayonId"
+                        formControlName="rayonId" styleClass="dropdown-width" [filter]="true"
+                        placeholder="Séléctionner un rayon ">
+                    </p-dropdown>
+                </div>
+
+            </div>
+            <div class="p-fluid p-formgrid p-grid">
+                <div class="p-field p-col">
+                    <label for="familleId" class="col-auto col-form-label">Famille produit<span
+                            style="font-weight: 900;color: red;">*</span></label>
+                    <p-dropdown [options]="familleProduits" styleClass="form-control" id="familleId" name="familleId"
+                        formControlName="familleId" styleClass="dropdown-width" [filter]="true"
+                        placeholder="Séléctionner une famille de produit">
+                    </p-dropdown>
+                </div>
+                <div class="p-field p-col">
+                    <label for="tvaId" class="col-auto col-form-label">Tva<span
+                            style="font-weight: 900;color: red;">*</span></label>
+                    <p-dropdown [options]="tvas" styleClass="form-control" id="tvaId" name="tvaId"
+                        formControlName="tvaId" styleClass="dropdown-width" [filter]="true"
+                        placeholder="Séléctionner la Tva ">
+                    </p-dropdown>
+                </div>
+
+                <div class="p-field p-col">
+                    <label for="typeEtyquetteId" class="col-auto col-form-label">Type etiquette<span
+                            style="font-weight: 900;color: red;">*</span></label>
+                    <p-dropdown [options]="etiquettes" styleClass="form-control" id="typeEtyquetteId"
+                        name="typeEtyquetteId" formControlName="typeEtyquetteId" styleClass="dropdown-width"
+                        [filter]="true" placeholder="Séléctionner le type étiquette ">
+                    </p-dropdown>
+                </div>
+
+            </div>
+            <div class="p-fluid p-formgrid p-grid">
+                <div class="p-field p-col">
+                    <label for="codeEan" class="col-auto col-form-label">Code EAN</label>
+                    <input type="text" pInputText pKeyFilter="int" class="form-control" formControlName="codeEan"
+                        name="codeEan" autocomplete="off" />
+                </div>
+                <div class="p-field p-col">
+                    <label class="col-auto col-form-label" for="qtyAppro">Qunatité réappro</label>
+                    <p-inputNumber class="form-control" id="qtyAppro" name="qtyAppro" formControlName="qtyAppro"
+                        autocomplete="off">
+                    </p-inputNumber>
+                </div>
+                <div class="p-field p-col">
+                    <label class="col-auto col-form-label" for="qtySeuilMini">Qunatité minimum</label>
+                    <p-inputNumber class="form-control" id="qtySeuilMini" name="qtySeuilMini"
+                        formControlName="qtySeuilMini" autocomplete="off">
+                    </p-inputNumber>
+                </div>
+            </div>
+            <div class="p-fluid p-formgrid p-grid">
+                <div class="p-field p-col">
+                    <label for="formeId" class="col-auto col-form-label">Forme produit</label>
+                    <p-dropdown [options]="formeProduits" styleClass="form-control" id="formeId" name="formeId"
+                        formControlName="formeId" styleClass="dropdown-width" [filter]="true"
+                        placeholder="Séléctionner une forme de produit ">
+                    </p-dropdown>
+                </div>
+                <div class="p-field p-col">
+                    <label for="gammeId" class="col-auto col-form-label">Gamme produit</label>
+                    <p-dropdown [options]="gammes" styleClass="form-control" id="gammeId" name="gammeId"
+                        formControlName="gammeId" styleClass="dropdown-width" [filter]="true"
+                        placeholder="Séléctionner une gamme de produit ">
+                    </p-dropdown>
+                </div>
+                <div class="p-field p-col">
+                    <label for="laboratoireId" class="col-auto col-form-label">Laboratoire</label>
+                    <p-dropdown [options]="laboratoires" styleClass="form-control" id="laboratoireId"
+                        name="laboratoireId" formControlName="laboratoireId" styleClass="dropdown-width" [filter]="true"
+                        placeholder="Séléctionner une laboratoire  ">
+                    </p-dropdown>
+                </div>
+
+            </div>
+            <div class="p-fluid p-formgrid p-grid">
+                <div class="p-field p-col">
+                    <label for="laboratoireId" class="col-auto col-form-label">Remises produit</label>
+                    <p-dropdown [options]="remisesProduits" styleClass="form-control" id="remiseId" name="remiseId"
+                        formControlName="remiseId" styleClass="dropdown-width" [filter]="true"
+                        placeholder="Séléctionner une remise">
+                    </p-dropdown>
+                </div>
+
+                <div class="p-field p-col">
+                    <p-checkbox [binary]="true" label="Déconditionnable ?" formControlName="deconditionnable"
+                        (onChange)="onDeconditionnable($event)" name="deconditionnable" styleClass="nucleuschecbox"
+                        labelStyleClass="nucleuschecbox">
+                    </p-checkbox>
+                </div>
+                <div class="p-field p-col" *ngIf="isDeconditionnable">
+                    <label class="col-auto col-form-label" for="qtyDetails">Qunatité détail</label>
+                    <p-inputNumber class="form-control" id="qtyDetails" name="qtyDetails" formControlName="qtyDetails"
+                        autocomplete="off">
+                    </p-inputNumber>
+                </div>
+            </div>
+            <div class="p-fluid p-formgrid p-grid">
+                <div class="p-field p-col">
+                    <p-checkbox [binary]="true" label="Observer la date de péremption ?"
+                        formControlName="dateperemption" name="dateperemption" styleClass="nucleuschecbox"
+                        labelStyleClass="nucleuschecbox" (onChange)="onDatePeremtionCheck($event)">
+                    </p-checkbox>
+                </div>
+                <div class="p-field p-col" *ngIf="isDatePeremptionChecked">
+                    <label class="col-auto col-form-label" for="field_perimeAt">Date de péremption</label>
+                    <p-inputMask mask="99/99/9999" class="form-control" name="perimeAt" id="field_perimeAt"
+                        formControlName="perimeAt" placeholder="01/11/2020" slotChar="dd/mm/yyyy" autocomplete="off">
+                    </p-inputMask>
+                </div>
+            </div>
+        </p-fieldset>
+
+    </div>
+    <!--  [disabled]="editForm.invalid || isSaving" -->
+    <div style="float: right;">
+        <button pButton pRipple type="submit" [disabled]="editForm.invalid || isSaving" icon="pi pi-check"
+            class="p-button-success p-mr-2 p-button-raised" (click)="save()" label="Enregistrer"></button>
+        <button type="button" class="p-button-danger p-mr-2 p-button-raised" pButton pRipple icon="pi pi-times"
+            (click)="cancel()" label="Annuler"></button>
+    </div>
+
+</form>
