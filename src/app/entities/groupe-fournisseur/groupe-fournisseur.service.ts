@@ -39,5 +39,8 @@ export class GroupeFournisseurService {
   uploadFile(file: any): Observable<HttpResponse<IResponseDto>> {
     return this.http.post<IResponseDto>(`${this.resourceUrl}/importcsv`, file, { observe: 'response' });
   }
-
+  async queryPromise(req?: any): Promise<IGroupeFournisseur[]> {
+    const options = createRequestOption(req);
+    return await this.http.get<IGroupeFournisseur[]>(this.resourceUrl, { params: options }).toPromise();
+  }
 }

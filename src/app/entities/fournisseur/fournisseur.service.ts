@@ -4,6 +4,7 @@ import { HttpResponse, HttpClient } from '@angular/common/http';
 import { SERVER_API_URL } from 'src/app/app.constants';
 import { Observable } from 'rxjs';
 import { createRequestOption } from 'src/app/shared/util/request-util';
+import { IResponseDto } from 'src/app/shared/util/response-dto';
 type EntityResponseType = HttpResponse<IFournisseur>;
 type EntityArrayResponseType = HttpResponse<IFournisseur[]>;
 @Injectable({
@@ -41,5 +42,8 @@ export class FournisseurService {
   }
   async findPromise(id: number): Promise<IFournisseur> {
     return await this.http.get<IFournisseur>(`${this.resourceUrl}/${id}`).toPromise();
+  }
+  uploadFile(file: any): Observable<HttpResponse<IResponseDto>> {
+    return this.http.post<IResponseDto>(`${this.resourceUrl}/importcsv`, file, { observe: 'response' });
   }
 }

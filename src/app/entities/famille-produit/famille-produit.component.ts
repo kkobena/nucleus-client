@@ -1,22 +1,29 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FamilleProduitService } from './famille-produit.service';
 import { IFamilleProduit, FamilleProduit } from 'src/app/model/famille-produit.model';
 import { ITEMS_PER_PAGE } from 'src/app/shared/constants/pagination.constants';
 import { Validators, FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ConfirmationService, LazyLoadEvent } from 'primeng/api';
+import { ConfirmationService, LazyLoadEvent, MessageService, SelectItem } from 'primeng/api';
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { CategorieProduitService } from '../categorie-produit/categorie-produit.service';
-import { ICategorieProduit } from 'src/app/model/categorie-produit.model';
+import { IResponseDto } from 'src/app/shared/util/response-dto';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { FormFamilleComponent } from './form-famille/form-famille.component';
 
 @Component({
   selector: 'app-famille-produit',
   templateUrl: './famille-produit.component.html',
-  styleUrls: ['./famille-produit.component.css']
+  styleUrls: ['./famille-produit.component.css'],
+  providers: [MessageService, DialogService],
+  encapsulation: ViewEncapsulation.None
 })
 export class FamilleProduitComponent implements OnInit {
-
+  fileDialog: boolean;
+  ref: DynamicDialogRef;
+  responsedto!: IResponseDto;
+  responseDialog: boolean;
   entites?: IFamilleProduit[];
   totalItems = 0;
   itemsPerPage = ITEMS_PER_PAGE;
@@ -25,22 +32,23 @@ export class FamilleProduitComponent implements OnInit {
   loading: boolean;
   isSaving = false;
   displayDialog: boolean;
-  categorieproduits: ICategorieProduit[] = [];
 
   editForm = this.fb.group({
     id: [],
     code: [null, [Validators.required]],
     libelle: [null, [Validators.required]],
-    categorieId: [],
+    categorieId: [null, [Validators.required]],
 
   });
 
   constructor(protected entityService: FamilleProduitService,
     protected activatedRoute: ActivatedRoute,
     protected router: Router,
+    private messageService: MessageService,
+    private dialogService: DialogService,
     protected modalService: ConfirmationService
     , private fb: FormBuilder,
-    protected categorieProduitService: CategorieProduitService,
+    protected categorieProduitService: CategorieProduitService
   ) { }
 
 
@@ -49,6 +57,7 @@ export class FamilleProduitComponent implements OnInit {
     this.activatedRoute.data.subscribe(data => {
       this.loadPage();
     });
+
   }
   protected onSuccess(data: IFamilleProduit[] | null, headers: HttpHeaders, page: number): void {
     this.totalItems = Number(headers.get('X-Total-Count'));
@@ -67,13 +76,15 @@ export class FamilleProduitComponent implements OnInit {
     this.loading = false;
   }
 
-  loadPage(page?: number): void {
+  loadPage(page?: number, search?: String): void {
     const pageToLoad: number = page || this.page;
+    const query: String = search || '';
     this.loading = true;
     this.entityService
       .query({
         page: pageToLoad,
-        size: this.itemsPerPage
+        size: ITEMS_PER_PAGE,
+        search: query
       })
       .subscribe(
         (res: HttpResponse<IFamilleProduit[]>) => this.onSuccess(res.body, res.headers, pageToLoad),
@@ -87,7 +98,8 @@ export class FamilleProduitComponent implements OnInit {
     this.entityService
       .query({
         page: this.page,
-        size: event.rows
+        size: event.rows,
+        search: ''
       })
       .subscribe(
         (res: HttpResponse<IFamilleProduit[]>) => this.onSuccess(res.body, res.headers, this.page),
@@ -108,30 +120,13 @@ export class FamilleProduitComponent implements OnInit {
     });
   }
 
-  updateForm(entity: IFamilleProduit): void {
-    this.editForm.patchValue({
-      id: entity.id,
-      code: entity.code,
-      libelle: entity.libelle,
-      categorieId: entity.categorieId,
-    });
-    this.categorieProduitService.query().subscribe((res: HttpResponse<ICategorieProduit[]>) => (this.categorieproduits = res.body || []));
-  }
-  protected onSaveSuccess(): void {
-    this.isSaving = false;
-    this.displayDialog = false;
-    this.loadPage(0);
 
-  }
+
+
   protected onSaveError(): void {
-    this.isSaving = false;
+    this.messageService.add({ severity: 'error', summary: 'Erreur', detail: "L'opération a échouée" });
   }
-  protected subscribeToSaveResponse(result: Observable<HttpResponse<IFamilleProduit>>): void {
-    result.subscribe(
-      () => this.onSaveSuccess(),
-      () => this.onSaveError()
-    );
-  }
+
   private createFromForm(): IFamilleProduit {
     return {
       ...new FamilleProduit(),
@@ -141,35 +136,70 @@ export class FamilleProduitComponent implements OnInit {
       categorieId: this.editForm.get(['categorieId'])!.value,
     };
   }
-  save(): void {
-    this.isSaving = true;
-    const entity = this.createFromForm();
 
-    if (entity.id !== undefined) {
 
-      this.subscribeToSaveResponse(this.entityService.update(entity));
-    } else {
-      this.subscribeToSaveResponse(this.entityService.create(entity));
-    }
-  }
   cancel(): void {
     this.displayDialog = false;
+    this.fileDialog = false;
   }
-  addNewEntity(): void {
-    this.updateForm(new FamilleProduit());
-    this.displayDialog = true;
-  }
-  onEdit(entity: IFamilleProduit): void {
-    this.updateForm(entity);
-    this.displayDialog = true;
-  }
+
+
   delete(entity: IFamilleProduit): void {
     this.confirmDelete(entity.id);
   }
   confirmDelete(id: number): void {
     this.confirmDialog(id);
   }
-  trackById(index: number, item: ICategorieProduit): any {
-    return item.id;
+
+  onUpload(event) {
+    const formData: FormData = new FormData();
+    const file = event.files[0];
+    formData.append('importcsv', file, file.name);
+    this.uploadFileResponse(this.entityService.uploadFile(formData));
+  }
+  protected uploadFileResponse(result: Observable<HttpResponse<IResponseDto>>): void {
+    result.subscribe(
+      (res: HttpResponse<IResponseDto>) => this.onPocesCsvSuccess(res.body),
+      () => this.onSaveError()
+    );
+  }
+  protected onPocesCsvSuccess(responseDto: IResponseDto | null): void {
+    this.responsedto = responseDto;
+    this.responseDialog = true;
+    this.fileDialog = false;
+    this.loadPage(0);
+  }
+  search(event: any): void {
+    this.loadPage(0, event.target.value);
+  }
+  showFileDialog(): void {
+    this.fileDialog = true;
+  }
+  addNewEntity(): void {
+    this.ref = this.dialogService.open(FormFamilleComponent, {
+      data: { familleProduit: null },
+      width: '40%',
+      height: '300',
+      header: "Ajout d'une nouvelle famille de produit"
+    });
+    this.ref.onClose.subscribe((entity: IFamilleProduit) => {
+      if (entity) {
+        this.loadPage(0);
+
+      }
+    });
+  }
+  onEdit(entity: IFamilleProduit): void {
+    this.ref = this.dialogService.open(FormFamilleComponent, {
+      data: { familleProduit: entity },
+      width: '40%',
+      height: '200',
+      header: "Modification de " + entity.libelle
+    });
+    this.ref.onClose.subscribe((entity: IFamilleProduit) => {
+      if (entity) {
+        this.loadPage(0);
+      }
+    });
   }
 }

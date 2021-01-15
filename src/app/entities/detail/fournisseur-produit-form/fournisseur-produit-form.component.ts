@@ -110,10 +110,7 @@ export class FournisseurProduitFormComponent implements OnInit {
     };
   }
 
-
-
   searchFournisseurs(event: any): void {
-    const pageToLoad: number = 0;
     const query: String = event.query || '';
     this.fournisseurService.queryPromise({
       page: 0,

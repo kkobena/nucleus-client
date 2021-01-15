@@ -19,8 +19,8 @@ import { IResponseDto } from 'src/app/shared/util/response-dto';
 })
 export class GroupeFournisseurComponent implements OnInit {
   fileDialog: boolean;
-  responseDialog: boolean;
   responsedto!: IResponseDto;
+  responseDialog: boolean;
   entites?: IGroupeFournisseur[];
   totalItems = 0;
   itemsPerPage = ITEMS_PER_PAGE;

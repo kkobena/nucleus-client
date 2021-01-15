@@ -5,7 +5,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { AppRoutingModule } from './app-routing.module';
-
 import { AccordionModule } from 'primeng/accordion';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
@@ -74,9 +73,6 @@ import { TreeTableModule } from 'primeng/treetable';
 import { VirtualScrollerModule } from 'primeng/virtualscroller';
 import { KeyFilterModule } from 'primeng/keyfilter';
 import { DynamicDialogModule } from 'primeng/dynamicdialog';
-
-
-
 // Application Components
 import { AppCodeModule } from './app.code.component';
 import { AppComponent } from './app.component';
@@ -88,8 +84,6 @@ import { AppBreadcrumbComponent } from './app.breadcrumb.component';
 import { AppRightPanelComponent } from './app.rightpanel.component';
 import { AppTopBarComponent } from './app.topbar.component';
 import { AppFooterComponent } from './app.footer.component';
-
-// Demo pages
 import { DashboardDemoComponent } from './demo/view/dashboarddemo.component';
 import { FormLayoutDemoComponent } from './demo/view/formlayoutdemo.component';
 import { InputDemoComponent } from './demo/view/inputdemo.component';
@@ -125,8 +119,6 @@ import { AppNotfoundComponent } from './pages/app.notfound.component';
 import { AppErrorComponent } from './pages/app.error.component';
 import { AppAccessdeniedComponent } from './pages/app.accessdenied.component';
 import { AppLoginComponent } from './pages/app.login.component';
-
-// Demo services
 import { CountryService } from './demo/service/countryservice';
 import { CustomerService } from './demo/service/customerservice';
 import { EventService } from './demo/service/eventservice';
@@ -134,8 +126,6 @@ import { IconService } from './demo/service/iconservice';
 import { NodeService } from './demo/service/nodeservice';
 import { PhotoService } from './demo/service/photoservice';
 import { ProductService } from './demo/service/productservice';
-
-// Application services
 import { BreadcrumbService } from './app.breadcrumb.service';
 import { MenuService } from './app.menu.service';
 
@@ -205,6 +195,7 @@ import { FournisseurProduitService } from './entities/detail/fournisseur-produit
 import { ProduitFormComponent } from './entities/product/produit-form/produit-form.component';
 import { DetailProduitFormComponent } from './entities/product/detail-produit-form/detail-produit-form.component';
 import { ParametreComponent } from './entities/parametre/parametre.component';
+import { FormFamilleComponent } from './entities/famille-produit/form-famille/form-famille.component';
 
 @NgModule({
     imports: [
@@ -369,7 +360,8 @@ import { ParametreComponent } from './entities/parametre/parametre.component';
         RayonComponent,
         ProduitFormComponent,
         DetailProduitFormComponent,
-        ParametreComponent
+        ParametreComponent,
+        FormFamilleComponent
     ],
     providers: [
         { provide: LocationStrategy, useClass: HashLocationStrategy },
@@ -400,7 +392,8 @@ import { ParametreComponent } from './entities/parametre/parametre.component';
         StockProduitService,
         RayonService,
         FournisseurProduitService,
-        ParametreService
+        ParametreService,
+        CategorieProduitService
     ],
 
     entryComponents: [
@@ -410,7 +403,8 @@ import { ParametreComponent } from './entities/parametre/parametre.component';
         AyantDroitFormComponent,
         StockProduitFormComponent,
         FournisseurProduitFormComponent,
-        ProduitFormComponent
+        ProduitFormComponent,
+        FormFamilleComponent
     ],
     bootstrap: [AppComponent]
 })

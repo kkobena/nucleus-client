@@ -4,15 +4,14 @@ import { HttpResponse, HttpClient } from '@angular/common/http';
 import { SERVER_API_URL } from 'src/app/app.constants';
 import { Observable } from 'rxjs';
 import { createRequestOption } from 'src/app/shared/util/request-util';
+import { IResponseDto } from 'src/app/shared/util/response-dto';
 type EntityResponseType = HttpResponse<IFamilleProduit>;
 type EntityArrayResponseType = HttpResponse<IFamilleProduit[]>;
 @Injectable({
   providedIn: 'root'
 })
 export class FamilleProduitService {
-
   public resourceUrl = SERVER_API_URL + 'api/famille-produits';
-
   constructor(protected http: HttpClient) { }
 
   create(familleProduit: IFamilleProduit): Observable<EntityResponseType> {
@@ -38,5 +37,8 @@ export class FamilleProduitService {
   async queryPromise(req?: any): Promise<IFamilleProduit[]> {
     const options = createRequestOption(req);
     return await this.http.get<IFamilleProduit[]>(this.resourceUrl, { params: options }).toPromise();
+  }
+  uploadFile(file: any): Observable<HttpResponse<IResponseDto>> {
+    return this.http.post<IResponseDto>(`${this.resourceUrl}/importcsv`, file, { observe: 'response' });
   }
 }

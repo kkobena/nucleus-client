@@ -11,6 +11,7 @@ import { Observable } from 'rxjs';
 import { GroupeFournisseurService } from '../groupe-fournisseur/groupe-fournisseur.service';
 import { NgxSpinnerService } from "ngx-spinner";
 import { MessageService } from 'primeng/api';
+import { IResponseDto } from 'src/app/shared/util/response-dto';
 @Component({
   selector: 'app-fournisseur',
   templateUrl: './fournisseur.component.html',
@@ -26,7 +27,9 @@ body .ui-dropdown{
   encapsulation: ViewEncapsulation.None
 })
 export class FournisseurComponent implements OnInit {
-
+  fileDialog: boolean;
+  responseDialog: boolean;
+  responsedto!: IResponseDto;
   entites?: IFournisseur[];
   totalItems = 0;
   itemsPerPage = ITEMS_PER_PAGE;
@@ -36,7 +39,7 @@ export class FournisseurComponent implements OnInit {
   isSaving = false;
   displayDialog: boolean;
   groupeFournisseurs: IGroupeFournisseur[] = [];
-  groupes: SelectItem[];
+  groupes: SelectItem[] = [];
   editForm = this.fb.group({
     id: [],
     code: [null, [Validators.required]],
@@ -47,7 +50,7 @@ export class FournisseurComponent implements OnInit {
     phone: [],
     mobile: [],
     // site: [],
-    groupeFournisseurId: [],
+    groupeFournisseurId: [null, [Validators.required]],
 
   });
 
@@ -70,7 +73,6 @@ export class FournisseurComponent implements OnInit {
     });
   }
   protected onSuccess(data: IFournisseur[] | null, headers: HttpHeaders, page: number): void {
-
     this.totalItems = Number(headers.get('X-Total-Count'));
     this.page = page;
     this.router.navigate(['grossiste/fournisseurs'], {
@@ -132,8 +134,11 @@ export class FournisseurComponent implements OnInit {
   }
 
   updateForm(entity: IFournisseur): void {
-    this.groupes = [];
-    this.groupeFournisseurService.query().subscribe(
+    this.groupeFournisseurService.query(
+      {
+        search: ''
+      }
+    ).subscribe(
       (res: HttpResponse<IGroupeFournisseur[]>) => {
 
         res.body.forEach(item => {
@@ -145,7 +150,7 @@ export class FournisseurComponent implements OnInit {
           code: entity.code,
           libelle: entity.libelle,
           groupeFournisseurId: entity.groupeFournisseurId,
-          addresspostale: entity.addresspostale,
+          addresspostale: entity.addressePostal,
           // numFaxe: entity.numFaxe,
           phone: entity.phone,
           mobile: entity.mobile
@@ -184,7 +189,7 @@ export class FournisseurComponent implements OnInit {
       code: this.editForm.get(['code'])!.value,
       libelle: this.editForm.get(['libelle'])!.value,
       groupeFournisseurId: this.editForm.get(['groupeFournisseurId'])!.value,
-      addresspostale: this.editForm.get(['addresspostale'])!.value,
+      addressePostal: this.editForm.get(['addresspostale'])!.value,
       // numFaxe: this.editForm.get(['numFaxe'])!.value,
       phone: this.editForm.get(['phone'])!.value,
       mobile: this.editForm.get(['mobile'])!.value
@@ -203,7 +208,11 @@ export class FournisseurComponent implements OnInit {
   }
   cancel(): void {
     this.displayDialog = false;
+    this.fileDialog = false;
+
     this.spinner.hide();
+
+
   }
   addNewEntity(): void {
     this.updateForm(new Fournisseur());
@@ -228,5 +237,29 @@ export class FournisseurComponent implements OnInit {
 
     }
 
+  }
+  search(event: any): void {
+    this.loadPage(0, event.target.value);
+  }
+  showFileDialog(): void {
+    this.fileDialog = true;
+  }
+  onUpload(event) {
+    const formData: FormData = new FormData();
+    const file = event.files[0];
+    formData.append('importcsv', file, file.name);
+    this.uploadFileResponse(this.entityService.uploadFile(formData));
+  }
+  protected uploadFileResponse(result: Observable<HttpResponse<IResponseDto>>): void {
+    result.subscribe(
+      (res: HttpResponse<IResponseDto>) => this.onPocesCsvSuccess(res.body),
+      () => this.onSaveError()
+    );
+  }
+  protected onPocesCsvSuccess(responseDto: IResponseDto | null): void {
+    this.responsedto = responseDto;
+    this.responseDialog = true;
+    this.fileDialog = false;
+    this.loadPage(0);
   }
 }
