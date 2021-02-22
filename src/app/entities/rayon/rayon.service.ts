@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { SERVER_API_URL } from 'src/app/app.constants';
 import { IRayon } from 'src/app/model/rayon.model';
 import { createRequestOption } from 'src/app/shared/util/request-util';
+import { IResponseDto } from 'src/app/shared/util/response-dto';
 
 type EntityResponseType = HttpResponse<IRayon>;
 type EntityArrayResponseType = HttpResponse<IRayon[]>;
@@ -43,5 +44,13 @@ export class RayonService {
   }
   async findPromise(id: number): Promise<IRayon> {
     return await this.http.get<IRayon>(`${this.resourceUrl}/${id}`).toPromise();
+  }
+
+
+  uploadFile(file: any, magasinId: number): Observable<HttpResponse<IResponseDto>> {
+    return this.http.post<IResponseDto>(`${this.resourceUrl}/importcsv/${magasinId}`, file, { observe: 'response' });
+  }
+  cloner(ids: IRayon[], magasinId: number): Observable<HttpResponse<IResponseDto>> {
+    return this.http.post<IResponseDto>(`${this.resourceUrl}/clone/${magasinId}`, ids, { observe: 'response' });
   }
 }

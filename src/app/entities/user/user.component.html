@@ -1,0 +1,104 @@
+<p-toast position="center"></p-toast>
+<p-confirmDialog #cd [style]="{width: '40vw'}" [baseZIndex]="10000">
+    <p-footer>
+
+        <button type="button" pButton icon="pi pi-check" label="Oui" (click)="cd.accept()"></button>
+        <button type="button" class="p-button-danger" pButton icon="pi pi-times" label="Non"
+            (click)="cd.reject()"></button>
+    </p-footer>
+
+</p-confirmDialog>
+
+<p-dialog header="Importer un fichier" [(visible)]="fileDialog" [focusOnShow]="false" [responsive]="true"
+    showEffect="fade" [modal]="true" [style]="{width: '50vw'}">
+    <div class="ui-g form-group">
+        <p-fileUpload chooseLabel="Importer un fichier" name="importcsv" uploadLabel="Enrégistrer" cancelLabel="Annuler"
+            accept=".txt,.csv,.xls,.xlsx" customUpload="true" (uploadHandler)="onUpload($event)">
+        </p-fileUpload>
+    </div>
+    <p-footer>
+        <button type="button" class="p-button-danger p-mr-2 p-button-raised" pButton pRipple icon="pi pi-times"
+            (click)="cancel()" label="Annuler"></button>
+
+    </p-footer>
+</p-dialog>
+
+<p-dialog header="Message" [(visible)]="responseDialog" [focusOnShow]="false" [responsive]="true" showEffect="fade"
+    [modal]="true" [style]="{width: '500px'}">
+
+    <div class="ui-g form-group">
+        <p>Le nombre de lignes insérées <span style="font-weight: 700; margin-left: 10px;"> {{responsedto?.size}}</span>
+        </p>
+
+    </div>
+</p-dialog>
+<div class="ui-g">
+    <div class="card no-margin">
+        <h6>Gestion des utilisateurs</h6>
+        <p-toolbar>
+            <div class="p-toolbar-group-left p-md-4">
+                <p-dropdown appendTo="body" [options]="magasins" [(ngModel)]="magasin" optionLabel="nomCourt"
+                    [filter]="false" placeholder="Séléctionner un stockage " [style]="{'width':'100%'}"
+                    class="p-autocomplete" (onChange)="onChange($event)"></p-dropdown>
+
+            </div>
+            <div *ngIf="magasin" class="p-toolbar-group-right">
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input type="text" style="width:98%;" pInputText placeholder="Taper pour rechercher"
+                        (keyup.enter)="search($event)">
+                </span>
+                <button style="display: none;" pButton pRipple type="button" icon="pi pi-upload"
+                    (click)="showFileDialog()" class="p-button-raised p-button-help p-mr-2" label="Importer"></button>
+                <button pButton pRipple type="button" icon="pi pi-user-plus" iconPos="left" label="Nouveau"
+                    class="p-button-raised p-mr-2  p-button-success" (click)="addNewEntity()"></button>
+
+            </div>
+        </p-toolbar>
+        <p-table #dt styleClass="ui-table-cars" [value]="entites" [paginator]="true" [rows]="itemsPerPage" dataKey="id"
+            [(selection)]="selectedEl" [totalRecords]="totalItems">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th scope="col" style="width: 10%;"><span>Nom</span> </th>
+                    <th scope="col" style="width: 15%;"><span>Prénom(s)</span> </th>
+                    <th scope="col" style="width: 10%;"><span>Login</span> </th>
+                    <th scope="col" style="width: 15%;"><span>Date de création</span> </th>
+                    <th scope="col" style="width: 15%;"><span>Dernière modification</span> </th>
+                    <th scope="col" style="width: 10%;"><span>Rôle</span> </th>
+                    <th scope="col" style="text-align:center;width: 15%;">Actions</th>
+                </tr>
+
+            </ng-template>
+            <ng-template pTemplate="body" let-elRow let-columns="columns">
+                <tr [pSelectableRow]="elRow" [pEditableRow]="elRow">
+                    <td>{{ elRow.firstName }}</td>
+                    <td>{{ elRow.lastName }}</td>
+                    <td>{{ elRow.login }}</td>
+                    <td>{{ elRow.createdDate | date:'dd/MM/yy HH:mm' }}</td>
+                    <td>{{ elRow.lastModifiedDate | date:'dd/MM/yy HH:mm' }}</td>
+                    <td>
+                        <span class="p-tag p-badge-info">{{ elRow.role }}</span>
+                    </td>
+                    <td style="text-align: center;">
+                        <button pButton pRipple icon="pi pi-pencil" type="button" pTooltip="Editer"
+                            class="p-button-rounded p-button-success p-mr-2" (click)="onEdit(elRow)"></button>
+                        <button pButton pTooltip="Supprimer" pRipple icon="pi pi-trash" type="button"
+                            class="p-button-rounded p-button-danger p-mr-2" (click)="delete(elRow)"></button>
+                        <button *ngIf="!elRow.activated" pButton pTooltip="Activer" pRipple icon="pi pi-lock-open" type="button"
+                            class="p-button-rounded p-button-warning p-mr-2" (click)="enable(elRow)"></button>
+                        <button *ngIf="elRow.activated" pButton pTooltip="Désactiver" pRipple icon="pi pi-lock" type="button"
+                            class="p-button-rounded p-button-secondary" (click)="desable(elRow)"></button>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage" let-columns>
+                <tr>
+                    <td [attr.colspan]="7">
+                        Aucune donnée trouvée
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+
+</div>

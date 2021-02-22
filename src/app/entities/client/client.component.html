@@ -32,215 +32,215 @@
   </div>
 </p-dialog>
 <div class="ui-g">
-  <div class="p-col-12">
-    <div class="card no-margin">
-      <h4> Gestion des clients</h4>
-      <p-toolbar>
-        <div class="p-toolbar-group-left p-md-6">
-          <p-autoComplete [(ngModel)]="selectedEl" [suggestions]="entites" (completeMethod)="search($event)"
-            placeholder="Taper pour rechercher" field="fullName" [forceSelection]="true" (onSelect)="onSelect($event)"
-            minLength=1 [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}" class="p-autocomplete">
-          </p-autoComplete>
-        </div>
-        <div class="p-toolbar-group-right">
-          <p-splitButton label="Importer" icon="pi pi-upload" [model]="splitbuttons"
-            styleClass="p-button-raised p-button-help p-mr-2 p-mb-2"></p-splitButton>
-          <button pButton pRipple type="button" icon="pi pi-check" iconPos="left" label="Nouveau client"
-            class="p-button-raised p-mr-2 p-mb-2 p-button-success" (click)="addNewEntity()"></button>
-        </div>
-      </p-toolbar>
-      <div style="margin-top:0.2em;">
-        <p-tabView>
-          <p-tabPanel header="Information générale" leftIcon="pi pi-home">
-
-            <div class="invoice">
-              <div class="invoice-item">
-                <table *ngIf="selectedEl" class="invoice-table">
-                  <tbody>
-                    <tr>
-                      <td class="firstColumn">
-                        Nom
-                      </td>
-                      <td class="secondColumn">{{selectedEl?.firstName}}</td>
-
-                      <td class="firstColumn">
-                        Prénom(s)
-                      </td>
-                      <td class="secondColumn">{{selectedEl?.lastName}}</td>
-
-                      <td class="firstColumn">
-                        Date de naissance
-                      </td>
-                      <td class="secondColumn">{{selectedEl?.datNaiss |date:'dd/MM/yyyy' }}</td>
-
-                    </tr>
-                    <tr>
-                      <td class="firstColumn">
-                        Matricule
-                      </td>
-                      <td class="secondColumn">{{selectedEl?.numMaticule}}</td>
-
-                      <td class="firstColumn">
-                        Mobile
-                      </td>
-                      <td class="secondColumn">{{selectedEl?.mobile}}</td>
-
-                      <td class="firstColumn">
-                        Sexe
-                      </td>
-                      <td class="secondColumn">{{selectedEl?.sexe}}</td>
-
-
-                    </tr>
-
-                    <tr>
-                      <td class="firstColumn">
-                        Encours
-                      </td>
-                      <td class="secondColumn">{{selectedEl?.encours | number}}</td>
-
-                      <td class="firstColumn">
-                        E-mail
-                      </td>
-                      <td class="secondColumn">{{selectedEl?.mail}}</td>
-
-                      <td class="firstColumn">
-
-                      </td>
-                      <td class="secondColumn"></td>
-
-
-                    </tr>
-
-                  </tbody>
-                  <tfoot>
-                    <tr>
-                      <th colspan="6" style="text-align: center;">
-
-                        <button type="button" pButton pRipple class="p-button-success p-mr-2 p-button-raised"
-                          icon="pi pi-check" iconPos="left" label="Modifier les information du client"
-                          (click)="onEdit()" style="margin-right: 5px;"></button>
-                        <button type="button" pButton pRipple class="p-button-danger p-mr-2 p-button-raised"
-                          icon="fa fa-times" iconPos="left" label="Supprimer" (click)="delete()"></button>
-                      </th>
-                    </tr>
-                  </tfoot>
-                </table>
-
-
-              </div>
-            </div>
-            <p-panel header="Ayants droits" *ngIf="selectedEl">
-              <ng-template pTemplate="icons">
-                <button (click)="addAyantDroit()" pButton icon="pi pi-plus" class="p-button-rounded p-button-primary">
-                </button>
-              </ng-template>
-              <p-table *ngIf="selectedEl" class="ui-table nucleus-dataview-list" [value]="selectedEl.ayantDroits"
-                dataKey="id" selectionMode="single" [resizableColumns]="true">
-
-                <ng-template pTemplate="header">
-                  <tr>
-                    <th scope="col" style="width:15%">Nom</th>
-                    <th scope="col" style="width:25%">Prénom(s)</th>
-                    <th scope="col" style="width:15%">Matricule</th>
-                    <th scope="col" style="width:15%">Contact</th>
-                    <th scope="col" style="width:5%">Sexe</th>
-                    <th scope="col" style="width:15%">Date de naissance</th>
-                    <th scope="col" class="actions" style="width:10%">Actions</th>
-
-                  </tr>
-                </ng-template>
-                <ng-template pTemplate="body" let-ayantDroit let-columns="columns">
-                  <tr [pSelectableRow]="ayantDroit" [pEditableRow]="ayantDroit">
-                    <td>{{ ayantDroit.firstName }}</td>
-                    <td>{{ ayantDroit.lastName }}</td>
-                    <td>{{ ayantDroit.num }}</td>
-                    <td>{{ ayantDroit.mobile }}</td>
-                    <td>{{ ayantDroit.sexe }}</td>
-                    <td>{{ ayantDroit.datNaiss | date:'dd/MM/yyyy'}}</td>
-                    <td style="text-align: right;">
-                      <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2"
-                        (click)="editAyantDroit(ayantDroit)"></button>
-                      <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger"
-                        (click)="deleteAyantDroit(ayantDroit)"></button>
-
-                    </td>
-                  </tr>
-                </ng-template>
-                <ng-template pTemplate="emptymessage" let-columns>
-                  <tr>
-                    <td [attr.colspan]="7">
-                      Ce client n'a pas de d'ayant droit
-                    </td>
-                  </tr>
-                </ng-template>
-              </p-table>
-
-
-            </p-panel>
-            <div class="p-mb-2"></div>
-            <p-panel header=" Comptes clients" *ngIf="selectedEl">
-              <ng-template pTemplate="icons">
-                <button (click)="addCompteClient()" pButton icon="pi pi-plus" class="p-button-rounded p-button-primary">
-                </button>
-              </ng-template>
-              <p-table *ngIf="selectedEl" class="ui-table nucleus-dataview-list" [value]="selectedEl.compteClients"
-                dataKey="id" selectionMode="single" [resizableColumns]="true">
-
-                <ng-template pTemplate="header">
-                  <tr>
-                    <th scope="col" style="width:10%">Type compte</th>
-                    <th scope="col" style="width:10%">Encours</th>
-                    <th scope="col" style="width:5%">Taux</th>
-                    <th scope="col" style="width:25%">Tiers-payant</th>
-                    <th scope="col" style="width:20%">Matricule</th>
-                    <th scope="col" style="width:10%">Catégorie</th>
-                    <th scope="col" style="width:10%">Plafond</th>
-                    <th scope="col" class="actions" style="width:10%; text-align: right;">Actions</th>
-                  </tr>
-                </ng-template>
-                <ng-template pTemplate="body" let-compteclient let-columns="columns">
-                  <tr [pSelectableRow]="compteclient" [pEditableRow]="compteclient">
-                    <td>{{ compteclient.typeClient }}</td>
-                    <td style="text-align: right;">{{ compteclient.encours |number }}</td>
-                    <td style="text-align: right;">{{ compteclient.taux |number }}</td>
-                    <td>{{ compteclient.libelleTiersPayantF }}</td>
-                    <td>{{ compteclient.numMaticule }}</td>
-                    <td>{{ compteclient.categorie }}</td>
-
-                    <td style="text-align: right;">{{ compteclient.plafondMensuel |number }}</td>
-                    <td style="text-align: right;">
-                      <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2"
-                        (click)="editCompteClient(compteclient)"></button>
-                      <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger"
-                        (click)="deleteCompteClient(compteclient)"></button>
-
-                    </td>
-                  </tr>
-                </ng-template>
-                <ng-template pTemplate="emptymessage" let-columns>
-                  <tr>
-                    <td [attr.colspan]="8">
-                      Ce client n'a pas d'assurance complementaire
-                    </td>
-                  </tr>
-                </ng-template>
-              </p-table>
-            </p-panel>
-
-
-          </p-tabPanel>
-
-          <p-tabPanel header="Achats" leftIcon="pi pi-shopping-cart">
-
-          </p-tabPanel>
-
-
-        </p-tabView>
-
+  <!-- <div class="p-col-12"> -->
+  <div class="card no-margin">
+    <h6> Gestion des clients</h6>
+    <p-toolbar>
+      <div class="p-toolbar-group-left p-md-6">
+        <p-autoComplete [(ngModel)]="selectedEl" [suggestions]="entites" (completeMethod)="search($event)"
+          placeholder="Taper pour rechercher" field="fullName" [forceSelection]="true" (onSelect)="onSelect($event)"
+          minLength=2 [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}" class="p-autocomplete">
+        </p-autoComplete>
       </div>
+      <div class="p-toolbar-group-right">
+        <p-splitButton label="Importer" icon="pi pi-upload" [model]="splitbuttons"
+          styleClass="p-button-raised p-button-help p-mr-2 p-mb-2"></p-splitButton>
+        <button pButton pRipple type="button" icon="pi pi-check" iconPos="left" label="Nouveau client"
+          class="p-button-raised p-mr-2 p-mb-2 p-button-success" (click)="addNewEntity()"></button>
+      </div>
+    </p-toolbar>
+    <div style="margin-top:0.2em;">
+      <p-tabView>
+        <p-tabPanel header="Information générale" leftIcon="pi pi-home">
+
+          <div class="invoice">
+            <div class="invoice-item">
+              <table *ngIf="selectedEl" class="invoice-table">
+                <tbody>
+                  <tr>
+                    <td class="firstColumn">
+                      Nom
+                    </td>
+                    <td class="secondColumn">{{selectedEl?.firstName}}</td>
+
+                    <td class="firstColumn">
+                      Prénom(s)
+                    </td>
+                    <td class="secondColumn">{{selectedEl?.lastName}}</td>
+
+                    <td class="firstColumn">
+                      Date de naissance
+                    </td>
+                    <td class="secondColumn">{{selectedEl?.datNaiss |date:'dd/MM/yyyy' }}</td>
+
+                  </tr>
+                  <tr>
+                    <td class="firstColumn">
+                      Matricule
+                    </td>
+                    <td class="secondColumn">{{selectedEl?.numMaticule}}</td>
+
+                    <td class="firstColumn">
+                      Mobile
+                    </td>
+                    <td class="secondColumn">{{selectedEl?.mobile}}</td>
+
+                    <td class="firstColumn">
+                      Sexe
+                    </td>
+                    <td class="secondColumn">{{selectedEl?.sexe}}</td>
+
+
+                  </tr>
+
+                  <tr>
+                    <td class="firstColumn">
+                      Encours
+                    </td>
+                    <td class="secondColumn">{{selectedEl?.encours | number}}</td>
+
+                    <td class="firstColumn">
+                      E-mail
+                    </td>
+                    <td class="secondColumn">{{selectedEl?.mail}}</td>
+
+                    <td class="firstColumn">
+
+                    </td>
+                    <td class="secondColumn"></td>
+
+
+                  </tr>
+
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <th colspan="6" style="text-align: center;">
+
+                      <button type="button" pButton pRipple class="p-button-success p-mr-2 p-button-raised"
+                        icon="pi pi-check" iconPos="left" label="Modifier les informations du client" (click)="onEdit()"
+                        style="margin-right: 5px;"></button>
+                      <button type="button" pButton pRipple class="p-button-danger p-mr-2 p-button-raised"
+                        icon="fa fa-times" iconPos="left" label="Supprimer" (click)="delete()"></button>
+                    </th>
+                  </tr>
+                </tfoot>
+              </table>
+
+
+            </div>
+          </div>
+          <p-panel header="Ayants droits" *ngIf="selectedEl">
+            <ng-template pTemplate="icons">
+              <button (click)="addAyantDroit()" pButton icon="pi pi-plus" class="p-button-rounded p-button-primary">
+              </button>
+            </ng-template>
+            <p-table *ngIf="selectedEl" class="ui-table nucleus-dataview-list" [value]="selectedEl.ayantDroits"
+              dataKey="id" selectionMode="single" [resizableColumns]="true">
+
+              <ng-template pTemplate="header">
+                <tr>
+                  <th scope="col" style="width:15%">Nom</th>
+                  <th scope="col" style="width:25%">Prénom(s)</th>
+                  <th scope="col" style="width:15%">Matricule</th>
+                  <th scope="col" style="width:15%">Contact</th>
+                  <th scope="col" style="width:5%">Sexe</th>
+                  <th scope="col" style="width:15%">Date de naissance</th>
+                  <th scope="col" class="actions" style="width:10%">Actions</th>
+
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-ayantDroit let-columns="columns">
+                <tr [pSelectableRow]="ayantDroit" [pEditableRow]="ayantDroit">
+                  <td>{{ ayantDroit.firstName }}</td>
+                  <td>{{ ayantDroit.lastName }}</td>
+                  <td>{{ ayantDroit.num }}</td>
+                  <td>{{ ayantDroit.mobile }}</td>
+                  <td>{{ ayantDroit.sexe }}</td>
+                  <td>{{ ayantDroit.datNaiss | date:'dd/MM/yyyy'}}</td>
+                  <td style="text-align: right;">
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2"
+                      (click)="editAyantDroit(ayantDroit)"></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger"
+                      (click)="deleteAyantDroit(ayantDroit)"></button>
+
+                  </td>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="emptymessage" let-columns>
+                <tr>
+                  <td [attr.colspan]="7">
+                    Ce client n'a pas de d'ayant droit
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+
+
+          </p-panel>
+          <div class="p-mb-2"></div>
+          <p-panel header=" Comptes clients" *ngIf="selectedEl">
+            <ng-template pTemplate="icons">
+              <button (click)="addCompteClient()" pButton icon="pi pi-plus" class="p-button-rounded p-button-primary">
+              </button>
+            </ng-template>
+            <p-table *ngIf="selectedEl" class="ui-table nucleus-dataview-list" [value]="selectedEl.compteClients"
+              dataKey="id" selectionMode="single" [resizableColumns]="true">
+
+              <ng-template pTemplate="header">
+                <tr>
+                  <th scope="col" style="width:10%">Type compte</th>
+                  <th scope="col" style="width:10%">Encours</th>
+                  <th scope="col" style="width:5%">Taux</th>
+                  <th scope="col" style="width:25%">Tiers-payant</th>
+                  <th scope="col" style="width:20%">Matricule</th>
+                  <th scope="col" style="width:10%">Catégorie</th>
+                  <th scope="col" style="width:10%">Plafond</th>
+                  <th scope="col" class="actions" style="width:10%; text-align: right;">Actions</th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-compteclient let-columns="columns">
+                <tr [pSelectableRow]="compteclient" [pEditableRow]="compteclient">
+                  <td>{{ compteclient.typeClient }}</td>
+                  <td style="text-align: right;">{{ compteclient.encours |number }}</td>
+                  <td style="text-align: right;">{{ compteclient.taux |number }}</td>
+                  <td>{{ compteclient.libelleTiersPayantF }}</td>
+                  <td>{{ compteclient.numMaticule }}</td>
+                  <td>{{ compteclient.categorie }}</td>
+
+                  <td style="text-align: right;">{{ compteclient.plafondMensuel |number }}</td>
+                  <td style="text-align: right;">
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2"
+                      (click)="editCompteClient(compteclient)"></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger"
+                      (click)="deleteCompteClient(compteclient)"></button>
+
+                  </td>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="emptymessage" let-columns>
+                <tr>
+                  <td [attr.colspan]="8">
+                    Ce client n'a pas d'assurance complementaire
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </p-panel>
+
+
+        </p-tabPanel>
+
+        <p-tabPanel header="Achats" leftIcon="pi pi-shopping-cart">
+
+        </p-tabPanel>
+
+
+      </p-tabView>
 
     </div>
+
+    <!-- </div> -->
 
 
   </div>

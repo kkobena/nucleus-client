@@ -13,6 +13,7 @@ export interface IRayon {
   stockProduits?: IStockProduit[];
   magasinNomCourt?: string;
   magasinId?: number;
+  exclude?: boolean;
 }
 
 export class Rayon implements IRayon {
@@ -25,6 +26,9 @@ export class Rayon implements IRayon {
     public libelle?: string,
     public stockProduits?: IStockProduit[],
     public magasinNomCourt?: string,
-    public magasinId?: number
-  ) { }
+    public magasinId?: number,
+    public exclude?: boolean
+  ) {
+    this.exclude = this.exclude || false;
+  }
 }

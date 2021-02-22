@@ -39,26 +39,35 @@ export class AppMenuComponent implements OnInit {
             {
                 label: 'Parametres', icon: 'pi pi-fw pi-star', routerLink: ['/parametres'],
                 items: [
-                    { label: 'Magasins', icon: 'pi pi-fw pi-sitemap', routerLink: ['/parametres/magasin'] },
+                    { label: 'Magasin', icon: 'pi pi-fw pi-sitemap', routerLink: ['/parametres/magasin'] },
                     { label: 'Rayons', icon: 'pi pi-fw pi-calendar-plus', routerLink: ['/parametres/rayon'] },
                     { label: 'Tva', icon: 'pi pi-fw pi-ban', routerLink: ['/parametres/tva'] },
                     { label: 'Familles ', icon: 'pi pi-fw pi-bell', routerLink: ['/parametres/famille-produits'] },
                     { label: 'Catégories', icon: 'pi pi-fw pi-apple', routerLink: ['/parametres/categorie-produits'] },
-                    { label: 'Type étiquettes', icon: 'pi pi-fw pi-tags', routerLink: ['/parametres/type-etiquette'] },
-                    { label: 'Type risques', icon: 'pi pi-fw pi-bars', routerLink: ['/parametres/type-risque'] },
-                    { label: 'Remises', icon: 'pi pi-fw pi-bars', routerLink: ['/parametres/remises'] },
-                    { label: 'Motifs', icon: 'pi pi-fw pi-bars', routerLink: ['/parametres/motif'] },
-                    { label: 'Modèle facture', icon: 'pi pi-fw pi-bars', routerLink: ['/parametres/models-factures'] },
-                    { label: 'Type inventaires', icon: 'pi pi-fw pi-bars', routerLink: ['/parametres/type-inventaires'] },
+                    /*  { label: 'Type étiquettes', icon: 'pi pi-fw pi-tags', routerLink: ['/parametres/type-etiquette'] }, */
+                    /*  { label: 'Type risques', icon: 'pi pi-fw pi-bars', routerLink: ['/parametres/type-risque'] }, */
+                    { label: 'Remises', icon: 'pi pi-fw pi-id-card', routerLink: ['/parametres/remises'] },
+                    /*     { label: 'Motifs', icon: 'pi pi-fw pi-bars', routerLink: ['/parametres/motif'] }, */
+                    /*   { label: 'Modèle facture', icon: 'pi pi-fw pi-bars', routerLink: ['/parametres/models-factures'] }, */
+                    /* { label: 'Type inventaires', icon: 'pi pi-fw pi-bars', routerLink: ['/parametres/type-inventaires'] }, */
 
-                    { label: 'Mode réglements', icon: 'pi pi-fw pi-bars', routerLink: ['/parametres/mode-reglements'] },
-                    { label: 'Formes', icon: 'pi pi-fw pi-bars', routerLink: ['/parametres/form-produits'] },
-                    { label: 'Gammes', icon: 'pi pi-fw pi-bars', routerLink: ['/parametres/gamme-produits'] },
+                    /*   { label: 'Mode réglements', icon: 'pi pi-fw pi-bars', routerLink: ['/parametres/mode-reglements'] }, */
+                    /*    { label: 'Formes', icon: 'pi pi-fw pi-bars', routerLink: ['/parametres/form-produits'] }, */
+                    { label: 'Gammes', icon: 'pi pi-fw pi-clone', routerLink: ['/parametres/gamme-produits'] },
                     { label: 'Laboratoires', icon: 'pi pi-fw pi-bars', routerLink: ['/parametres/laboratoires'] },
-                    { label: 'Type mouvement', icon: 'pi pi-fw pi-bars', routerLink: ['/parametres/type-mvt-caisse'] },
+                    /*  { label: 'Type mouvement', icon: 'pi pi-fw pi-bars', routerLink: ['/parametres/type-mvt-caisse'] }, */
 
                 ]
             },
+            {
+                label: 'Admin', icon: 'pi pi-fw pi-sitemap', routerLink: ['/admin'],
+                items: [
+                    { label: 'Utlisateurs', icon: 'pi pi-fw pi-users', routerLink: ['/admin/user'] },
+                    { label: 'Autorisations', icon: 'pi pi-fw pi-eye', routerLink: ['/admin/authority'] },
+                ]
+            },
+
+
             {
                 label: 'UI Kit', icon: 'pi pi-fw pi-star', routerLink: ['/uikit'], badge: 15,
                 items: [

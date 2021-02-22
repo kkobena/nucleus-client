@@ -1,0 +1,62 @@
+<p-toast position="center"></p-toast>
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+
+    <div class="p-col-12">
+        <div class="form-group" [hidden]="!editForm.get('id')!.value">
+            <input type="hidden" class="form-control" id="id" name="id" formControlName="id" readonly />
+        </div>
+
+
+        <div class="p-fluid p-formgrid p-grid">
+            <div class="p-field p-col">
+                <label class="col-auto col-form-label">Taux remise<span style="font-weight: 900;color: red;">*
+                    </span></label>
+                <input type="text" pInputText pKeyFilter="int" class="form-control" formControlName="remiseValue"
+                    name="remiseValue" autocomplete="off" />
+                <div
+                    *ngIf="editForm.get('remiseValue')!.invalid && (editForm.get('remiseValue')!.dirty || editForm.get('remiseValue')!.touched)">
+                    <small class="form-text text-danger" style="color: red;"
+                        *ngIf="editForm.get('remiseValue')?.errors?.required">
+                        Ce champ est obligatoire.
+                    </small>
+
+                </div>
+            </div>
+        </div>
+        <div class="p-fluid p-formgrid p-grid">
+            <div class="p-field p-col">
+                <label class="col-auto col-form-label">Type de remise<span
+                        style="font-weight: 900;color: red;">*</span></label>
+
+                <p-dropdown appendTo="body" [options]="typeRemises" styleClass="form-control" id="typeRemise"
+                    name="typeRemise" formControlName="typeRemise" [filter]="false"
+                    placeholder="Séléctionner un type de remise " [virtualScroll]="true" [style]="{'width':'100%'}">
+                </p-dropdown>
+                <div
+                    *ngIf="editForm.get('typeRemise')!.invalid && (editForm.get('typeRemise')!.dirty || editForm.get('typeRemise')!.touched)">
+                    <small class="form-text text-danger" style="color: red;"
+                        *ngIf="editForm.get('typeRemise')?.errors?.required">
+                        Ce champ est obligatoire.
+                    </small>
+
+                </div>
+            </div>
+        </div>
+        <div class="p-fluid p-formgrid p-grid">
+            <div class="p-field p-col">
+                <label class="col-auto col-form-label">Description</label>
+                <input type="text" pInputText class="form-control" formControlName="valeur" name="valeur"
+                    autocomplete="off" />
+
+            </div>
+        </div>
+
+    </div>
+    <div style="float: right;">
+        <button pButton pRipple type="submit" [disabled]="editForm.invalid || isSaving" icon="pi pi-check"
+            class="p-button-success p-mr-2 p-button-raised" (click)="save()" label="Enregistrer"></button>
+        <button type="button" class="p-button-danger p-mr-2 p-button-raised" pButton pRipple icon="pi pi-times"
+            (click)="cancel()" label="Annuler"></button>
+    </div>
+
+</form>

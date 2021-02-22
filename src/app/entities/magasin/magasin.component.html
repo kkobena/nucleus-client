@@ -1,1 +1,305 @@
-<p>magasin works!</p>
+<p-toast position="center"></p-toast>
+<p-confirmDialog #cd [style]="{width: '40vw'}" [baseZIndex]="10000">
+    <p-footer>
+
+        <button type="button" pButton icon="pi pi-check" label="Oui" (click)="cd.accept()"></button>
+        <button type="button" class="p-button-danger" pButton icon="pi pi-times" label="Non"
+            (click)="cd.reject()"></button>
+    </p-footer>
+
+</p-confirmDialog>
+
+<p-dialog header="Importer un fichier" [(visible)]="fileDialog" [focusOnShow]="false" [responsive]="true"
+    showEffect="fade" [modal]="true" [style]="{width: '50vw'}">
+    <div class="ui-g form-group">
+        <p-fileUpload chooseLabel="Importer un fichier" name="importcsv" uploadLabel="Enrégistrer" cancelLabel="Annuler"
+            accept=".txt,.csv,.xls,.xlsx" customUpload="true" (uploadHandler)="onUpload($event)">
+        </p-fileUpload>
+    </div>
+    <p-footer>
+        <button type="button" class="p-button-danger p-mr-2 p-button-raised" pButton pRipple icon="pi pi-times"
+            (click)="cancel()" label="Annuler"></button>
+
+    </p-footer>
+</p-dialog>
+
+<p-dialog header="Message" [(visible)]="responseDialog" [focusOnShow]="false" [responsive]="true" showEffect="fade"
+    [modal]="true" [style]="{width: '500px'}">
+
+    <div class="ui-g form-group">
+        <p>Le nombre de lignes insérées <span style="font-weight: 900; margin-left: 10px;"> {{responsedto?.size}}</span>
+        </p>
+
+    </div>
+</p-dialog>
+<div class="ui-g">
+    <div class="card no-margin">
+        <h6>Prametrage magasin</h6>
+        <p-toolbar>
+            <div class="p-toolbar-group-left p-md-6">
+                <!-- (onSelect)="onSelect($event)" -->
+
+                <p-dropdown appendTo="body" [options]="entites" [(ngModel)]="selectedEl" optionLabel="nomCourt"
+                    [filter]="false" placeholder="Séléctionner un autre margin " [style]="{'width':'100%'}"
+                    class="p-autocomplete"></p-dropdown>
+
+            </div>
+            <div class="p-toolbar-group-right">
+
+                <button pButton pRipple type="button" icon="pi pi-check" iconPos="left" label="Ajouter un autre magasin"
+                    class="p-button-raised p-mr-2 p-mb-2 p-button-success" (click)="addNewEntity()"></button>
+            </div>
+        </p-toolbar>
+        <p-tabView>
+            <p-tabPanel header="Information générale" leftIcon="pi pi-home">
+                <div class="invoice">
+                    <div class="invoice-item">
+                        <div class="p-grid">
+                            <div class="p-col-12 p-md-12 p-lg-6">
+                                <div class="card">
+                                    <table *ngIf="selectedEl" class="invoice-table">
+                                        <tbody>
+                                            <tr>
+                                                <td class="firstColumn">
+                                                    Description
+                                                </td>
+                                                <td class="secondColumn">{{selectedEl?.nomLong}}</td>
+
+                                                <td class="firstColumn">
+                                                    Adresse
+                                                </td>
+                                                <td class="secondColumn">{{selectedEl?.addressePostal}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="firstColumn">
+                                                    Mobile
+                                                </td>
+                                                <td class="secondColumn">{{selectedEl?.mobile }}</td>
+                                                <td class="firstColumn">
+                                                    Téléphone
+                                                </td>
+                                                <td class="secondColumn">{{selectedEl?.phone}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="firstColumn">
+                                                    Type magasin
+                                                </td>
+                                                <td colspan="2" class="secondColumn">{{selectedEl?.typeMagasinValue}}
+                                                </td>
+                                            </tr>
+
+                                            <tr *ngIf="selectedEl?.typeMagasin=='PRINCIPAL'">
+                                                <td class="firstColumn">
+                                                    Compte contribuable
+                                                </td>
+                                                <td class="secondColumn">{{selectedEl?.compteContribuable}}</td>
+                                                <td class="firstColumn">
+                                                    Numéro comptable
+                                                </td>
+                                                <td class="secondColumn">{{selectedEl?.numComptable}}</td>
+                                            </tr>
+                                            <tr *ngIf="selectedEl?.typeMagasin=='PRINCIPAL'">
+                                                <td class="firstColumn">
+                                                    Registre de commerce
+                                                </td>
+                                                <td class="secondColumn">{{selectedEl?.registreCommerce}}</td>
+                                                <td class="firstColumn">
+                                                    Registre d'imposition
+                                                </td>
+                                                <td class="secondColumn">{{selectedEl?.registreImposition}}</td>
+                                            </tr>
+                                            <tr *ngIf="selectedEl?.typeMagasin=='PRINCIPAL'">
+                                                <td class="firstColumn">
+                                                    Centre d'imposition
+                                                </td>
+                                                <td colspan="2" class="secondColumn">{{selectedEl?.centreImposition}}
+                                                </td>
+
+                                            </tr>
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th colspan="10" style="text-align: center;">
+
+                                                    <button type="button" pButton pRipple
+                                                        class="p-button-success p-mr-2 p-button-raised"
+                                                        icon="pi pi-check" iconPos="left"
+                                                        label="Modifier les informations" (click)="onEdit()"
+                                                        style="margin-right: 5px;"></button>
+                                                    <button *ngIf="selectedEl.id!=magasinPrincipal" type="button"
+                                                        pButton pRipple class="p-button-danger p-mr-2 p-button-raised"
+                                                        icon="fa fa-times" iconPos="left" label="Supprimer"
+                                                        (click)="delete()"></button>
+                                                </th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                                <div class="card" *ngIf="selectedEl?.typeMagasin=='PRINCIPAL'">
+                                    <h6 style="font-weight: 600;">Information figurant sur le ticket de caisse</h6>
+                                    <table class="invoice-table">
+                                        <tbody>
+                                            <tr>
+                                                <td class="firstColumn">
+                                                    Message entête
+                                                </td>
+                                                <td class="secondColumn">{{selectedEl?.entete}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="firstColumn">
+                                                    Commentaire
+                                                </td>
+                                                <td class="secondColumn">{{selectedEl?.commentaire}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="firstColumn">
+                                                    Autre Commentaire
+                                                </td>
+                                                <td class="secondColumn">{{selectedEl?.autreCommentaire}}</td>
+                                            </tr>
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th colspan="2" style="text-align: center;">
+
+                                                    <button type="button" pButton pRipple
+                                                        class="p-button-success p-mr-2 p-button-raised"
+                                                        icon="pi pi-check" iconPos="left" label="Modifier "
+                                                        (click)="onEditInfosTicket()"
+                                                        style="margin-right: 5px;"></button>
+
+                                                </th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="p-col-12 p-md-12 p-lg-6">
+                                <div class="card" *ngIf="selectedEl?.typeMagasin=='PRINCIPAL'">
+                                    <h6 style="font-weight: 600;">Points de stockage</h6>
+
+                                    <table *ngIf="selectedEl" class="invoice-table">
+                                        <thead>
+                                            <tr>
+
+                                                <th>Description</th>
+                                                <th>Type stockage</th>
+
+                                                <th style="text-align:right;" pTooltip="Repartir le stock">
+                                                    <button (click)="addStockage()" pButton icon="pi pi-plus"
+                                                        class="p-button-rounded p-button-primary"></button>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let magsin of selectedEl?.magasins; let i = index">
+                                                <td>{{magsin.nomLong}}</td>
+                                                <td>{{magsin.typeMagasinValue}}</td>
+                                                <td>
+                                                    <button pButton pRipple icon="pi pi-pencil"
+                                                        class="p-button-rounded p-button-success p-mr-2"
+                                                        (click)="editStock(magsin)"></button>
+                                                    <button *ngIf="magsin.id!=pointDeVente && magsin.id!=stockSecurity"
+                                                        pButton pRipple icon="pi pi-trash"
+                                                        class="p-button-rounded p-button-danger"
+                                                        (click)="removeStock(magsin)"></button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="card" *ngIf="selectedEl?.typeMagasin=='DEPOT'">
+                                    <h6 style="font-weight: 600;">Information figurant sur le ticket de caisse</h6>
+                                    <table class="invoice-table">
+                                        <tbody>
+                                            <tr>
+                                                <td class="firstColumn">
+                                                    Message entête
+                                                </td>
+                                                <td class="secondColumn">{{selectedEl?.entete}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="firstColumn">
+                                                    Commentaire
+                                                </td>
+                                                <td class="secondColumn">{{selectedEl?.commentaire}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="firstColumn">
+                                                    Autre Commentaire
+                                                </td>
+                                                <td class="secondColumn">{{selectedEl?.autreCommentaire}}</td>
+                                            </tr>
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th colspan="2" style="text-align: center;">
+
+                                                    <button type="button" pButton pRipple
+                                                        class="p-button-success p-mr-2 p-button-raised"
+                                                        icon="pi pi-check" iconPos="left" label="Modifier "
+                                                        (click)="onEditInfosTicket()"
+                                                        style="margin-right: 5px;"></button>
+
+                                                </th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+
+
+
+                                <div class="card">
+                                    <h6 style="font-weight: 600;">Gérant du magsin</h6>
+                                    <table *ngIf="selectedEl" class="invoice-table">
+                                        <thead *ngIf="!selectedEl?.manager">
+                                            <tr>
+
+                                                <th colspan="6" style="text-align:right;">
+                                                    <button (click)="addManager()" pButton icon="pi pi-plus"
+                                                        class="p-button-rounded p-button-primary"></button>
+
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="firstColumn">
+                                                    Nom
+                                                </td>
+                                                <td class="secondColumn">{{selectedEl?.manager?.firstName}}</td>
+
+                                                <td class="firstColumn">
+                                                    Prénom(s)
+                                                </td>
+                                                <td class="secondColumn">{{selectedEl?.manager?.lastName}}</td>
+
+
+                                                <td class="firstColumn">
+                                                    Login
+                                                </td>
+                                                <td class="secondColumn">{{selectedEl?.manager?.login }}</td>
+                                            </tr>
+                                        </tbody>
+
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </p-tabPanel>
+            <p-tabPanel header="Rayons" leftIcon="pi pi-directions">
+                <div class="invoice">
+                    <div class="invoice-item">
+                        <div class="p-grid"></div>
+                    </div>
+                </div>
+            </p-tabPanel>
+
+
+
+        </p-tabView>
+    </div>
+</div>

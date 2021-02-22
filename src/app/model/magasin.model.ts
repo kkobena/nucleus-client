@@ -1,6 +1,7 @@
 import { TypeMagasin } from './enumerations/type-magasin.model';
 import { Status } from './enumerations/status.model';
 import { IRayon } from './rayon.model';
+import { IUser } from './user.model';
 export interface IMagasin {
   id?: number;
   typeMagasin?: TypeMagasin;
@@ -24,6 +25,9 @@ export interface IMagasin {
   magasinId?: number;
   managerFirstName?: string;
   managerId?: number;
+  typeMagasinValue?: string,
+  manager?: IUser,
+  autonome?: boolean
 }
 
 export class Magasin implements IMagasin {
@@ -49,6 +53,13 @@ export class Magasin implements IMagasin {
     public magasinNomCourt?: string,
     public magasinId?: number,
     public managerFirstName?: string,
-    public managerId?: number
-  ) { }
+    public managerId?: number,
+    public typeMagasinValue?: string,
+    public manager?: IUser,
+    public autonome?: boolean
+  ) {
+
+    this.autonome = this.autonome || false;
+    this.typeMagasin = this.typeMagasin || TypeMagasin.SAFETY_STOCK;
+  }
 }

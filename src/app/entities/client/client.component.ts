@@ -325,9 +325,6 @@ export class ClientComponent implements OnInit {
         this.messageService.add({ severity: 'info', summary: 'Enregistrement', detail: 'Modification effectuée avec succes' });
       }
     });
-
-
-
   }
   addNewEntity(): void {
     this.ref = this.dialogService.open(ClientFormComponent, {

@@ -59,6 +59,8 @@ import { DetailComponent } from './entities/detail/detail.component';
 import { ProductComponent } from './entities/product/product.component';
 import { MagasinComponent } from './entities/magasin/magasin.component';
 import { RayonComponent } from './entities/rayon/rayon.component';
+import { UserComponent } from './entities/user/user.component';
+import { RoleComponent } from './entities/role/role.component';
 
 @NgModule({
     imports: [
@@ -120,6 +122,11 @@ import { RayonComponent } from './entities/rayon/rayon.component';
                     { path: 'stock/produits', component: ProductComponent },
                     { path: 'parametres/magasin', component: MagasinComponent },
                     { path: 'parametres/rayon', component: RayonComponent },
+                    { path: 'admin/authority', component: RoleComponent },
+                    { path: 'admin/user', component: UserComponent },
+
+
+
 
                 ]
             },

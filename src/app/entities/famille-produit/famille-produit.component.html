@@ -39,10 +39,6 @@
                         class="p-button-raised p-button-success" (click)="addNewEntity()"></button>
                 </div>
             </p-toolbar>
-
-
-
-
             <div class="alert alert-warning" id="no-result" *ngIf="entites?.length === 0">
                 <span>Aucune donnée trouvée</span>
             </div>
@@ -54,8 +50,7 @@
                         <th scope="col"><span>Code</span> </th>
                         <th scope="col"><span>Libellé</span> </th>
                         <th scope="col"><span>Catégorie article</span> </th>
-
-                        <!--    <th scope="col"></th> -->
+                        <th scope="col"></th>
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-elRow let-columns="columns">
@@ -64,10 +59,9 @@
                         <td>{{ elRow.libelle }}</td>
                         <td>{{ elRow.categorieLibelle }}</td>
                         <td style="text-align: center;">
-                            <button pButton pRipple icon="pi pi-pencil" type="submit" pTooltip="Supprimer"
-                                pTooltip="Editer" class="p-button-rounded p-button-success p-mr-2"
-                                (click)="onEdit(elRow)"></button>
-                            <button pButton pRipple icon="pi pi-trash" type="submit"
+                            <button pButton pRipple icon="pi pi-pencil" type="submit" pTooltip="Editer"
+                                class="p-button-rounded p-button-success p-mr-2" (click)="onEdit(elRow)"></button>
+                            <button pButton pTooltip="Supprimer" pRipple icon="pi pi-trash" type="submit"
                                 class="p-button-rounded p-button-warning" (click)="delete(elRow)"></button>
                         </td>
                     </tr>

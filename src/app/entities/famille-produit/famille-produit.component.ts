@@ -119,23 +119,10 @@ export class FamilleProduitComponent implements OnInit {
       }
     });
   }
-
-
-
-
   protected onSaveError(): void {
     this.messageService.add({ severity: 'error', summary: 'Erreur', detail: "L'opération a échouée" });
   }
 
-  private createFromForm(): IFamilleProduit {
-    return {
-      ...new FamilleProduit(),
-      id: this.editForm.get(['id'])!.value,
-      code: this.editForm.get(['code'])!.value,
-      libelle: this.editForm.get(['libelle'])!.value,
-      categorieId: this.editForm.get(['categorieId'])!.value,
-    };
-  }
 
 
   cancel(): void {
@@ -179,7 +166,6 @@ export class FamilleProduitComponent implements OnInit {
     this.ref = this.dialogService.open(FormFamilleComponent, {
       data: { familleProduit: null },
       width: '40%',
-      height: '300',
       header: "Ajout d'une nouvelle famille de produit"
     });
     this.ref.onClose.subscribe((entity: IFamilleProduit) => {
@@ -193,7 +179,6 @@ export class FamilleProduitComponent implements OnInit {
     this.ref = this.dialogService.open(FormFamilleComponent, {
       data: { familleProduit: entity },
       width: '40%',
-      height: '200',
       header: "Modification de " + entity.libelle
     });
     this.ref.onClose.subscribe((entity: IFamilleProduit) => {

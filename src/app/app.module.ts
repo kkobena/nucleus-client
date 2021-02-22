@@ -196,7 +196,20 @@ import { ProduitFormComponent } from './entities/product/produit-form/produit-fo
 import { DetailProduitFormComponent } from './entities/product/detail-produit-form/detail-produit-form.component';
 import { ParametreComponent } from './entities/parametre/parametre.component';
 import { FormFamilleComponent } from './entities/famille-produit/form-famille/form-famille.component';
-
+import { FormRemiseComponent } from './entities/remise/form-remise/form-remise.component';
+import { FormGammeComponent } from './entities/gamme-produit/form-gamme/form-gamme.component';
+import { FormLaboratoireComponent } from './entities/laboratoire-produit/form-laboratoire/form-laboratoire.component';
+import { MedecinComponent } from './entities/medecin/medecin.component';
+import { FormMagasinComponent } from './entities/magasin/form-magasin/form-magasin.component';
+import { FormStockageComponent } from './entities/magasin/form-stockage/form-stockage.component';
+import { FormInfosTicketComponent } from './entities/magasin/form-infos-ticket/form-infos-ticket.component';
+import { FormManagerComponent } from './entities/magasin/form-manager/form-manager.component';
+import { UserComponent } from './entities/user/user.component';
+import { UserService } from './entities/user/user.service';
+import { FormRayonComponent } from './entities/rayon/form-rayon/form-rayon.component';
+import { UserFormComponent } from './entities/user/user-form/user-form.component';
+import { RoleComponent } from './entities/role/role.component'
+import { AuthorityService } from './entities/role/authority.service'
 @NgModule({
     imports: [
         BrowserModule,
@@ -361,7 +374,19 @@ import { FormFamilleComponent } from './entities/famille-produit/form-famille/fo
         ProduitFormComponent,
         DetailProduitFormComponent,
         ParametreComponent,
-        FormFamilleComponent
+        FormFamilleComponent,
+        FormRemiseComponent,
+        FormGammeComponent,
+        FormLaboratoireComponent,
+        MedecinComponent,
+        FormMagasinComponent,
+        FormStockageComponent,
+        FormInfosTicketComponent,
+        FormManagerComponent,
+        UserComponent,
+        FormRayonComponent,
+        UserFormComponent,
+        RoleComponent
     ],
     providers: [
         { provide: LocationStrategy, useClass: HashLocationStrategy },
@@ -393,7 +418,9 @@ import { FormFamilleComponent } from './entities/famille-produit/form-famille/fo
         RayonService,
         FournisseurProduitService,
         ParametreService,
-        CategorieProduitService
+        CategorieProduitService,
+        UserService,
+        AuthorityService
     ],
 
     entryComponents: [
@@ -404,7 +431,16 @@ import { FormFamilleComponent } from './entities/famille-produit/form-famille/fo
         StockProduitFormComponent,
         FournisseurProduitFormComponent,
         ProduitFormComponent,
-        FormFamilleComponent
+        FormFamilleComponent,
+        FormRemiseComponent,
+        FormGammeComponent,
+        FormLaboratoireComponent,
+        FormMagasinComponent,
+        FormStockageComponent,
+        FormInfosTicketComponent,
+        FormManagerComponent,
+        FormRayonComponent,
+        UserFormComponent
     ],
     bootstrap: [AppComponent]
 })

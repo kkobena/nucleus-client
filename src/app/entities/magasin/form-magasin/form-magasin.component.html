@@ -1,0 +1,134 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+
+    <div class="p-col-12">
+        <div class="form-group" [hidden]="!editForm.get('id')!.value">
+            <input type="hidden" class="form-control" id="id" name="id" formControlName="id" readonly />
+        </div>
+        <div class="p-fluid p-formgrid p-grid">
+            <div class="p-field p-col">
+                <label class="col-auto col-form-label">Libllé<span style="font-weight: 900;color: red;">*
+                    </span></label>
+                <input type="text" pInputText class="form-control" formControlName="nomLong" name="nomLong"
+                    autocomplete="off" />
+                <div
+                    *ngIf="editForm.get('nomLong')!.invalid && (editForm.get('nomLong')!.dirty || editForm.get('nomLong')!.touched)">
+                    <small class="form-text text-danger" style="color: red;"
+                        *ngIf="editForm.get('nomLong')?.errors?.required">
+                        Ce champ est obligatoire.
+                    </small>
+
+                </div>
+            </div>
+            <div class="p-field p-col" *ngIf="showTypeMagasinInput">
+                <label class="col-auto col-form-label">Type magasin<span style="font-weight: 900;color: red;">*
+                    </span></label>
+                <p-dropdown appendTo="body" [options]="typeMagasins" formControlName="typeMagasin" name="typeMagasin"
+                    [filter]="true" placeholder="Séléctionner un type " [style]="{'width':'100%'}"
+                    class="p-autocomplete"></p-dropdown>
+                <div
+                    *ngIf="editForm.get('typeMagasin')!.invalid && (editForm.get('typeMagasin')!.dirty || editForm.get('typeMagasin')!.touched)">
+                    <small class="form-text text-danger" style="color: red;"
+                        *ngIf="editForm.get('typeMagasin')?.errors?.required">
+                        Ce champ est obligatoire.
+                    </small>
+
+                </div>
+            </div>
+        </div>
+        <div class="p-fluid p-formgrid p-grid">
+            <div class="p-field p-col">
+                <label class="col-auto col-form-label">Mobile</label>
+                <input type="text" pKeyFilter="int" pInputText class="form-control" formControlName="mobile"
+                    name="mobile" autocomplete="off" />
+            </div>
+            <div class="p-field p-col">
+                <label class="col-auto col-form-label">Téléphone</label>
+                <input type="text" pKeyFilter="int" pInputText class="form-control" formControlName="phone" name="phone"
+                    autocomplete="off" />
+            </div>
+            <div class="p-field p-col">
+                <label class="col-auto col-form-label">Numéro comptable</label>
+                <input type="text" pInputText class="form-control" formControlName="numComptable" name="numComptable"
+                    autocomplete="off" />
+            </div>
+        </div>
+        <div class="p-fluid p-formgrid p-grid">
+            <div class="p-field p-col-5">
+                <label class="col-auto col-form-label">Adresse postale</label>
+                <input type="text" pInputText class="form-control" formControlName="addressePostal"
+                    name="addressePostal" autocomplete="off" />
+            </div>
+            <div class="p-field p-col-5">
+                <label class="col-auto col-form-label">Compte contribuable</label>
+                <input type="text" pInputText class="form-control" formControlName="compteContribuable"
+                    name="compteContribuable" autocomplete="off" />
+            </div>
+            <div class="p-field p-col-2">
+                <h6>Autonome</h6>
+                <p-inputSwitch class="form-control" [disabled]="!showTypeMagasinInput" formControlName="autonome">
+                </p-inputSwitch>
+            </div>
+        </div>
+        <div class="p-fluid p-formgrid p-grid">
+            <div class="p-field p-col">
+                <label class="col-auto col-form-label">Registre de commerce</label>
+                <input type="text" pInputText class="form-control" formControlName="registreCommerce"
+                    name="registreCommerce" autocomplete="off" />
+            </div>
+            <div class="p-field p-col">
+                <label class="col-auto col-form-label">Regime d'imposition</label>
+                <input type="text" pInputText class="form-control" formControlName="registreImposition"
+                    name="registreImposition" autocomplete="off" />
+            </div>
+        </div>
+
+
+        <div class="p-fluid p-formgrid p-grid">
+            <div class="p-field p-col">
+                <label class="col-auto col-form-label">Message d'entête</label>
+                <input type="text" pInputText class="form-control" formControlName="entete" name="entete"
+                    autocomplete="off" />
+
+            </div>
+        </div>
+
+        <div class="p-fluid p-formgrid p-grid">
+            <div class="p-field p-col">
+                <label class="col-auto col-form-label">Commentaire</label>
+                <input type="text" pInputText class="form-control" formControlName="commentaire" name="commentaire"
+                    autocomplete="off" />
+
+            </div>
+        </div>
+        <div class="p-fluid p-formgrid p-grid">
+            <div class="p-field p-col">
+                <label class="col-auto col-form-label">Autre commentaire</label>
+                <input type="text" pInputText class="form-control" formControlName="entete" name="entete"
+                    autocomplete="off" />
+
+            </div>
+        </div>
+
+
+        <div class="p-fluid p-formgrid p-grid">
+            <div class="p-field p-col">
+                <label class="col-auto col-form-label">Responsable du magsin</label>
+                <p-dropdown appendTo="body" [options]="users" formControlName="managerId" name="managerId"
+                    optionLabel="fullName" optionValue="id" [filter]="true" placeholder="Séléctionner un utilisateur "
+                    [style]="{'width':'100%'}" class="p-autocomplete"></p-dropdown>
+            </div>
+            <div class="p-field p-col">
+                <label class="col-auto col-form-label">Centre d'imposition</label>
+                <input type="text" pInputText class="form-control" formControlName="centreImposition"
+                    name="centreImposition" autocomplete="off" />
+            </div>
+        </div>
+    </div>
+    <div style="float: right;">
+        <button pButton pRipple type="submit" [disabled]="editForm.invalid || isSaving" icon="pi pi-check"
+            class="p-button-success p-mr-2 p-button-raised" (click)="save()" label="Enregistrer"></button>
+        <button type="button" class="p-button-danger p-mr-2 p-button-raised" pButton pRipple icon="pi pi-times"
+            (click)="cancel()" label="Annuler"></button>
+    </div>
+
+</form>

@@ -1,0 +1,81 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+    <div class="p-col-12">
+        <div class="form-group" [hidden]="!editForm.get('id')!.value">
+            <input type="hidden" class="form-control" id="id" name="id" formControlName="id" readonly />
+        </div>
+        <div class="p-fluid p-formgrid p-grid">
+            <div class="p-field p-col">
+                <label class="col-auto col-form-label">Nom<span style="font-weight: 900;color: red;">*
+                    </span></label>
+                <input type="text" pInputText class="form-control" formControlName="firstName" name="firstName"
+                    autocomplete="off" />
+                <div
+                    *ngIf="editForm.get('firstName')!.invalid && (editForm.get('firstName')!.dirty || editForm.get('firstName')!.touched)">
+                    <small class="form-text text-danger" style="color: red;"
+                        *ngIf="editForm.get('firstName')?.errors?.required">
+                        Ce champ est obligatoire.
+                    </small>
+
+                </div>
+            </div>
+            <div class="p-field p-col">
+                <label class="col-auto col-form-label">Prénom(s)<span style="font-weight: 900;color: red;">*
+                    </span></label>
+                <input type="text" pInputText class="form-control" formControlName="lastName" name="lastName"
+                    autocomplete="off" />
+                <div
+                    *ngIf="editForm.get('lastName')!.invalid && (editForm.get('lastName')!.dirty || editForm.get('lastName')!.touched)">
+                    <small class="form-text text-danger" style="color: red;"
+                        *ngIf="editForm.get('lastName')?.errors?.required">
+                        Ce champ est obligatoire.
+                    </small>
+
+                </div>
+            </div>
+
+        </div>
+        <div class="p-fluid p-formgrid p-grid">
+
+            <div class="p-field p-col">
+                <label class="col-auto col-form-label">Login<span style="font-weight: 900;color: red;">*
+                    </span></label>
+                <input type="text" pInputText class="form-control" formControlName="login" name="login"
+                    autocomplete="off" />
+                <div
+                    *ngIf="editForm.get('login')!.invalid && (editForm.get('login')!.dirty || editForm.get('login')!.touched)">
+                    <small class="form-text text-danger" style="color: red;"
+                        *ngIf="editForm.get('login')?.errors?.required">
+                        Ce champ est obligatoire.
+                    </small>
+
+                </div>
+            </div>
+            <div class="p-field p-col">
+                <label class="col-auto col-form-label">Rôle<span style="font-weight: 900;color: red;">*
+                    </span></label>
+                <p-dropdown appendTo="body" [options]="roles" formControlName="role" optionLabel="name"
+                    optionValue="name" name="role" [filter]="false" placeholder="Séléctionner un rôle "
+                    [style]="{'width':'100%'}" class="p-autocomplete"></p-dropdown>
+                <div
+                    *ngIf="editForm.get('role')!.invalid && (editForm.get('role')!.dirty || editForm.get('role')!.touched)">
+                    <small class="form-text text-danger" style="color: red;"
+                        *ngIf="editForm.get('role')?.errors?.required">
+                        Ce champ est obligatoire.
+                    </small>
+
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+    <div style="float: right;">
+        <button pButton pRipple type="submit" [disabled]="editForm.invalid || isSaving" icon="pi pi-check"
+            class="p-button-success p-mr-2 p-button-raised" (click)="save()" label="Enregistrer"></button>
+        <button type="button" class="p-button-danger p-mr-2 p-button-raised" pButton pRipple icon="pi pi-times"
+            (click)="cancel()" label="Annuler"></button>
+    </div>
+
+</form>
+<p-toast position="center"></p-toast>

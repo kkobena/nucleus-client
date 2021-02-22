@@ -4,6 +4,7 @@ import { SERVER_API_URL } from 'src/app/app.constants';
 import { Observable } from 'rxjs';
 import { createRequestOption } from 'src/app/shared/util/request-util';
 import { ILaboratoire } from 'src/app/model/laboratoire.model';
+import { IResponseDto } from 'src/app/shared/util/response-dto';
 type EntityResponseType = HttpResponse<ILaboratoire>;
 type EntityArrayResponseType = HttpResponse<ILaboratoire[]>;
 @Injectable({
@@ -38,5 +39,8 @@ export class LaboratoireProduitService {
   async queryPromise(req?: any): Promise<ILaboratoire[]> {
     const options = createRequestOption(req);
     return await this.http.get<ILaboratoire[]>(this.resourceUrl, { params: options }).toPromise();
+  }
+  uploadFile(file: any): Observable<HttpResponse<IResponseDto>> {
+    return this.http.post<IResponseDto>(`${this.resourceUrl}/importcsv`, file, { observe: 'response' });
   }
 }
