@@ -15,14 +15,28 @@ export class RemiseService {
 
   public resourceUrl = SERVER_API_URL + 'api/remises';
 
-  constructor(protected http: HttpClient) {}
+  constructor(protected http: HttpClient) { }
 
   create(remise: IRemise): Observable<EntityResponseType> {
-    return this.http.post<IRemise>(this.resourceUrl, remise, { observe: 'response' });
+    let url = this.resourceUrl;
+    if (remise.typeRemise == 'RC') {
+      url = url + '/client';
+
+    } else if (remise.typeRemise == 'RP') {
+      url = url + '/produit';
+    }
+    return this.http.post<IRemise>(url, remise, { observe: 'response' });
   }
 
   update(remise: IRemise): Observable<EntityResponseType> {
-    return this.http.put<IRemise>(this.resourceUrl, remise, { observe: 'response' });
+    let url = this.resourceUrl;
+    if (remise.typeRemise == 'RC') {
+      url = url + '/client';
+
+    } else if (remise.typeRemise == 'RP') {
+      url = url + '/produit';
+    }
+    return this.http.put<IRemise>(url, remise, { observe: 'response' });
   }
 
   find(id: number): Observable<EntityResponseType> {
@@ -42,6 +56,6 @@ export class RemiseService {
   }
   async queryPromise(req?: any): Promise<IRemise[]> {
     const options = createRequestOption(req);
-    return await  this.http.get<IRemise[]>(this.resourceUrl, { params: options}).toPromise();
+    return await this.http.get<IRemise[]>(this.resourceUrl, { params: options }).toPromise();
   }
 }

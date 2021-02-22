@@ -1,18 +1,18 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpResponse} from '@angular/common/http';
-import {SERVER_API_URL} from '../../app.constants';
-import {ITva} from '../../model/tva.model';
-import {Observable} from 'rxjs';
-import {createRequestOption} from '../../shared/util/request-util';
+import { HttpClient, HttpResponse } from '@angular/common/http';
+import { SERVER_API_URL } from '../../app.constants';
+import { ITva } from '../../model/tva.model';
+import { Observable } from 'rxjs';
+import { createRequestOption } from '../../shared/util/request-util';
 type EntityResponseType = HttpResponse<ITva>;
 type EntityArrayResponseType = HttpResponse<ITva[]>;
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class TvaService {
     public resourceUrl = SERVER_API_URL + 'api/tvas';
 
-    constructor(protected http: HttpClient) {}
+    constructor(protected http: HttpClient) { }
     create(tva: ITva): Observable<EntityResponseType> {
         return this.http.post<ITva>(this.resourceUrl, tva, { observe: 'response' });
     }
@@ -32,5 +32,9 @@ export class TvaService {
 
     delete(id: number): Observable<HttpResponse<{}>> {
         return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
+    }
+    async queryPromise(req?: any): Promise<ITva[]> {
+        const options = createRequestOption(req);
+        return await this.http.get<ITva[]>(this.resourceUrl, { params: options }).toPromise();
     }
 }

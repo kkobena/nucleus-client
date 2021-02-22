@@ -2,19 +2,17 @@
 
 <p-confirmDialog #cd [style]="{width: '40vw'}" [baseZIndex]="10000">
   <p-footer>
-
     <button type="button" pButton icon="pi pi-check" label="Oui" (click)="cd.accept()"></button>
-    <button type="button" class="ui-button-danger" pButton icon="pi pi-times" label="Non"
-      (click)="cd.reject()"></button>
+    <button type="button" class="p-button-danger" pButton icon="pi pi-times" label="Non" (click)="cd.reject()"></button>
   </p-footer>
 
 </p-confirmDialog>
 
-<p-dialog header="Importer un fichier csv" [(visible)]="fileDialog" [focusOnShow]="false" [responsive]="true"
-  showEffect="fade" [modal]="true" [style]="{width: '500px'}">
+<p-dialog header="Importer un fichier" [(visible)]="fileDialog" [focusOnShow]="false" [responsive]="true"
+  showEffect="fade" [modal]="true" [style]="{width: '50vw'}">
 
   <div class="ui-g form-group">
-    <p-fileUpload chooseLabel="Importer un fichier csv" name="importcsv" uploadLabel="Enrégistrer" cancelLabel="Annuler"
+    <p-fileUpload chooseLabel="Importer un fichier" name="importcsv" uploadLabel="Enrégistrer" cancelLabel="Annuler"
       accept=".txt,.csv,.xls,.xlsx" customUpload="true" (uploadHandler)="onUpload($event)">
 
     </p-fileUpload>
@@ -22,9 +20,8 @@
   </div>
 
   <p-footer>
-    <button type="button" class="ui-button-danger" pButton icon="pi pi-times" (click)="cancel()"
-      label="Annuler"></button>
-
+    <button type="button" class="p-button-danger p-mr-2 p-button-raised" pButton pRipple icon="pi pi-times"
+      (click)="cancel()" label="Annuler"></button>
   </p-footer>
 </p-dialog>
 
@@ -36,175 +33,170 @@
     </p>
 
   </div>
-
-
 </p-dialog>
 
 
 <div class="ui-g">
-  <div class="ui-g-12">
+  <div class="p-col-12">
     <div class="card no-margin">
       <h3> Gestion des tiers-payants</h3>
       <p-toolbar>
-        <div class="ui-toolbar-group-left ui-g-7">
+        <div class="p-toolbar-group-left p-md-7">
 
           <p-autoComplete [(ngModel)]="selectedEl" [suggestions]="entites" (completeMethod)="search($event)"
-            field="libelLong" [forceSelection]="true" (onSelect)="onSelect($event)" [style]="{'width':'100%'}"
-            [inputStyle]="{'width':'100%'}" minLength=1>
+            placeholder="Taper pour rechercher" field="libelLong" [forceSelection]="true" (onSelect)="onSelect($event)"
+            minLength=1 [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}" class="p-autocomplete">
 
           </p-autoComplete>
         </div>
 
-        <div class="ui-toolbar-group-right ui-g-5">
-          <button type="button" pButton icon="fa fa-file-o" iconPos="left" label="Importer un fichier csv"
-            (click)="showFileDialog()" class="ui-button-warning" style="margin-right: 0.2em;"></button>
-          <button type="button" pButton icon="fa fa-plus" iconPos="left" label="Nouveau tiers-payant"
-            (click)="addNewEntity()" ></button>
+        <div class="p-toolbar-group-right p-md-5">
+
+          <p-splitButton label="Importer" icon="pi pi-upload" [model]="splitbuttons"
+            styleClass="p-button-raised p-button-help p-mr-2 p-mb-2"></p-splitButton>
+
+          <button pButton pRipple type="button" icon="pi pi-check" iconPos="left" label="Nouveau tiers-payant"
+            class="p-button-raised p-mr-2 p-mb-2 p-button-success" (click)="addNewEntity()"></button>
 
         </div>
       </p-toolbar>
       <div style="margin-top:0.2em;">
         <p-tabView>
           <p-tabPanel header="Information tiers-payant" leftIcon="fa fa-fw fa-home">
-            <div class="card no-margin">
-              <table *ngIf="selectedEl" class="ui-table nucleus-dataview-list">
-                <tbody class="ui-table-tbody">
-                  <tr>
-                    <td class="firstColumn">
-                      Code
-                    </td>
-                    <td class="secondColumn">{{selectedEl?.code}}</td>
+            <div class="invoice">
+              <div class="invoice-items">
+                <table *ngIf="selectedEl">
+                  <tbody>
+                    <tr>
+                      <td class="firstColumn">
+                        Code
+                      </td>
+                      <td class="secondColumn">{{selectedEl?.code}}</td>
 
-                    <td class="firstColumn">
-                      Nom
-                    </td>
-                    <td class="secondColumn">{{selectedEl?.libelLong}}</td>
+                      <td class="firstColumn">
+                        Nom
+                      </td>
+                      <td class="secondColumn">{{selectedEl?.libelLong}}</td>
 
-                    <td class="firstColumn">
-                      Nom Abrégé
-                    </td>
-                    <td class="secondColumn">{{selectedEl?.libelCourt}}</td>
-                    <td class="firstColumn">
-                      Groupe tiers-payant
-                    </td>
-                    <td class="secondColumn">{{selectedEl?.groupetpLibelle}}</td>
-                  </tr>
+                      <td class="firstColumn">
+                        Nom Abrégé
+                      </td>
+                      <td class="secondColumn">{{selectedEl?.libelCourt}}</td>
+                      <td class="firstColumn">
+                        Groupe tiers-payant
+                      </td>
+                      <td class="secondColumn">{{selectedEl?.groupetpLibelle}}</td>
+                    </tr>
+                    <tr>
+                      <td class="firstColumn">
+                        Téléphone
+                      </td>
+                      <td class="secondColumn">{{selectedEl?.phone}}</td>
 
+                      <td class="firstColumn">
+                        Mobile
+                      </td>
+                      <td class="secondColumn">{{selectedEl?.mobile}}</td>
 
-                  <tr>
-                    <td class="firstColumn">
-                      Téléphone
-                    </td>
-                    <td class="secondColumn">{{selectedEl?.phone}}</td>
+                      <td class="firstColumn">
+                        Adresse
+                      </td>
+                      <td class="secondColumn">{{selectedEl?.address}}</td>
 
-                    <td class="firstColumn">
-                      Mobile
-                    </td>
-                    <td class="secondColumn">{{selectedEl?.mobile}}</td>
+                      <td class="firstColumn">
+                        Code comptable
+                      </td>
+                      <td class="secondColumn">{{selectedEl?.codeComptable}}</td>
+                    </tr>
 
-                    <td class="firstColumn">
-                      Adresse
-                    </td>
-                    <td class="secondColumn">{{selectedEl?.address}}</td>
+                    <tr>
+                      <td class="firstColumn">
+                        Montant maxi par facture
+                      </td>
+                      <td class="secondColumn">
+                        <div *ngIf="selectedEl?.montantMaxFacture>0;then maxigt_content else maxilt"></div>
+                        <ng-template #maxigt_content> {{selectedEl?.montantMaxFacture | number}}
+                        </ng-template>
+                        <ng-template #maxilt> Non défini</ng-template>
+                      </td>
 
-                    <td class="firstColumn">
-                      Code comptable
-                    </td>
-                    <td class="secondColumn">{{selectedEl?.codeComptable}}</td>
-                  </tr>
+                      <td class="firstColumn">
+                        Risque
+                      </td>
+                      <td class="secondColumn">{{selectedEl?.risqueLibelle}}</td>
 
-                  <tr>
-                    <td class="firstColumn">
-                      Montant maxi par facture
-                    </td>
-                    <td class="secondColumn">
-                      <div *ngIf="selectedEl?.montantMaxFacture>0;then maxigt_content else maxilt"></div>
-                      <ng-template #maxigt_content> {{selectedEl?.montantMaxFacture | number}}
-                      </ng-template>
-                      <ng-template #maxilt> Non défini</ng-template>
-                    </td>
+                      <td class="firstColumn">
+                        Modèle facture
+                      </td>
+                      <td class="secondColumn">{{selectedEl?.modelFactureLibelle}}</td>
 
-                    <td class="firstColumn">
-                      Risque
-                    </td>
-                    <td class="secondColumn">{{selectedEl?.risqueLibelle}}</td>
+                      <td class="firstColumn">
+                        Plafond
+                      </td>
+                      <td class="secondColumn">
+                        <div *ngIf="selectedEl?.plafond<=0;then other_content else content"></div>
+                        <ng-template #content> {{selectedEl?.plafond | number}}
+                        </ng-template>
+                        <ng-template #other_content>Non défini</ng-template>
 
-                    <td class="firstColumn">
-                      Modèle facture
-                    </td>
-                    <td class="secondColumn">{{selectedEl?.modelFactureLibelle}}</td>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="firstColumn">
+                        Maximun de bons par facture
+                      </td>
+                      <td class="secondColumn">
+                        <div *ngIf="selectedEl?.nbreBordereaux>0;then nbre_content else ko_content"></div>
+                        <ng-template #nbre_content> {{selectedEl?.nbreBordereaux | number}}
+                        </ng-template>
+                        <ng-template #ko_content>Non défini</ng-template>
+                      </td>
 
-                    <td class="firstColumn">
-                      Plafond
-                    </td>
-                    <td class="secondColumn">
-                      <div *ngIf="selectedEl?.plafond<=0;then other_content else content"></div>
-                      <ng-template #content> {{selectedEl?.plafond |  number}}
-                      </ng-template>
-                      <ng-template #other_content>Non défini</ng-template>
+                      <td class="firstColumn">
+                        Type tiers-payant
+                      </td>
+                      <td class="secondColumn">{{selectedEl?.typeTp}}</td>
 
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="firstColumn">
-                      Maximun de bons par facture
-                    </td>
-                    <td class="secondColumn">
-                      <div *ngIf="selectedEl?.nbreBordereaux>0;then nbre_content else ko_content"></div>
-                      <ng-template #nbre_content> {{selectedEl?.nbreBordereaux | number}}
-                      </ng-template>
-                      <ng-template #ko_content>Non défini</ng-template>
-                    </td>
+                      <td class="firstColumn">
+                        Type plafond
+                      </td>
+                      <td class="secondColumn">
+                        <div *ngIf="selectedEl?.typePlafond;then absolu else non_absolu"></div>
+                        <ng-template #absolu> Absolu </ng-template>
+                        <ng-template #non_absolu> Non absolu</ng-template>
 
-                    <td class="firstColumn">
-                      Type tiers-payant
-                    </td>
-                    <td class="secondColumn">{{selectedEl?.typeTp}}</td>
+                      </td>
 
-                    <td class="firstColumn">
-                      Type plafond
-                    </td>
-                    <td class="secondColumn">
-                      <div *ngIf="selectedEl?.typePlafond;then absolu else non_absolu"></div>
-                      <ng-template #absolu> Absolu </ng-template>
-                      <ng-template #non_absolu> Non absolu</ng-template>
+                      <td class="firstColumn">
+                        Remise forfetaire
+                      </td>
+                      <td class="secondColumn">
+                        {{selectedEl?.remiseForfetaire | number}}
+                      </td>
 
-                    </td>
-
-                    <td class="firstColumn">
-                      Remise forfetaire
-                    </td>
-                    <td class="secondColumn">
-                      {{selectedEl?.remiseForfetaire | number}}
-                    </td>
-
-                  </tr>
-
-
-                </tbody>
-                <tfoot>
-                  <tr>
-                    <th colspan="8" style="text-align: center;">
-
-                      <button type="button" pButton class="ui-button-success" icon="fa fa-pencil-square-o"
-                        iconPos="left" label="Modifier les information du tiers-payant" (click)="onEdit()"
-                         style="margin-right: 5px;"></button>
-                      <button type="button" pButton class="ui-button-danger" icon="fa fa-times"
-                        iconPos="left" label="Supprimer" (click)="delete()"
-                        ></button>
-                    </th>
-                  </tr>
-                </tfoot>
-              </table>
+                    </tr>
 
 
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <th colspan="8" style="text-align: center;">
+
+                        <button type="button" pButton pRipple class="p-button-success p-mr-2 p-button-raised"
+                          icon="pi pi-check" iconPos="left" label="Modifier les information du tiers-payant"
+                          (click)="onEdit()"></button>
+                        <button type="button" pButton class="p-button-danger p-mr-2 p-button-raised" icon="fa fa-times"
+                          iconPos="left" label="Supprimer" (click)="delete()" pRipple icon="pi pi-times"></button>
+                      </th>
+                    </tr>
+                  </tfoot>
+                </table>
+
+              </div>
             </div>
-
-
-
           </p-tabPanel>
           <p-tabPanel header="Clients" leftIcon="fa fa-user-o">
-<button class="bg-warning" (click)="addNewClient()"> new client</button>
+            <button class="bg-warning" (click)="addNewClient()"> new client</button>
             <!-- debut block infos client-->
 
             <!-- Fin block info client -->

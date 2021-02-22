@@ -47,7 +47,7 @@
             margin-bottom: 54px;
         }
 
-        .ui-inputtext {
+        .p-inputtext {
             width: 100%;
             margin: 6px 0;
         }
@@ -58,18 +58,15 @@
             .remember-me {
                 float: left;
 
-                span {
+                span:not(.p-checkbox-icon) {
+                    margin-left: .5em;
                     font-size: 12px;
                     color: #8a8a8a;
                     vertical-align: middle;
-
-                    &.ui-icon-check {
-                        color: #ffffff;
-                    }
                 }
             }
 
-            .ui-button {
+            .p-button {
                 float: right;
             }
         }

@@ -55,10 +55,9 @@
             @include transition(transform $transitionDuration);
 
             i {
-                font-size: 45px;
+                font-size: 36px;
                 position: relative;
-                top: -1px;
-                right: 1px;
+                top: 5px;
                 color: $rightPanelButtonIconColor;
                 @include transition(all $transitionDuration);
             }
@@ -71,8 +70,6 @@
                 i {
                     color: $primaryTextColor;
                     @include rotate(180deg);
-                    top: 3px;
-                    right: -1px;
                 };
             }
 
@@ -134,7 +131,7 @@
             height: 60px;
             padding: 20px;
             font-weight: 500;
-    
+
             img {
                 width: 25px;
                 height: 25px;
@@ -142,7 +139,7 @@
                 border: 0 none;
                 margin-right: 6px;
             }
-    
+
             span {
                 vertical-align: middle;
                 font-size: 14px;
@@ -151,12 +148,12 @@
                 margin-right: 10px;
                 color: $topbarProfileTextColor;
             }
-    
+
             i {
                 vertical-align: middle;
                 color: $topbarProfileTextColor;
             }
-    
+
             &:hover {
                 background-color: $topbarMenuHoverBgColor;
             }
@@ -258,12 +255,12 @@
         .layout-topbar {
             #topbar-usermenu {
                 background-color: $lightMenuBgColor;
-    
+
                 li {
                     a {
                         color: $lightMenuItemTextColor;
                     }
-                }                               
+                }
             }
         }
     }

@@ -1,0 +1,40 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+
+    <div class="p-col-12">
+
+
+        <div class="p-fluid p-formgrid p-grid">
+            <div class="p-field p-col">
+                <label class="col-auto col-form-label">Message d'entête</label>
+                <input type="text" pInputText class="form-control" formControlName="entete" name="entete"
+                    autocomplete="off" />
+
+            </div>
+        </div>
+
+        <div class="p-fluid p-formgrid p-grid">
+            <div class="p-field p-col">
+                <label class="col-auto col-form-label">Commentaire</label>
+                <input type="text" pInputText class="form-control" formControlName="commentaire" name="commentaire"
+                    autocomplete="off" />
+
+            </div>
+        </div>
+        <div class="p-fluid p-formgrid p-grid">
+            <div class="p-field p-col">
+                <label class="col-auto col-form-label">Autre commentaire</label>
+                <input type="text" pInputText class="form-control" formControlName="autreCommentaire"
+                    name="autreCommentaire" autocomplete="off" />
+
+            </div>
+        </div>
+
+    </div>
+    <div style="float: right;">
+        <button pButton pRipple type="submit" [disabled]="editForm.invalid || isSaving" icon="pi pi-check"
+            class="p-button-success p-mr-2 p-button-raised" (click)="save()" label="Enregistrer"></button>
+        <button type="button" class="p-button-danger p-mr-2 p-button-raised" pButton pRipple icon="pi pi-times"
+            (click)="cancel()" label="Annuler"></button>
+    </div>
+
+</form>

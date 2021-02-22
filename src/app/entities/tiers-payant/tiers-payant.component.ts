@@ -1,51 +1,53 @@
-import { ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Subscription, Observable } from 'rxjs';
-import { FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { ConfirmationService, LazyLoadEvent, MessageService, MenuItem, SelectItem } from 'primeng';
+import { ConfirmationService, LazyLoadEvent, MessageService, MenuItem } from 'primeng/api';
 import { TiersPayantService } from './tiers-payant.service';
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ITEMS_PER_PAGE } from 'src/app/shared/constants/pagination.constants';
-import { ITierspayant, Tierspayant } from 'src/app/model/tierspayant.model';
+import { ITierspayant } from 'src/app/model/tierspayant.model';
 import { ClientService } from '../client/client.service';
 import { IClient } from 'src/app/model/client.model';
 import { IResponseDto } from 'src/app/shared/util/response-dto';
 import { TiersPayantFormComponent } from 'src/app/shared/form/tiers-payant-form/tiers-payant-form.component';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ClientFormComponent } from '../client/client-form/client-form.component';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 
 
 @Component({
   selector: 'app-tiers-payant',
   templateUrl: './tiers-payant.component.html',
   styles: [` 
+  .p-autocomplete{ width: 100%; }
   body .ui-inputtext{
    width: 100% !important;
 }
+
 body .ui-dropdown{
     width: 100% !important;
 }
+/*
 .firstColumn {
   border: none !important; 
     text-align: left;
-}
+}*/
 .secondColumn {
-  text-align: left;
+  /*text-align: left;
   font-weight: 400;
-  border: none !important; 
+  border: none !important; */
   color:blue;
 }
-td{
-font-size:0.8rem;
 
-}
-.nucleus-dataview-list tbody tr{
-  
-  border-bootom: 1px solid #dedede !important;
+.invoice,.invoice .invoice-items {
+     margin-top: 0; 
+     padding-top: 0;
+    }
+.invoice .invoice-items table th, .invoice .invoice-items table td {
+    padding: 0.8rem;
+ 
 }
 
    `],
-  providers: [MessageService],
+  providers: [MessageService, DialogService],
   encapsulation: ViewEncapsulation.None
 })
 export class TiersPayantComponent implements OnInit {
@@ -61,32 +63,34 @@ export class TiersPayantComponent implements OnInit {
   displayDialog: boolean;
   fileDialog: boolean;
   responseDialog: boolean;
-  items: MenuItem[];
   clients?: IClient[];
   responsedto!: IResponseDto;
-
+  splitbuttons: MenuItem[];
+  ref: DynamicDialogRef;
   constructor(protected entityService: TiersPayantService,
     protected clientService: ClientService,
     protected activatedRoute: ActivatedRoute,
     protected router: Router,
     protected modalService: ConfirmationService,
-    protected ngmodalService: NgbModal,
-    private fb: FormBuilder,
+    private dialogService: DialogService,
     private messageService: MessageService,
-
-
-
   ) {
 
   }
 
   ngOnInit(): void {
-    this.items = [
-      { label: 'Information tiers-paynt', icon: 'fa fa-fw fa-home' },
-      { label: 'Information clients', icon: 'fa fa-user-o' },
-      { label: 'Achats', icon: 'fa fa-bitcoin' }
 
+    this.splitbuttons = [
+      {
+        label: 'CSV', icon: 'pi pi-folder', command: () => {
+          this.showFileDialog();
+        }
+      },
+      {
+        label: 'JSON', icon: 'pi pi-file', command: () => {
 
+        }
+      },
     ];
 
     this.activatedRoute.data.subscribe(data => {
@@ -148,11 +152,12 @@ export class TiersPayantComponent implements OnInit {
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         this.entityService.delete(id).subscribe(() => {
+          this.selectedEl = null;
           this.loadPage(0);
 
         },
           (e: HttpResponse<any>) => {
-            console.log(e);
+
             this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'Enregistrement a échoué' });
           }
 
@@ -204,7 +209,7 @@ export class TiersPayantComponent implements OnInit {
     this.displayDialog = false;
     this.fileDialog = false;
   }
- 
+
   search(event: any): void {
     this.loadPage(0, event.query);
   }
@@ -257,24 +262,38 @@ export class TiersPayantComponent implements OnInit {
       );
   }
   onEdit(): void {
-    const modalRef = this.ngmodalService.open(TiersPayantFormComponent, { size: 'xl', backdrop: 'static', centered: true, keyboard: false });
-    modalRef.componentInstance.tiersPayant = this.selectedEl;
-    modalRef.result.then((result) => {
-      this.selectedEl = result;
+    this.ref = this.dialogService.open(TiersPayantFormComponent, {
+      data: { tiersPayant: this.selectedEl },
+      width: '60%',
+      header: 'Modification du tiers-payant'
     });
+    this.ref.onClose.subscribe((tiersPayant: ITierspayant) => {
+      if (tiersPayant) {
+        this.selectedEl = tiersPayant;
+        this.messageService.add({ severity: 'info', summary: 'Enregistrement', detail: 'Modification effectuée avec succes' });
+      }
+    });
+
   }
   addNewEntity(): void {
-    const modalRef = this.ngmodalService.open(TiersPayantFormComponent, { size: 'xl', backdrop: 'static', centered: true, keyboard: false });
-    modalRef.result.then((result) => {
-      this.selectedEl = result;
+    this.ref = this.dialogService.open(TiersPayantFormComponent, {
+      data: { tiersPayant: null },
+      width: '60%',
+      header: 'Ajouter un nouveau tiers-payant'
+    });
+    this.ref.onClose.subscribe((tiersPayant: ITierspayant) => {
+      if (tiersPayant) {
+        this.selectedEl = tiersPayant;
+        this.messageService.add({ severity: 'info', summary: 'Enregistrement', detail: 'Tiers-payant ajouté avec success' });
+      }
     });
   }
   addNewClient(): void {
-    const modalRef = this.ngmodalService.open(ClientFormComponent, { size: 'xl', backdrop: 'static', centered: true, keyboard: false });
-    modalRef.componentInstance.tierspayant = this.selectedEl;
-    modalRef.result.then((result) => {
-      this.selectedEl = result;
-    });
+    /* const modalRef = this.ngmodalService.open(ClientFormComponent, { size: 'xl', backdrop: 'static', centered: true, keyboard: false });
+     modalRef.componentInstance.tierspayant = this.selectedEl;
+     modalRef.result.then((result) => {
+       this.selectedEl = result;
+     });*/
   }
 
 }

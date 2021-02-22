@@ -1,137 +1,53 @@
-######################
-# Project Specific
-######################
-/node_modules/**
-######################
-/dist/**
-/.idea/**
-/target/classes/static/**
-/src/test/javascript/coverage/
-.editorconfig
-######################
-# Node
-######################
-/node/
-node_tmp/
-node_modules/
-npm-debug.log.*
-/.awcache/*
-/.cache-loader/*
-
-######################
-# SASS
-######################
-.sass-cache/
-
-######################
-# Eclipse
-######################
-*.pydevproject
-.project
-.metadata
-tmp/
-tmp/**/*
-*.tmp
-*.bak
-*.swp
-*~.nib
-local.properties
-.classpath
-.settings/
-.loadpath
-.factorypath
-/src/main/resources/rebel.xml
-
-# External tool builders
-.externalToolBuilders/**
-
-# Locally stored "Eclipse launch configurations"
-*.launch
-
-# CDT-specific
-.cproject
-
-# PDT-specific
-.buildpath
-
-# STS-specific
-/.sts4-cache/*
-
-######################
-# IntelliJ
-######################
-.idea/
-*.iml
-*.iws
-*.ipr
-*.ids
-*.orig
-classes/
-out/
-
-######################
-# Visual Studio Code
-######################
-.vscode/
-
-######################
-# Maven
-######################
-/log/
-/target/
-
-######################
-# Gradle
-######################
-.gradle/
-/build/
-
-######################
-# Package Files
-######################
-*.jar
-*.war
-*.ear
-*.db
-
-######################
-# Windows
-######################
-# Windows image file caches
-Thumbs.db
-
-# Folder config file
-Desktop.ini
-
-######################
-# Mac OSX
-######################
+build
+dist
+node_modules
 .DS_Store
-.svn
+.idea
+sassdoc
 
-# Thumbnails
-._*
+src/assets/theme/*.css
+src/assets/layout/css/*.css
+src/assets/sass/theme/designer
+# See http://help.github.com/ignore-files/ for more about ignoring files.
 
-# Files that might appear on external disk
-.Spotlight-V100
-.Trashes
+# compiled output
+/dist
+/tmp
+/out-tsc
 
-######################
-# Directories
-######################
-/bin/
-/deploy/
+# dependencies
+/node_modules
 
-######################
-# Logs
-######################
-*.log*
+# profiling files
+chrome-profiler-events.json
+speed-measure-plugin.json
 
-######################
-# Others
-######################
-*.class
-*.*~
-*~
-.merge_file*
+# IDEs and editors
+/.idea
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
 
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# misc
+/.sass-cache
+/connect.lock
+/coverage
+/libpeerconnection.log
+npm-debug.log
+yarn-error.log
+testem.log
+/typings
+
+# System Files
+.DS_Store
+Thumbs.db

@@ -4,6 +4,7 @@ import { IGammeProduit } from 'src/app/model/gamme-produit.model';
 import { SERVER_API_URL } from 'src/app/app.constants';
 import { Observable } from 'rxjs';
 import { createRequestOption } from 'src/app/shared/util/request-util';
+import { IResponseDto } from 'src/app/shared/util/response-dto';
 type EntityResponseType = HttpResponse<IGammeProduit>;
 type EntityArrayResponseType = HttpResponse<IGammeProduit[]>;
 @Injectable({
@@ -12,7 +13,7 @@ type EntityArrayResponseType = HttpResponse<IGammeProduit[]>;
 export class GammeProduitService {
   public resourceUrl = SERVER_API_URL + 'api/gamme-produits';
 
-  constructor(protected http: HttpClient) {}
+  constructor(protected http: HttpClient) { }
 
   create(gammeProduit: IGammeProduit): Observable<EntityResponseType> {
     return this.http.post<IGammeProduit>(this.resourceUrl, gammeProduit, { observe: 'response' });
@@ -33,5 +34,12 @@ export class GammeProduitService {
 
   delete(id: number): Observable<HttpResponse<{}>> {
     return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
+  }
+  async queryPromise(req?: any): Promise<IGammeProduit[]> {
+    const options = createRequestOption(req);
+    return await this.http.get<IGammeProduit[]>(this.resourceUrl, { params: options }).toPromise();
+  }
+  uploadFile(file: any): Observable<HttpResponse<IResponseDto>> {
+    return this.http.post<IResponseDto>(`${this.resourceUrl}/importcsv`, file, { observe: 'response' });
   }
 }

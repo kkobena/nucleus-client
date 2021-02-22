@@ -13,7 +13,7 @@ export class FormeProduitService {
 
   public resourceUrl = SERVER_API_URL + 'api/form-produits';
 
-  constructor(protected http: HttpClient) {}
+  constructor(protected http: HttpClient) { }
 
   create(formProduit: IFormProduit): Observable<EntityResponseType> {
     return this.http.post<IFormProduit>(this.resourceUrl, formProduit, { observe: 'response' });
@@ -34,5 +34,9 @@ export class FormeProduitService {
 
   delete(id: number): Observable<HttpResponse<{}>> {
     return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
+  }
+  async queryPromise(req?: any): Promise<IFormProduit[]> {
+    const options = createRequestOption(req);
+    return await this.http.get<IFormProduit[]>(this.resourceUrl, { params: options }).toPromise();
   }
 }

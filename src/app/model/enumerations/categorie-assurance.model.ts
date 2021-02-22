@@ -6,4 +6,6 @@ export const enum CategorieAssurance {
   RC2 = 'RC2',
 
   RC3 = 'RC3',
+  RC = 'RC',
+  STANDARD = 'STANDARD'
 }

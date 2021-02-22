@@ -1,8 +1,8 @@
 import { HttpResponse } from '@angular/common/http';
-import { Component, Input, OnChanges, OnInit, Output, SimpleChange, EventEmitter } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { SelectItem } from 'primeng';
+import { SelectItem } from 'primeng/api';
+import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Observable } from 'rxjs';
 import { GroupeTierspayantService } from 'src/app/entities/groupe-tierspayant/groupe-tierspayant.service';
 import { ModelFactureService } from 'src/app/entities/model-facture/model-facture.service';
@@ -13,23 +13,27 @@ import { ITierspayant, Tierspayant } from 'src/app/model/tierspayant.model';
 
 @Component({
   selector: 'app-tiers-payant-form',
+  styles: [` 
+ 
+.nucleuschecbox {
+    margin-top: 25px !important;
+}
+   `],
   templateUrl: './tiers-payant-form.component.html',
-  styleUrls: ['./tiers-payant-form.component.css']
+  encapsulation: ViewEncapsulation.None
 })
 export class TiersPayantFormComponent implements OnInit {
   groupeTierspayants: IGroupeTierspayant[] = [];
   groupes: SelectItem[];
   risques: SelectItem[];
   modelFactures: SelectItem[];
-  title: string='Ajouter un tiers-payant';
-  @Input("tiersPayant")
+  title: string = 'Ajouter un tiers-payant';
   tiersPayant: ITierspayant;
   isSaving: boolean = false;
   /* @Output("passEntity")
    passEntity = new EventEmitter<ITierspayant>();
  */
   types = [{ label: 'ASSURANCE', value: 'ASSURANCE' }, { label: 'CARNET', value: 'CARNET' }];
-  modaleService: NgbModal;
   editForm = this.fb.group({
     id: [],
     libelCourt: [null, [Validators.required]],
@@ -50,18 +54,19 @@ export class TiersPayantFormComponent implements OnInit {
   });
 
 
-  constructor(private fb: FormBuilder,
+  constructor(
     protected entityService: TiersPayantService,
-    public activeModal: NgbActiveModal,
     protected groupetierspayantService: GroupeTierspayantService,
     protected risqueService: RisqueService,
     protected modelFactureService: ModelFactureService,
+    public ref: DynamicDialogRef, public config: DynamicDialogConfig, private fb: FormBuilder
   ) {
 
   }
 
   ngOnInit(): void {
-    this.addNewEntity();
+    this.tiersPayant = this.config.data.tiersPayant,
+      this.addNewEntity();
 
   }
 
@@ -109,7 +114,6 @@ export class TiersPayantFormComponent implements OnInit {
   save(): void {
     this.isSaving = true;
     const entity = this.createFromForm();
-    console.log(entity);
     if (entity.id !== undefined && entity.id !== null) {
       this.subscribeToSaveResponse(this.entityService.update(entity));
     } else {
@@ -125,10 +129,6 @@ export class TiersPayantFormComponent implements OnInit {
     this.groupes = [];
     this.risques = [];
     this.modelFactures = [];
-    //this.initialyseForm();
-
-   
-    
     this.populate();
   }
   async populate() {
@@ -152,7 +152,7 @@ export class TiersPayantFormComponent implements OnInit {
 
 
     if (this.tiersPayant != undefined && this.tiersPayant != null) {
-      this.title="Modification du tiers-payant "+this.tiersPayant.libelLong;
+      this.title = "Modification du tiers-payant " + this.tiersPayant.libelLong;
       this.updateForm(this.tiersPayant);
     }
   }
@@ -163,8 +163,8 @@ export class TiersPayantFormComponent implements OnInit {
     );
   }
   protected onSaveTierspayantSuccess(response: ITierspayant | null): void {
+    this.ref.close(response);
 
-    this.activeModal.close(response);
 
   }
   protected onSaveError(): void {
@@ -172,7 +172,7 @@ export class TiersPayantFormComponent implements OnInit {
     //    this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'Enregistrement a échoué' });
   }
   cancel(): void {
-    this.activeModal.dismiss();
+    this.ref.destroy();
   }
 
 }

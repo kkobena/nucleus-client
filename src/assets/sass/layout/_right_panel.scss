@@ -11,7 +11,7 @@
     @include transition(right $transitionDuration);
 
     .right-panel-scroll-content {
-        padding-bottom: 150px;
+        padding-bottom: 100px;
     }
 
     .header {
@@ -19,7 +19,11 @@
         font-weight: 600;
     }
 
-    .ui-accordion-header {
+    .p-accordion {
+        margin-top: .5em;
+    }
+
+    .p-accordion-header {
         margin-bottom: 0;
         a {
             background-color: $rightPanelHeaderBgColor;
@@ -28,13 +32,13 @@
             font-size: 13px;
             font-weight: 700;
 
-            .ui-accordion-toggle-icon {
+            .p-accordion-toggle-icon {
                 color: $rightPanelHeaderTextColor;
             }
         }
     }
 
-    .ui-accordion-content {
+    .p-accordion-content {
         background-color: $rightPanelContentBgColor;
         color: $rightPanelContentTextColor;
         border: none;
@@ -79,11 +83,11 @@
         display: block;
     }
 
-    .ui-panel-titlebar {
+    .p-panel-header {
         display: none;
     }
 
-    .ui-panel-content {
+    .p-panel-content {
         background-color: $rightPanelContentBgColor;
         color: $rightPanelContentTextColor;
         margin-top: 5px;
@@ -135,5 +139,9 @@
 @media (max-width: 1024px) {
     #layout-right-panel {
         top: 120px;
+
+        .right-panel-scroll-content {
+            padding-bottom: 150px;
+        }
     }
 }

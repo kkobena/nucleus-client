@@ -4,6 +4,7 @@ import { HttpResponse, HttpClient } from '@angular/common/http';
 import { SERVER_API_URL } from 'src/app/app.constants';
 import { Observable } from 'rxjs';
 import { createRequestOption } from 'src/app/shared/util/request-util';
+import { IResponseDto } from 'src/app/shared/util/response-dto';
 type EntityResponseType = HttpResponse<IFournisseur>;
 type EntityArrayResponseType = HttpResponse<IFournisseur[]>;
 @Injectable({
@@ -13,7 +14,7 @@ export class FournisseurService {
 
   public resourceUrl = SERVER_API_URL + 'api/fournisseurs';
 
-  constructor(protected http: HttpClient) {}
+  constructor(protected http: HttpClient) { }
 
   create(fournisseur: IFournisseur): Observable<EntityResponseType> {
     return this.http.post<IFournisseur>(this.resourceUrl, fournisseur, { observe: 'response' });
@@ -34,5 +35,15 @@ export class FournisseurService {
 
   delete(id: number): Observable<HttpResponse<{}>> {
     return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
+  }
+  async queryPromise(req?: any): Promise<IFournisseur[]> {
+    const options = createRequestOption(req);
+    return await this.http.get<IFournisseur[]>(this.resourceUrl, { params: options }).toPromise();
+  }
+  async findPromise(id: number): Promise<IFournisseur> {
+    return await this.http.get<IFournisseur>(`${this.resourceUrl}/${id}`).toPromise();
+  }
+  uploadFile(file: any): Observable<HttpResponse<IResponseDto>> {
+    return this.http.post<IResponseDto>(`${this.resourceUrl}/importcsv`, file, { observe: 'response' });
   }
 }

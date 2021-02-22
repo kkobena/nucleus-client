@@ -1,0 +1,22 @@
+.p-toolbar{
+    padding:5px;
+} 
+
+   .p-autocomplete{ width: 100%; }
+   .invoice{
+ padding:0;
+   }
+   .invoice,.invoice .invoice-items {
+     margin-top: 0; 
+     padding-top: 0;
+    
+    }
+  body .ui-inputtext{
+   width: 100% !important;
+}
+body .ui-dropdown{
+    width: 100% !important;
+}
+#field_tel{
+    width: 100% !important;
+}

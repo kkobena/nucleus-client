@@ -1,0 +1,339 @@
+<p-toast position="center"></p-toast>
+
+
+<p-confirmDialog #cd [style]="{width: '40vw'}" [baseZIndex]="10000">
+    <p-footer>
+
+        <button type="button" pButton icon="pi pi-check" label="Oui" (click)="cd.accept()"></button>
+        <button type="button" class="p-button-danger" pButton icon="pi pi-times" label="Non"
+            (click)="cd.reject()"></button>
+    </p-footer>
+
+</p-confirmDialog>
+<div class="p-grid">
+    <div class="p-col-12">
+        <div class="card">
+            <h5>Fiche article</h5>
+            <p-toolbar>
+                <div class="p-toolbar-group-left p-md-7">
+                    <p-autoComplete [(ngModel)]="selectedEl" [suggestions]="entites" (completeMethod)="search($event)"
+                        placeholder="Taper pour rechercher" [forceSelection]="true" field="libelle"
+                        (onSelect)="onSelect($event)" minLength=1 [style]="{'width':'100%'}"
+                        [inputStyle]="{'width':'100%'}" class="p-autocomplete">
+                        <ng-template let-produit pTemplate="item">
+                            <div style="font-size:13px;float:left;margin:5px 10px 0 0">{{produit.libelle}}</div>
+                            <div style="font-size:13px;float: right;margin:5px 0px 0 0">{{produit.codeCip}}</div>
+
+                        </ng-template>
+                    </p-autoComplete>
+                </div>
+            </p-toolbar>
+            <div style="margin-top:0.2em;">
+                <p-tabView>
+                    <p-tabPanel header="Information générale" leftIcon="pi pi-home">
+                        <div class="invoice">
+                            <div class="invoice-item">
+                                <div class="p-grid">
+                                    <div class="p-col-12 p-md-12 p-lg-6">
+                                        <div class="card">
+                                            <table *ngIf="selectedEl" class="invoice-table">
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="firstColumn">
+                                                            Libellé
+                                                        </td>
+                                                        <td class="secondColumn">{{selectedEl?.libelle}}</td>
+                                                        <td class="firstColumn">
+                                                            Code cip
+                                                        </td>
+                                                        <td class="secondColumn">{{selectedEl?.codeCip}}</td>
+
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td class="firstColumn">
+                                                            Code Ean
+                                                        </td>
+                                                        <td class="secondColumn">{{selectedEl?.codeEan}}</td>
+                                                        <td class="firstColumn">
+                                                            Stock global
+                                                        </td>
+                                                        <td class="secondColumn">{{selectedEl?.totalQuantity |number}}
+                                                        </td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td class="firstColumn">
+                                                            Prix achat
+                                                        </td>
+                                                        <td class="secondColumn">{{selectedEl?.prixPaf |number}}
+                                                        </td>
+
+                                                        <td class="firstColumn">
+                                                            Prix prix
+                                                        </td>
+                                                        <td class="secondColumn">{{selectedEl?.prixUni |number}}
+                                                        </td>
+
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="firstColumn">
+                                                            PMP
+                                                        </td>
+                                                        <td class="secondColumn">{{selectedEl?.prixMnp |number}}
+                                                        </td>
+
+                                                        <td class="firstColumn">
+                                                            Quantité détail
+                                                        </td>
+                                                        <td class="secondColumn">{{selectedEl?.qtyDetails |number}}
+                                                        </td>
+
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="firstColumn">
+                                                            Quantité réaprro
+                                                        </td>
+                                                        <td class="secondColumn">{{selectedEl?.qtyAppro |number}}
+                                                        </td>
+                                                        <td class="firstColumn">
+                                                            Stock mini
+                                                        </td>
+                                                        <td class="secondColumn">{{selectedEl?.qtySeuilMini |number}}
+                                                        </td>
+
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="firstColumn">
+                                                            Date dernière vente
+                                                        </td>
+                                                        <td class="secondColumn">{{selectedEl?.lastDateOfSale |
+                                                            date:'dd/MM/yyyy HH:mm' }}
+                                                        </td>
+                                                        <td class="firstColumn">
+                                                            Date dernière entrée en stock
+                                                        </td>
+                                                        <td class="secondColumn">{{selectedEl?.lastOrderDate |
+                                                            date:'dd/MM/yyyy HH:mm' }}
+                                                        </td>
+
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td class="firstColumn">
+                                                            Date de création
+                                                        </td>
+                                                        <td class="secondColumn">{{selectedEl?.createdAt |
+                                                            date:'dd/MM/yyyy HH:mm' }}
+                                                        </td>
+                                                        <td class="firstColumn">
+                                                            Date dernière inventaire
+                                                        </td>
+                                                        <td class="secondColumn">{{selectedEl?.lastInventoryDate |
+                                                            date:'dd/MM/yyyy HH:mm' }}
+                                                        </td>
+
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="firstColumn">
+                                                            Status
+                                                        </td>
+                                                        <td class="secondColumn">{{selectedEl?.status }}
+
+                                                        </td>
+                                                        <td class="firstColumn">
+                                                            Etiquette
+                                                        </td>
+                                                        <td class="secondColumn">{{selectedEl?.typeEtyquetteLibelle }}
+                                                        </td>
+
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="firstColumn">
+                                                            Tva
+                                                        </td>
+                                                        <td class="secondColumn">{{selectedEl?.tvaTaux }}
+
+                                                        </td>
+                                                        <td class="firstColumn">
+                                                            Forme
+                                                        </td>
+                                                        <td class="secondColumn">{{selectedEl?.familleLibelle }}
+                                                        </td>
+
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="firstColumn">
+                                                            Famille
+                                                        </td>
+                                                        <td class="secondColumn">{{selectedEl?.familleLibelle }}
+
+                                                        </td>
+                                                        <td class="firstColumn">
+                                                            Laboratoire
+                                                        </td>
+                                                        <td class="secondColumn">{{selectedEl?.laboratoireLibelle }}
+                                                        </td>
+
+                                                    </tr>
+                                                    <tr>
+                                                        <td *ngIf="selectedEl?.status=='ACTIVE'">
+                                                            <button pButton pRipple type="button" icon="pi pi-pencil"
+                                                                class="p-button-primary p-mr-2 p-button-raised"
+                                                                (click)="openEdit()" label="Editer"></button>
+                                                        </td>
+                                                        <td *ngIf="selectedEl?.status=='ACTIVE'">
+                                                            <button type="button"
+                                                                class="p-button-success p-mr-2 p-button-raised" pButton
+                                                                pRipple icon="pi pi-lock" (click)="disable()"
+                                                                label="Désactiver"></button>
+                                                        </td>
+                                                        <td *ngIf="selectedEl?.status=='DESACTIVE'">
+                                                            <button type="button"
+                                                                class="p-button-secondary p-mr-2 p-button-raised"
+                                                                pButton pRipple icon="pi pi-lock-open"
+                                                                (click)="enable()" label="Activer"></button>
+                                                        </td>
+                                                        <td>
+                                                            <button type="button"
+                                                                class="p-button-danger p-mr-2 p-button-raised" pButton
+                                                                pRipple icon="pi pi-times" (click)="remove()"
+                                                                label="Supprimer"></button>
+                                                        </td>
+
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+
+                                    </div>
+                                    <div class="p-col-12 p-md-12 p-lg-6">
+
+                                        <div class="card widget-global-sales">
+                                            <h6 style="font-weight: 700;">Répartition du stock</h6>
+                                            <table *ngIf="selectedEl" class="invoice-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Magasin</th>
+                                                        <th>Rayon</th>
+                                                        <th>Stock</th>
+
+                                                        <th style="text-align:right;" pTooltip="Repartir le stock">
+                                                            <button (click)="addStock()" pButton icon="pi pi-plus"
+                                                                class="p-button-rounded p-button-primary"></button>
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr *ngFor="let stock of selectedEl?.stockProduits; let i = index">
+                                                        <td>{{stock.nomMagasin}}</td>
+                                                        <td>{{stock.rayonLibelle}}</td>
+                                                        <td>{{stock.qtyStock | number}}</td>
+                                                        <td>
+                                                            <button pButton pRipple icon="pi pi-pencil"
+                                                                class="p-button-rounded p-button-success p-mr-2"
+                                                                (click)="editStock(stock)"></button>
+                                                            <button pButton pRipple icon="pi pi-trash"
+                                                                class="p-button-rounded p-button-danger"
+                                                                (click)="removeStock(stock)"></button>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+
+                                        <div class="card widget-global-sales">
+                                            <h6 style="font-weight: 700;">Gestion des grossistes du produit</h6>
+                                            <table *ngIf="selectedEl" class="invoice-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Grossiste</th>
+                                                        <th>Cip</th>
+                                                        <th>Prix.A</th>
+                                                        <th>Prix.U</th>
+                                                        <th style="width: 150px;text-align:right;">
+                                                            <button pTooltip="Ajouter un fournisseur"
+                                                                (click)="addProduitFour()" pButton icon="pi pi-plus"
+                                                                class="p-button-rounded p-button-primary"></button>
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr
+                                                        *ngFor="let four of selectedEl?.fournisseurProduits; let i = index">
+                                                        <td>{{four.fournisseurLibelle}}</td>
+                                                        <td>{{four.codeCip}}</td>
+                                                        <td>{{four.prixAchat | number}}</td>
+                                                        <td>{{four.prixUni | number}}</td>
+                                                        <td>
+                                                            <p-inputSwitch [(ngModel)]="four.principal"
+                                                                pTooltip="Changer en fournisseur principal">
+                                                            </p-inputSwitch>
+                                                            <button pButton pRipple icon="pi pi-pencil"
+                                                                pTooltip="Editer"
+                                                                class="p-button-rounded p-button-success p-mr-2 p-ml-2 p-mb-3"
+                                                                (click)="editProduitFour(four)"></button>
+
+                                                            <button pButton pRipple icon="pi pi-trash"
+                                                                pTooltip="Supprimer"
+                                                                class="p-button-rounded p-button-danger p-mb-3"
+                                                                (click)="removeProduitFour(four)"></button>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                        <div class="card widget-global-sales" *ngIf="selectedEl?.deconditionnable">
+                                            <h6 style="font-weight: 700;">Déconditionés</h6>
+                                            <table *ngIf="selectedEl" class="invoice-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Stock</th>
+                                                        <th>Prix.A</th>
+                                                        <th>Prix.U</th>
+                                                        <th style="text-align:right;">
+                                                            <button (click)="addDetails()"
+                                                                pTooltip="Créer un déconditioné" pButton
+                                                                icon="pi pi-plus"
+                                                                class="p-button-rounded p-button-primary"></button>
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr *ngFor="let pr of selectedEl?.produits; let i = index">
+                                                        <td>{{pr.totalQuantity}}</td>
+                                                        <td>{{pr.prixPaf | number}}</td>
+                                                        <td>{{pr.prixUni | number}}</td>
+                                                        <td>
+
+                                                            <button pButton pRipple icon="pi pi-pencil"
+                                                                pTooltip="Déconditionez"
+                                                                class="p-button-rounded p-button-success p-mr-2"
+                                                                (click)="deconditionProduit(pr)"></button>
+
+
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+
+
+
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </p-tabPanel>
+
+                </p-tabView>
+            </div>
+        </div>
+    </div>
+</div>

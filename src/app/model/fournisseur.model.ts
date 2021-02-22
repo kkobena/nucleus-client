@@ -3,9 +3,8 @@
 export interface IFournisseur {
   id?: number;
   libelle?: string;
-  addresspostale?: string;
   numFaxe?: string;
-  //addressePostal?: string;
+  addressePostal?: string;
   phone?: string;
   mobile?: string;
   site?: string;
@@ -27,5 +26,5 @@ export class Fournisseur implements IFournisseur {
     public code?: string,
     public groupeFournisseurId?: number,
     public groupeFournisseurLibelle?: string
-  ) {}
+  ) { }
 }

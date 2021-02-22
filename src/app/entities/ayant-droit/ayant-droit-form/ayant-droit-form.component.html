@@ -1,0 +1,58 @@
+<p-toast position="center"></p-toast>
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+    <div class="p-col-12">
+        <div class="form-group" [hidden]="!editForm.get('id')!.value">
+            <input type="hidden" class="form-control" id="id" name="id" formControlName="id" readonly />
+        </div>
+
+        <div class="p-fluid p-formgrid p-grid">
+            <div class="p-field p-col">
+                <label class="col-auto col-form-label">Nom<span style="font-weight: 900;color: red;">*</span></label>
+                <input type="text" pInputText class="form-control" formControlName="firstName" autocomplete="off" />
+
+            </div>
+            <div class="p-field p-col">
+                <label class="col-auto col-form-label">Prénom<span style="font-weight: 900;color: red;">*</span></label>
+
+                <input autocomplete="off" type="text" pInputText class="form-control" formControlName="lastName" />
+            </div>
+
+        </div>
+        <div class="p-fluid p-formgrid p-grid">
+            <div class="p-field p-col">
+                <label class="col-sm-1 col-form-label">Matricule</label>
+                <input autocomplete="off" type="text" pInputText class="form-control" formControlName="num">
+            </div>
+            <div class="p-field p-col">
+                <label class="col-auto col-form-label">Téléphone</label>
+                <p-inputNumber class="form-control" formControlName="mobile"></p-inputNumber>
+            </div>
+        </div>
+        <div class="p-fluid p-formgrid p-grid">
+            <div class="p-field p-col">
+                <label class="col-auto col-form-label">Date de naissance</label>
+                <p-inputMask autocomplete="off" mask="99/99/9999" name="datNaiss" id="field_datNaiss"
+                    formControlName="datNaiss" placeholder="01/11/2020" slotChar="dd/mm/yyyy">
+                </p-inputMask>
+            </div>
+
+            <div class="p-field p-col p-field-radiobutton">
+                <label for="field_sexe" class="col-form-label p-mr-4">Sexe</label>
+                <p-radioButton class="form-control" name="sexe" id="field_sexe" inputId="field_sexe" value="F"
+                    formControlName="sexe"></p-radioButton>
+                <label for="field_sexe" class="p-mr-4">Féminin</label>
+                <p-radioButton class="form-control" name="sexe" id="field_sexe_m" inputId="field_sexe_m" value="M"
+                    formControlName="sexe"></p-radioButton>
+                <label for="field_sexe_m">Masculin</label>
+            </div>
+        </div>
+
+    </div>
+    <div style="float: right;">
+        <button pButton pRipple type="submit" [disabled]="editForm.invalid || isSaving" icon="pi pi-check"
+            class="p-button-success p-mr-2 p-button-raised" (click)="save()" label="Enregistrer"></button>
+        <button type="button" class="p-button-danger p-mr-2 p-button-raised" pButton pRipple icon="pi pi-times"
+            (click)="cancel()" label="Annuler"></button>
+    </div>
+
+</form>
